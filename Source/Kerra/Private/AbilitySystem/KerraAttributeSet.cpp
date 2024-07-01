@@ -3,3 +3,6 @@
 
 #include "AbilitySystem/KerraAttributeSet.h"
 
+UKerraAttributeSet::UKerraAttributeSet()
+{
+}
