@@ -6,6 +6,8 @@
 #include "GameFramework/Character.h"
 #include "KerraCharacterBase.generated.h"
 
+class UAnimMontage;
+
 UCLASS()
 class KERRA_API AKerraCharacterBase : public ACharacter
 {
@@ -16,6 +18,10 @@ public:
 
 protected:
 	virtual void BeginPlay() override;
+
+protected:
+	UPROPERTY(VisibleAnywhere)
+	TObjectPtr<UAnimMontage> HitReaction;
 
 
 };
