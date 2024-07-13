@@ -5,6 +5,7 @@
 
 #include "Camera/CameraComponent.h"
 #include "GameFramework/SpringArmComponent.h"
+#include "Player/KerraPlayerState.h"
 
 AKerraPlayer::AKerraPlayer()
 {
@@ -19,4 +20,15 @@ AKerraPlayer::AKerraPlayer()
 UAbilitySystemComponent* AKerraPlayer::GetAbilitySystemComponent() const
 {
 	return AbilitySystemComponent;
+}
+
+void AKerraPlayer::PossessedBy(AController* NewController)
+{
+	Super::PossessedBy(NewController);
+
+	UE_LOG(LogTemp, Warning, TEXT("PossessedBy"));
+	AKerraPlayerState* KerraPlayerState = GetPlayerState<AKerraPlayerState>();
+	check(KerraPlayerState);
+	AbilitySystemComponent = KerraPlayerState->GetAbilitySystemComponent();
+	
 }

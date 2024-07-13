@@ -19,6 +19,7 @@ class KERRA_API AKerraPlayer : public AKerraCharacterBase, public IAbilitySystem
 public:
 	AKerraPlayer();
 	virtual UAbilitySystemComponent* GetAbilitySystemComponent() const override;
+	virtual void PossessedBy(AController* NewController) override;
 
 	
 protected:
