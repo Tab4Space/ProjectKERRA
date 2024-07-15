@@ -3,11 +3,11 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "InputActionValue.h"
 #include "GameFramework/PlayerController.h"
 #include "KerraPlayerController.generated.h"
 
 
-struct FInputActionValue;
 class UInputMappingContext;
 class UInputAction;
 
@@ -30,7 +30,13 @@ private:
 
 	UPROPERTY(EditAnywhere, Category="Input")
 	TObjectPtr<UInputAction> MoveAction;
+	
+	UPROPERTY(EditAnywhere, Category="Input")
+	TObjectPtr<UInputAction> LookAction;
 
 	void Move(const FInputActionValue& InputActionValue);
+	void LookAt(const FInputActionValue& InputActionValue);
+
+	
 	
 };

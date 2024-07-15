@@ -19,13 +19,14 @@ void AKerraPlayerController::BeginPlay()
 	check(Subsystem);
 	Subsystem->AddMappingContext(KerraContext, 0);
 
-	bShowMouseCursor = true;
+	/*bShowMouseCursor = true;
 	DefaultMouseCursor = EMouseCursor::Default;
 
 	FInputModeGameAndUI InputModeData;
-	InputModeData.SetLockMouseToViewportBehavior(EMouseLockMode::DoNotLock);
+	InputModeData.SetLockMouseToViewportBehavior(EMouseLockMode::LockOnCapture);
 	InputModeData.SetHideCursorDuringCapture(false);
-	SetInputMode(InputModeData);
+	SetInputMode(InputModeData);*/
+	
 }
 
 void AKerraPlayerController::SetupInputComponent()
@@ -35,6 +36,7 @@ void AKerraPlayerController::SetupInputComponent()
 	UEnhancedInputComponent* EnhancedInputComponent = CastChecked<UEnhancedInputComponent>(InputComponent);
 
 	EnhancedInputComponent->BindAction(MoveAction, ETriggerEvent::Triggered, this, &AKerraPlayerController::Move);
+	EnhancedInputComponent->BindAction(LookAction, ETriggerEvent::Triggered, this, &AKerraPlayerController::LookAt);
 }
 
 void AKerraPlayerController::Move(const FInputActionValue& InputActionValue)
@@ -52,4 +54,16 @@ void AKerraPlayerController::Move(const FInputActionValue& InputActionValue)
 		ControlledPawn->AddMovementInput(RightDirection, InputAxisVector.X);
 	}
 
+}
+
+void AKerraPlayerController::LookAt(const FInputActionValue& InputActionValue)
+{
+	FVector2D LookAxisVector = InputActionValue.Get<FVector2D>();
+
+	if(APawn* ControlledPawn = GetPawn<APawn>())
+	{
+		ControlledPawn->AddControllerYawInput(LookAxisVector.X);
+		ControlledPawn->AddControllerPitchInput(LookAxisVector.Y);
+	}
+	
 }
