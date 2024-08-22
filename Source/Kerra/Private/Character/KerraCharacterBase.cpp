@@ -7,7 +7,9 @@
 AKerraCharacterBase::AKerraCharacterBase()
 {
 	PrimaryActorTick.bCanEverTick = false;
+	PrimaryActorTick.bStartWithTickEnabled = false;
 
+	GetMesh()->bReceivesDecals = false;
 }
 
 
