@@ -2,9 +2,11 @@
 
 
 #include "Player/KerraPlayerController.h"
-
 #include "EnhancedInputSubsystems.h"
-#include "EnhancedInputComponent.h"
+#include "DataAsset/KerraInputConfig.h"
+#include "Component/Input/KerraInputComponent.h"
+#include "KerraGameplayTags.h"
+
 
 AKerraPlayerController::AKerraPlayerController()
 {
@@ -13,19 +15,6 @@ AKerraPlayerController::AKerraPlayerController()
 void AKerraPlayerController::BeginPlay()
 {
 	Super::BeginPlay();
-	check(KerraContext);
-
-	UEnhancedInputLocalPlayerSubsystem* Subsystem = ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(GetLocalPlayer());
-	check(Subsystem);
-	Subsystem->AddMappingContext(KerraContext, 0);
-
-	/*bShowMouseCursor = true;
-	DefaultMouseCursor = EMouseCursor::Default;
-
-	FInputModeGameAndUI InputModeData;
-	InputModeData.SetLockMouseToViewportBehavior(EMouseLockMode::LockOnCapture);
-	InputModeData.SetHideCursorDuringCapture(false);
-	SetInputMode(InputModeData);*/
 	
 }
 
@@ -33,10 +22,16 @@ void AKerraPlayerController::SetupInputComponent()
 {
 	Super::SetupInputComponent();
 	
-	UEnhancedInputComponent* EnhancedInputComponent = CastChecked<UEnhancedInputComponent>(InputComponent);
+	checkf(InputConfigDataAsset, TEXT("Forgot to assign a valid data asset as input config"))
+	UEnhancedInputLocalPlayerSubsystem* Subsystem = ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(GetLocalPlayer());
+	check(Subsystem);
 
-	EnhancedInputComponent->BindAction(MoveAction, ETriggerEvent::Triggered, this, &AKerraPlayerController::Move);
-	EnhancedInputComponent->BindAction(LookAction, ETriggerEvent::Triggered, this, &AKerraPlayerController::LookAt);
+	Subsystem->AddMappingContext(InputConfigDataAsset->DefaultMappingContext, 0);
+	UKerraInputComponent* KerraInputComponent = CastChecked<UKerraInputComponent>(InputComponent);
+
+	KerraInputComponent->BindNativeInputAction(InputConfigDataAsset, KerraGameplayTags::InputTag_Move, ETriggerEvent::Triggered, this, &AKerraPlayerController::Move);
+	KerraInputComponent->BindNativeInputAction(InputConfigDataAsset, KerraGameplayTags::InputTag_Look, ETriggerEvent::Triggered, this, &AKerraPlayerController::LookAt);
+	
 }
 
 void AKerraPlayerController::Move(const FInputActionValue& InputActionValue)
