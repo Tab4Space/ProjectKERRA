@@ -12,6 +12,15 @@ AKerraCharacterBase::AKerraCharacterBase()
 	GetMesh()->bReceivesDecals = false;
 }
 
+UAbilitySystemComponent* AKerraCharacterBase::GetAbilitySystemComponent() const
+{
+	return AbilitySystemComponent;
+}
+
+
+void AKerraCharacterBase::InitAbilityActorInfo()
+{
+}
 
 void AKerraCharacterBase::BeginPlay()
 {

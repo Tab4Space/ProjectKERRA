@@ -4,24 +4,35 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
+#include "AbilitySystemInterface.h"
 #include "KerraCharacterBase.generated.h"
 
-class UAnimMontage;
+
+class UAbilitySystemComponent;
+class UAttributeSet;
 
 UCLASS()
-class KERRA_API AKerraCharacterBase : public ACharacter
+class KERRA_API AKerraCharacterBase : public ACharacter, public IAbilitySystemInterface
 {
 	GENERATED_BODY()
 
 public:
 	AKerraCharacterBase();
 
+	virtual UAbilitySystemComponent* GetAbilitySystemComponent() const override;
+	UAttributeSet* GetAttributeSet() const { return AttributeSet; }
+
 protected:
+	virtual void InitAbilityActorInfo();
+	
 	virtual void BeginPlay() override;
+	
 
 protected:
-	UPROPERTY(VisibleAnywhere)
-	TObjectPtr<UAnimMontage> HitReaction;
+	UPROPERTY()
+	TObjectPtr<UAbilitySystemComponent> AbilitySystemComponent;
 
+	UPROPERTY()
+	TObjectPtr<UAttributeSet> AttributeSet;
 
 };

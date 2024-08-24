@@ -12,19 +12,18 @@ class USpringArmComponent;
 class UCameraComponent;
 
 UCLASS()
-class KERRA_API AKerraPlayer : public AKerraCharacterBase, public IAbilitySystemInterface
+class KERRA_API AKerraPlayer : public AKerraCharacterBase
 {
 	GENERATED_BODY()
 
 public:
 	AKerraPlayer();
-	virtual UAbilitySystemComponent* GetAbilitySystemComponent() const override;
-	virtual void PossessedBy(AController* NewController) override;
-
 	
-protected:
-	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = "Abilities")
-	TObjectPtr<UAbilitySystemComponent> AbilitySystemComponent;
+	virtual void PossessedBy(AController* NewController) override;
+	virtual void OnRep_PlayerState() override;
+
+private:
+	virtual void InitAbilityActorInfo() override;
 	
 private:
 	UPROPERTY(VisibleAnywhere)

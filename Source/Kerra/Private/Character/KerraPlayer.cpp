@@ -3,6 +3,7 @@
 
 #include "Character/KerraPlayer.h"
 
+#include "AbilitySystemComponent.h"
 #include "Camera/CameraComponent.h"
 #include "Components/CapsuleComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
@@ -34,18 +35,28 @@ AKerraPlayer::AKerraPlayer()
 	
 }
 
-UAbilitySystemComponent* AKerraPlayer::GetAbilitySystemComponent() const
-{
-	return AbilitySystemComponent;
-}
-
 void AKerraPlayer::PossessedBy(AController* NewController)
 {
 	Super::PossessedBy(NewController);
+	InitAbilityActorInfo();					// Set owner and avatar in server side
 
-	UE_LOG(LogTemp, Warning, TEXT("PossessedBy"));
+	UE_LOG(LogTemp, Warning, TEXT("%s"), *AbilitySystemComponent->GetOwnerActor()->GetName());
+	UE_LOG(LogTemp, Warning, TEXT("%s"), *AbilitySystemComponent->GetAvatarActor()->GetName());
+}
+
+void AKerraPlayer::OnRep_PlayerState()
+{
+	Super::OnRep_PlayerState();
+	InitAbilityActorInfo();					// Set owner and avatar in client side
+}
+
+void AKerraPlayer::InitAbilityActorInfo()
+{
 	AKerraPlayerState* KerraPlayerState = GetPlayerState<AKerraPlayerState>();
-	check(KerraPlayerState);
+	checkf(KerraPlayerState, TEXT("Not valid player state"));
+
+	KerraPlayerState->GetAbilitySystemComponent()->InitAbilityActorInfo(KerraPlayerState, this);
 	AbilitySystemComponent = KerraPlayerState->GetAbilitySystemComponent();
-	
+
+	AttributeSet = KerraPlayerState->GetAttributeSet();
 }
