@@ -8,6 +8,7 @@
 #include "KerraCharacterBase.generated.h"
 
 
+class UStartupDataAssetBase;
 class UAbilitySystemComponent;
 class UAttributeSet;
 
@@ -29,10 +30,13 @@ protected:
 	
 
 protected:
-	UPROPERTY()
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="AbilitySystem")
 	TObjectPtr<UAbilitySystemComponent> AbilitySystemComponent;
 
-	UPROPERTY()
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="AbilitySystem")
 	TObjectPtr<UAttributeSet> AttributeSet;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="CharacterData")
+	TSoftObjectPtr<UStartupDataAssetBase> CharacterStartupData;
 
 };

@@ -4,8 +4,10 @@
 #include "Character/KerraPlayer.h"
 
 #include "AbilitySystemComponent.h"
+#include "AbilitySystem/KerraAbilitySystemComponent.h"
 #include "Camera/CameraComponent.h"
 #include "Components/CapsuleComponent.h"
+#include "DataAsset/StartupDataAssetBase.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "GameFramework/SpringArmComponent.h"
 #include "Player/KerraPlayerState.h"
@@ -38,10 +40,16 @@ AKerraPlayer::AKerraPlayer()
 void AKerraPlayer::PossessedBy(AController* NewController)
 {
 	Super::PossessedBy(NewController);
+
 	InitAbilityActorInfo();					// Set owner and avatar in server side
 
-	UE_LOG(LogTemp, Warning, TEXT("%s"), *AbilitySystemComponent->GetOwnerActor()->GetName());
-	UE_LOG(LogTemp, Warning, TEXT("%s"), *AbilitySystemComponent->GetAvatarActor()->GetName());
+	if(!CharacterStartupData.IsNull())
+	{
+		if(UStartupDataAssetBase* LoadedData = CharacterStartupData.LoadSynchronous())
+		{
+			LoadedData->GiveToAbilitySystemComponent(Cast<UKerraAbilitySystemComponent>(AbilitySystemComponent));
+		}
+	}
 }
 
 void AKerraPlayer::OnRep_PlayerState()
