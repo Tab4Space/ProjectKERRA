@@ -14,4 +14,8 @@ namespace KerraGameplayTags
 
 	/* Player Tag */
 	KERRA_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Player_Weapon_Sword);
+
+	/* Event Tag */
+	KERRA_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Player_Event_Equip_Sword);
+	KERRA_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Player_Event_Unequip_Sword);
 }
