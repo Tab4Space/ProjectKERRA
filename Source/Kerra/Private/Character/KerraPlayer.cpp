@@ -11,6 +11,7 @@
 #include "GameFramework/CharacterMovementComponent.h"
 #include "GameFramework/SpringArmComponent.h"
 #include "Player/KerraPlayerState.h"
+#include "Component/Combat/KerraPlayerCombatComponent.h"
 
 AKerraPlayer::AKerraPlayer()
 {
@@ -34,6 +35,8 @@ AKerraPlayer::AKerraPlayer()
 	GetCharacterMovement()->RotationRate = FRotator(0.f, 500.f, 0.f);
 	GetCharacterMovement()->MaxWalkSpeed = 400.f;
 	GetCharacterMovement()->BrakingDecelerationWalking = 2000.f;
+
+	PlayerCombatComponent = CreateDefaultSubobject<UKerraPlayerCombatComponent>("PlayerCombatComp");
 	
 }
 

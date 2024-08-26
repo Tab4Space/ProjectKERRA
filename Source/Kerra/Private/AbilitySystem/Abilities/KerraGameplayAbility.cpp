@@ -4,6 +4,8 @@
 #include "AbilitySystem/Abilities/KerraGameplayAbility.h"
 
 #include "AbilitySystemComponent.h"
+#include "AbilitySystem/KerraAbilitySystemComponent.h"
+#include "Component/Combat/KerraCombatComponent.h"
 
 void UKerraGameplayAbility::OnGiveAbility(const FGameplayAbilityActorInfo* ActorInfo, const FGameplayAbilitySpec& Spec)
 {
@@ -30,4 +32,14 @@ void UKerraGameplayAbility::EndAbility(const FGameplayAbilitySpecHandle Handle, 
 			ActorInfo->AbilitySystemComponent->ClearAbility(Handle);
 		}
 	}
+}
+
+UKerraCombatComponent* UKerraGameplayAbility::GetKerraCombatComponentFromActorInfo() const
+{
+	return GetAvatarActorFromActorInfo()->FindComponentByClass<UKerraCombatComponent>();
+}
+
+UKerraAbilitySystemComponent* UKerraGameplayAbility::GetKerraAbilitySystemComponentFromActorInfo() const
+{
+	return Cast<UKerraAbilitySystemComponent>(CurrentActorInfo->AbilitySystemComponent);
 }

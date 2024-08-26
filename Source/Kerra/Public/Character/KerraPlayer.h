@@ -10,6 +10,7 @@
 
 class USpringArmComponent;
 class UCameraComponent;
+class UKerraPlayerCombatComponent;
 
 UCLASS()
 class KERRA_API AKerraPlayer : public AKerraCharacterBase
@@ -22,14 +23,19 @@ public:
 	virtual void PossessedBy(AController* NewController) override;
 	virtual void OnRep_PlayerState() override;
 
+	FORCEINLINE UKerraPlayerCombatComponent* GetKerraPlayerCombatComponent() const { return PlayerCombatComponent; }
+
 private:
 	virtual void InitAbilityActorInfo() override;
 	
 private:
-	UPROPERTY(VisibleAnywhere)
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Camera", meta=(AllowPrivateAccess="true"))
 	TObjectPtr<USpringArmComponent> CameraBoom;
 
-	UPROPERTY(VisibleAnywhere)
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Camera", meta=(AllowPrivateAccess="true"))
 	TObjectPtr<UCameraComponent> FollowCamera;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Combat", meta=(AllowPrivateAccess="true"))
+	TObjectPtr<UKerraPlayerCombatComponent> PlayerCombatComponent;
 
 };

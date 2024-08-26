@@ -7,6 +7,9 @@
 #include "KerraGameplayAbility.generated.h"
 
 
+class UKerraCombatComponent;
+class UKerraAbilitySystemComponent;
+
 UENUM(BlueprintType)
 enum class EKerraAbilityActivationPolicy : uint8
 {
@@ -22,7 +25,13 @@ class KERRA_API UKerraGameplayAbility : public UGameplayAbility
 protected:
 	virtual void OnGiveAbility(const FGameplayAbilityActorInfo* ActorInfo, const FGameplayAbilitySpec& Spec) override;
 	virtual void EndAbility(const FGameplayAbilitySpecHandle Handle, const FGameplayAbilityActorInfo* ActorInfo, const FGameplayAbilityActivationInfo ActivationInfo, bool bReplicateEndAbility, bool bWasCancelled) override;
+
+protected:
+	UFUNCTION(BlueprintPure, Category="Kerra|Ability")
+	UKerraCombatComponent* GetKerraCombatComponentFromActorInfo() const;
 	
+	UFUNCTION(BlueprintPure, Category="Kerra|Ability")
+	UKerraAbilitySystemComponent* GetKerraAbilitySystemComponentFromActorInfo() const;
 
 protected:
 	UPROPERTY(EditDefaultsOnly, Category="KerraAbility")

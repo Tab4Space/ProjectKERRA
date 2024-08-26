@@ -5,12 +5,14 @@
 #include "CoreMinimal.h"
 #include "InputActionValue.h"
 #include "GameFramework/PlayerController.h"
+#include "GameplayTagContainer.h"
 #include "KerraPlayerController.generated.h"
 
 
 class UInputMappingContext;
 class UInputAction;
 class UKerraInputConfig;
+class UKerraAbilitySystemComponent;
 
 
 UCLASS()
@@ -33,11 +35,20 @@ private:
 	UPROPERTY(EditAnywhere, Category="Input")
 	TObjectPtr<UInputAction> LookAction;
 	*/
+	
 
 	void Move(const FInputActionValue& InputActionValue);
 	void LookAt(const FInputActionValue& InputActionValue);
 
+	void AbilityInputPressed(FGameplayTag InInputTag);
+	void AbilityInputReleased(FGameplayTag InInputTag);
+
+	UKerraAbilitySystemComponent* GetASC();
+
+private:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="CharacterData", meta=(AllowPrivateAccess="true"))
 	TObjectPtr<UKerraInputConfig> InputConfigDataAsset;
+
+	TObjectPtr<UKerraAbilitySystemComponent> KerraAbilitySystemComponent;
 	
 };

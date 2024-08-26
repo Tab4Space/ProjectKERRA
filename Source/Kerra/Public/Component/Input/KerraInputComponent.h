@@ -15,7 +15,10 @@ class KERRA_API UKerraInputComponent : public UEnhancedInputComponent
 
 public:
 	template<class UserObject, typename CallbackFunc>
-	void BindNativeInputAction(const UKerraInputConfig* InInputConfig,const FGameplayTag& InInputTag,ETriggerEvent TriggerEvent,UserObject* ContextObject,CallbackFunc Func);
+	void BindNativeInputAction(const UKerraInputConfig* InInputConfig, const FGameplayTag& InInputTag, ETriggerEvent TriggerEvent, UserObject* ContextObject, CallbackFunc Func);
+
+	template<class UserObject, typename CallbackFunc>
+	void BindAbilityInputAction(const UKerraInputConfig* InInputConfig, UserObject* ContextObject, CallbackFunc InputPressedFunc, CallbackFunc InputReleasedFunc);
 };
 
 template <class UserObject, typename CallbackFunc>
@@ -28,4 +31,20 @@ inline void UKerraInputComponent::BindNativeInputAction(const UKerraInputConfig*
 		BindAction(FoundAction, TriggerEvent, ContextObject, Func);
 	}
 	
+}
+
+template <class UserObject, typename CallbackFunc>
+void UKerraInputComponent::BindAbilityInputAction(const UKerraInputConfig* InInputConfig, UserObject* ContextObject, CallbackFunc InputPressedFunc, CallbackFunc InputReleasedFunc)
+{
+	checkf(InInputConfig, TEXT("Input config data asset is null, can not bind"));
+
+	for(const FKerraInputActionConfig& AbilityInputActionConfig : InInputConfig->AbilityInputActions)
+	{
+		if(!AbilityInputActionConfig.IsValid())
+		{
+			continue;
+		}
+		BindAction(AbilityInputActionConfig.InputAction, ETriggerEvent::Started, ContextObject, InputPressedFunc, AbilityInputActionConfig.InputTag);
+		BindAction(AbilityInputActionConfig.InputAction, ETriggerEvent::Completed, ContextObject, InputReleasedFunc, AbilityInputActionConfig.InputTag);
+	}
 }

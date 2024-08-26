@@ -6,6 +6,11 @@
 namespace KerraGameplayTags
 {
 	/* Input Tags */
-	UE_DEFINE_GAMEPLAY_TAG(InputTag_Move, "InputTag.Move")
-	UE_DEFINE_GAMEPLAY_TAG(InputTag_Look, "InputTag.Look")
+	UE_DEFINE_GAMEPLAY_TAG(InputTag_Move, "InputTag.Move");
+	UE_DEFINE_GAMEPLAY_TAG(InputTag_Look, "InputTag.Look");
+	UE_DEFINE_GAMEPLAY_TAG(InputTag_Equip, "InputTag.Equip");
+	UE_DEFINE_GAMEPLAY_TAG(InputTag_Unequip, "InputTag.Unequip");
+
+	/* Player Tags */
+	UE_DEFINE_GAMEPLAY_TAG(Player_Weapon_Sword, "Player.Weapon.Sword");
 }
