@@ -2,4 +2,9 @@
 
 
 #include "Animation/Instance/KerraLinkedAnimLayer.h"
+#include "Animation/Instance/KerraPlayerAnimInstance.h"
 
+UKerraPlayerAnimInstance* UKerraLinkedAnimLayer::GetKerraPlayerAnimInstance() const
+{
+	return Cast<UKerraPlayerAnimInstance>(GetOwningComponent()->GetAnimInstance());
+}
