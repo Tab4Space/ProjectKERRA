@@ -2,9 +2,27 @@
 
 #pragma once
 
+#include "GameplayTagContainer.h"
 #include "KerraStructTypes.generated.h" 
 
+
+class UInputMappingContext;
+class UKerraGameplayAbility;
 class UKerraLinkedAnimLayer;
+
+USTRUCT(BlueprintType)
+struct FKerraPlayerAbilitySet
+{
+	GENERATED_BODY()
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, meta=(Categories="InputTag"))
+	FGameplayTag InputTag;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
+	TSubclassOf<UKerraGameplayAbility> AbilityToGrant;
+
+	bool IsValid() const;
+};
 
 USTRUCT(BlueprintType)
 struct FKerraPlayerWeaponData
@@ -14,4 +32,10 @@ struct FKerraPlayerWeaponData
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
 	TSubclassOf<UKerraLinkedAnimLayer> WeaponAnimLayerToLink;
 	
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
+	TObjectPtr<UInputMappingContext> WeaponInputMappingContext;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, meta=(TitleProperty="InputTag"))
+	TArray<FKerraPlayerAbilitySet> DefaultWeaponAbilities;
 };
+

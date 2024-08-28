@@ -13,6 +13,9 @@ namespace KerraGameplayTags
 	KERRA_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(InputTag_Unequip);
 
 	/* Player Tag */
+	KERRA_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Player_Ability_Equip_Sword);
+	KERRA_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Player_Ability_Unequip_Sword);
+
 	KERRA_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Player_Weapon_Sword);
 
 	/* Event Tag */

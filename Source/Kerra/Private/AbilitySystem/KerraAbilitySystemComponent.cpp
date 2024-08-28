@@ -2,6 +2,7 @@
 
 
 #include "AbilitySystem/KerraAbilitySystemComponent.h"
+#include "AbilitySystem/Abilities/KerraGameplayAbility.h"
 
 void UKerraAbilitySystemComponent::OnAbilityInputPressed(const FGameplayTag& InInputTag)
 {
@@ -26,4 +27,43 @@ void UKerraAbilitySystemComponent::OnAbilityInputPressed(const FGameplayTag& InI
 void UKerraAbilitySystemComponent::OnAbilityInputReleased(const FGameplayTag& InInputTag)
 {
 	UE_LOG(LogTemp, Warning, TEXT("On Abilty Input Released"));
+}
+
+void UKerraAbilitySystemComponent::GrantWeaponAbilities(const TArray<FKerraPlayerAbilitySet>& InDefaultWeaponAbilities, int32 ApplyLevel, TArray<FGameplayAbilitySpecHandle>& OutGrantedAbilitySpecHandles)
+{
+	if(InDefaultWeaponAbilities.IsEmpty())
+	{
+		return;
+	}
+
+	for(const FKerraPlayerAbilitySet& AbilitySet : InDefaultWeaponAbilities)
+	{
+		if(!AbilitySet.IsValid())
+		{
+			continue;
+		}
+
+		FGameplayAbilitySpec AbilitySpec(AbilitySet.AbilityToGrant);
+		AbilitySpec.SourceObject = GetAvatarActor();
+		AbilitySpec.Level = ApplyLevel;
+		AbilitySpec.DynamicAbilityTags.AddTag(AbilitySet.InputTag);
+		OutGrantedAbilitySpecHandles.AddUnique(GiveAbility(AbilitySpec));
+	}
+}
+
+void UKerraAbilitySystemComponent::RemoveGrantedWeaponAbilities(TArray<FGameplayAbilitySpecHandle>& InSpecHandlesToRemove)
+{
+	if(InSpecHandlesToRemove.IsEmpty())
+	{
+		return;
+	}
+
+	for(const FGameplayAbilitySpecHandle SpecHandle : InSpecHandlesToRemove)
+	{
+		if(SpecHandle.IsValid())
+		{
+			ClearAbility(SpecHandle);
+		}
+	}
+	InSpecHandlesToRemove.Empty();
 }

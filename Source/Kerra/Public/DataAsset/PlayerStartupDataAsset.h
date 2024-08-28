@@ -3,26 +3,10 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "GameplayTagContainer.h"
 #include "DataAsset/StartupDataAssetBase.h"
+#include "Struct/KerraStructTypes.h"
 #include "PlayerStartupDataAsset.generated.h"
 
-
-class UKerraGameplayAbility;
-
-USTRUCT(BlueprintType)
-struct FKerraPlayerAbilitySet
-{
-	GENERATED_BODY()
-
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, meta=(Categories="InputTag"))
-	FGameplayTag InputTag;
-
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
-	TSubclassOf<UKerraGameplayAbility> AbilityToGrant;
-
-	bool IsValid() const;
-};
 
 UCLASS()
 class KERRA_API UPlayerStartupDataAsset : public UStartupDataAssetBase

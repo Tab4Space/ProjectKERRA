@@ -4,11 +4,10 @@
 
 #include "CoreMinimal.h"
 #include "AbilitySystemComponent.h"
+#include "Struct/KerraStructTypes.h"
 #include "KerraAbilitySystemComponent.generated.h"
 
-/**
- * 
- */
+
 UCLASS()
 class KERRA_API UKerraAbilitySystemComponent : public UAbilitySystemComponent
 {
@@ -17,4 +16,10 @@ class KERRA_API UKerraAbilitySystemComponent : public UAbilitySystemComponent
 public:
 	void OnAbilityInputPressed(const FGameplayTag& InInputTag);
 	void OnAbilityInputReleased(const FGameplayTag& InInputTag);
+
+	UFUNCTION(BlueprintCallable, Category="Kerra|Ability", meta=(ApplyLevel = "1"))
+	void GrantWeaponAbilities(const TArray<FKerraPlayerAbilitySet>& InDefaultWeaponAbilities, int32 ApplyLevel, TArray<FGameplayAbilitySpecHandle>& OutGrantedAbilitySpecHandles);
+
+	UFUNCTION(BlueprintCallable, Category="Kerra|Ability")
+	void RemoveGrantedWeaponAbilities(UPARAM(ref) TArray<FGameplayAbilitySpecHandle>& InSpecHandlesToRemove);
 };

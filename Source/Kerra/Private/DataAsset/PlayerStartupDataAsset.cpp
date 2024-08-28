@@ -2,13 +2,9 @@
 
 
 #include "DataAsset/PlayerStartupDataAsset.h"
-#include "AbilitySystem/Abilities/KerraGameplayAbility.h"
 #include "AbilitySystem/KerraAbilitySystemComponent.h"
+#include "AbilitySystem/Abilities/KerraGameplayAbility.h"
 
-bool FKerraPlayerAbilitySet::IsValid() const
-{
-	return InputTag.IsValid() && AbilityToGrant;
-}
 
 void UPlayerStartupDataAsset::GiveToAbilitySystemComponent(UKerraAbilitySystemComponent* InASC, int32 InApplyLevel)
 {
@@ -21,7 +17,7 @@ void UPlayerStartupDataAsset::GiveToAbilitySystemComponent(UKerraAbilitySystemCo
 			continue;
 		}
 
-		FGameplayAbilitySpec AbilitySpec(AbilitySet.AbilityToGrant);
+		FGameplayAbilitySpec AbilitySpec((AbilitySet.AbilityToGrant));
 		AbilitySpec.SourceObject = InASC->GetAvatarActor();
 		AbilitySpec.Level = InApplyLevel;
 		AbilitySpec.DynamicAbilityTags.AddTag(AbilitySet.InputTag);

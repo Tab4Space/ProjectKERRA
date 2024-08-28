@@ -2,4 +2,9 @@
 
 
 #include "Struct/KerraStructTypes.h"
+#include "AbilitySystem/Abilities/KerraGameplayAbility.h"
 
+bool FKerraPlayerAbilitySet::IsValid() const
+{
+	return InputTag.IsValid() && AbilityToGrant;
+}

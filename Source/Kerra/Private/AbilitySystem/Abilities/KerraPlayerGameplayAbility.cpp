@@ -18,7 +18,7 @@ AKerraPlayerController* UKerraPlayerGameplayAbility::GetKerraPlayerControllerFro
 {
 	if(!CachedKerraPlayerController.IsValid())
 	{
-		CachedKerraPlayerController = Cast<AKerraPlayerController>(CurrentActorInfo->AvatarActor);
+		CachedKerraPlayerController = Cast<AKerraPlayerController>(CurrentActorInfo->PlayerController);
 	}
 	return CachedKerraPlayerController.IsValid() ? CachedKerraPlayerController.Get() : nullptr;
 }
