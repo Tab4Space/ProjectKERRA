@@ -2,7 +2,7 @@
 
 
 #include "Struct/KerraStructTypes.h"
-#include "AbilitySystem/Abilities/KerraGameplayAbility.h"
+#include "AbilitySystem/Abilities/KerraPlayerGameplayAbility.h"
 
 bool FKerraPlayerAbilitySet::IsValid() const
 {
