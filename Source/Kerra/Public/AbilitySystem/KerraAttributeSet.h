@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "AttributeSet.h"
+#include "AbilitySystemComponent.h"
 #include "KerraAttributeSet.generated.h"
 
 
@@ -20,6 +21,31 @@ class KERRA_API UKerraAttributeSet : public UAttributeSet
 
 public:
 	UKerraAttributeSet();
+
+public:
+	UPROPERTY(BlueprintReadOnly, Category="Health")
+	FGameplayAttributeData CurrentHealth;
+	ATTRIBUTE_ACCESSORS(UKerraAttributeSet, CurrentHealth);
+
+	UPROPERTY(BlueprintReadOnly, Category="Health")
+	FGameplayAttributeData MaxHealth;
+	ATTRIBUTE_ACCESSORS(UKerraAttributeSet, MaxHealth);
+
+	UPROPERTY(BlueprintReadOnly, Category="Rage")
+	FGameplayAttributeData CurrentRage;
+	ATTRIBUTE_ACCESSORS(UKerraAttributeSet, CurrentRage);
+
+	UPROPERTY(BlueprintReadOnly, Category="Rage")
+	FGameplayAttributeData MaxRage;
+	ATTRIBUTE_ACCESSORS(UKerraAttributeSet, MaxRage);
+
+	UPROPERTY(BlueprintReadOnly, Category="Damage")
+	FGameplayAttributeData AttackPower;
+	ATTRIBUTE_ACCESSORS(UKerraAttributeSet, AttackPower);
+
+	UPROPERTY(BlueprintReadOnly, Category="Damage")
+	FGameplayAttributeData DefensePower;
+	ATTRIBUTE_ACCESSORS(UKerraAttributeSet, DefensePower);
 
 private:
 	

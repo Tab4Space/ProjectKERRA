@@ -24,7 +24,10 @@ namespace KerraGameplayTags
 
 	KERRA_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Player_Status_JumpToFinisher);
 
-	/* Event Tag */
+	/* Player Event Tag */
 	KERRA_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Player_Event_Equip_Sword);
 	KERRA_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Player_Event_Unequip_Sword);
+
+	/* Enemy Tag */
+	KERRA_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Enemy_Weapon);
 }

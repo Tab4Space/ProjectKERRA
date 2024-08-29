@@ -12,6 +12,7 @@ UCLASS()
 class KERRA_API UPlayerStartupDataAsset : public UStartupDataAssetBase
 {
 	GENERATED_BODY()
+	
 public:
 	virtual void GiveToAbilitySystemComponent(UKerraAbilitySystemComponent* InASC, int32 InApplyLevel = 1) override;
 

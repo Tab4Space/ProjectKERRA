@@ -59,6 +59,7 @@ void AKerraPlayer::OnRep_PlayerState()
 {
 	Super::OnRep_PlayerState();
 	InitAbilityActorInfo();					// Set owner and avatar in client side
+	
 }
 
 void AKerraPlayer::InitAbilityActorInfo()
