@@ -24,7 +24,7 @@ AKerraEnemy::AKerraEnemy()
 	GetCharacterMovement()->MaxWalkSpeed = 300.f;
 	GetCharacterMovement()->BrakingDecelerationWalking = 1000.f;
 
-	AbilitySystemComponent = CreateDefaultSubobject<UKerraAbilitySystemComponent>("AbilitySystemComponent");\
+	AbilitySystemComponent = CreateDefaultSubobject<UKerraAbilitySystemComponent>("AbilitySystemComponent");
 	AttributeSet = CreateDefaultSubobject<UKerraAttributeSet>("AttributeSet");
 	
 	EnemyCombatComponent = CreateDefaultSubobject<UKerraEnemyCombatComponent>("EnemyCombatComponent");
@@ -35,6 +35,11 @@ void AKerraEnemy::BeginPlay()
 {
 	Super::BeginPlay();
 	
+}
+
+UKerraCombatComponent* AKerraEnemy::GetKerraCombatComponent() const
+{
+	return EnemyCombatComponent;
 }
 
 void AKerraEnemy::PossessedBy(AController* NewController)

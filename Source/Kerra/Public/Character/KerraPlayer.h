@@ -25,6 +25,10 @@ public:
 
 	FORCEINLINE UKerraPlayerCombatComponent* GetKerraPlayerCombatComponent() const { return PlayerCombatComponent; }
 
+	/* Combat Interface */
+	virtual UKerraCombatComponent* GetKerraCombatComponent() const override;
+	/* Combat Interface */
+
 private:
 	virtual void InitAbilityActorInfo() override;
 	

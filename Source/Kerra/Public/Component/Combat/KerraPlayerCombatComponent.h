@@ -17,5 +17,7 @@ class KERRA_API UKerraPlayerCombatComponent : public UKerraCombatComponent
 public:
 	UFUNCTION(BlueprintCallable, Category="Kerra|Combat")
 	APlayerWeapon* GetPlayerCarriedWeaponByTag(FGameplayTag InWeaponTag) const;
-	
+
+	virtual void OnHitTargetActor(AActor* HitActor) override;
+	virtual void OnWeaponPulledFromTargetActor(AActor* InteractedActor) override;
 };

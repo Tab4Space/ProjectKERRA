@@ -18,6 +18,11 @@ UAbilitySystemComponent* AKerraCharacterBase::GetAbilitySystemComponent() const
 }
 
 
+UKerraCombatComponent* AKerraCharacterBase::GetKerraCombatComponent() const
+{
+	return nullptr;
+}
+
 void AKerraCharacterBase::InitAbilityActorInfo()
 {
 }

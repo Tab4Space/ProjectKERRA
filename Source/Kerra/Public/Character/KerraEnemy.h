@@ -21,6 +21,10 @@ public:
 
 	FORCEINLINE UKerraEnemyCombatComponent* GetEnemyCombatComponent() const { return EnemyCombatComponent; }
 
+	/* Combat Interface */
+	virtual UKerraCombatComponent* GetKerraCombatComponent() const override;
+	/* Combat Interface */
+
 protected:
 	virtual void PossessedBy(AController* NewController) override;
 

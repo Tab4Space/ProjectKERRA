@@ -11,6 +11,21 @@ void UStartupDataAssetBase::GiveToAbilitySystemComponent(UKerraAbilitySystemComp
 
 	GrantAbilities(ActivateOnGivenAbilities, InASC, InApplyLevel);
 	GrantAbilities(ReactiveAbilities, InASC, InApplyLevel);
+
+	if(!StartupGameplayEffects.IsEmpty())
+	{
+		for(const TSubclassOf<UGameplayEffect> GameplayEffectClass : StartupGameplayEffects)
+		{
+			if(!GameplayEffectClass)
+			{
+				continue;
+			}
+
+			// GetDefaultObject<>(): Get class default object
+			UGameplayEffect* EffectCDO = GameplayEffectClass->GetDefaultObject<UGameplayEffect>();
+			InASC->ApplyGameplayEffectToSelf(EffectCDO, InApplyLevel, InASC->MakeEffectContext());
+		}
+	}
 }
 
 void UStartupDataAssetBase::GrantAbilities(const TArray<TSubclassOf<UKerraGameplayAbility>>& InAbilitiesToGive, UKerraAbilitySystemComponent* InASC, int32 InApplyLevel)

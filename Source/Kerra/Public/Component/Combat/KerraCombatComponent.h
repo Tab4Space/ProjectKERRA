@@ -10,6 +10,14 @@
 
 class AKerraWeaponBase;
 
+UENUM(BlueprintType)
+enum class EToggleDamageType : uint8
+{
+	CurrentEquippedWeapon,
+	LeftHand,
+	RightHand
+};
+
 UCLASS()
 class KERRA_API UKerraCombatComponent : public UKerraExtensionComponentBase
 {
@@ -25,10 +33,19 @@ public:
 	UFUNCTION(BlueprintCallable, Category="Kerra|Combat")
 	AKerraWeaponBase* GetCharacterCurrentEquippedWeapon() const;
 
+	UFUNCTION(BlueprintCallable, Category="Kerra|Combat")
+	void ToggleWeaponCollision(bool bShouldEnable, EToggleDamageType ToggleDamageType = EToggleDamageType::CurrentEquippedWeapon);
+
+	virtual void OnHitTargetActor(AActor* HitActor);
+	virtual void OnWeaponPulledFromTargetActor(AActor* InteractedActor);
+
 public:
 	/* Track the currently weapon's tag */
 	UPROPERTY(BlueprintReadWrite, Category="Kerra|Combat")
 	FGameplayTag CurrentEquippedWeaponTag;
+
+protected:
+	TArray<AActor*> OverlappedActors;
 
 private:
 	TMap<FGameplayTag, AKerraWeaponBase*> CharacterCarriedWeaponMap;

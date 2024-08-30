@@ -62,6 +62,11 @@ void AKerraPlayer::OnRep_PlayerState()
 	
 }
 
+UKerraCombatComponent* AKerraPlayer::GetKerraCombatComponent() const
+{
+	return PlayerCombatComponent;
+}
+
 void AKerraPlayer::InitAbilityActorInfo()
 {
 	AKerraPlayerState* KerraPlayerState = GetPlayerState<AKerraPlayerState>();

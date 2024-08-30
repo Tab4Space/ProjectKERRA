@@ -5,17 +5,12 @@
 #include "CoreMinimal.h"
 #include "Kismet/BlueprintFunctionLibrary.h"
 #include "GameplayTagContainer.h"
+#include "Struct/KerraEnumTypes.h"
 #include "KerraFunctionLibrary.generated.h"
 
 
 class UKerraAbilitySystemComponent;
-
-UENUM(BlueprintType)
-enum class EKerraConfirmType : uint8
-{
-	Yes,
-	No
-};
+class UKerraCombatComponent;
 
 UCLASS()
 class KERRA_API UKerraFunctionLibrary : public UBlueprintFunctionLibrary
@@ -35,6 +30,12 @@ public:
 	// only c++
 	static bool NativeDoesActorHaveTag(AActor* InActor, FGameplayTag TagToCheck);
 
-	UFUNCTION(BlueprintCallable, Category="Kerra|FunctinLibrary", meta=(DisplayName="Does Actor Have Tag", ExpandEnumAsExecs="OutconfirmType"))
-	static void BP_DoesActorHaveTag(AActor* InActor, FGameplayTag TagToCheck, EKerraConfirmType& OutconfirmType);
+	UFUNCTION(BlueprintCallable, Category="Kerra|FunctinLibrary", meta=(DisplayName="Does Actor Have Tag", ExpandEnumAsExecs="OutConfirmType"))
+	static void BP_DoesActorHaveTag(AActor* InActor, FGameplayTag TagToCheck, EKerraConfirmType& OutConfirmType);
+
+	static UKerraCombatComponent* NativeGetKerraCombatComponentFromActor(AActor* InActor);
+
+	UFUNCTION(BlueprintCallable, Category="Kerra|FunctinLibrary", meta=(DisplayName="Get Kerra Combat Component From Actor", ExpandEnumAsExecs="OutValidType"))
+	static UKerraCombatComponent* BP_GetKerraCombatComponentFromActor(AActor* InActor, EKerraValidType& OutValidType);
+		
 };

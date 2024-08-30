@@ -9,6 +9,7 @@
 
 class UKerraGameplayAbility;
 class UKerraAbilitySystemComponent;
+class UGameplayEffect;
 
 UCLASS()
 class KERRA_API UStartupDataAssetBase : public UDataAsset
@@ -30,4 +31,8 @@ protected:
 	/* 특정 조건에서 활성회하는 Ability들 */
 	UPROPERTY(EditDefaultsOnly, Category="StartupData")
 	TArray<TSubclassOf<UKerraGameplayAbility>> ReactiveAbilities;
+
+	/* 시작할 때 적용되는 Gameplay Effects */
+	UPROPERTY(EditDefaultsOnly, Category="StartupData")
+	TArray<TSubclassOf<UGameplayEffect>> StartupGameplayEffects;
 };

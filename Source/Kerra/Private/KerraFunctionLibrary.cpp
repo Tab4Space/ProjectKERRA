@@ -4,6 +4,7 @@
 #include "KerraFunctionLibrary.h"
 #include "AbilitySystem/KerraAbilitySystemComponent.h"
 #include "AbilitySystemBlueprintLibrary.h"
+#include "Interface/CombatInterface.h"
 
 UKerraAbilitySystemComponent* UKerraFunctionLibrary::NativeGetKerraASCFromActor(AActor* InActor)
 {
@@ -40,7 +41,25 @@ bool UKerraFunctionLibrary::NativeDoesActorHaveTag(AActor* InActor, FGameplayTag
 	return ASC->HasMatchingGameplayTag(TagToCheck);
 }
 
-void UKerraFunctionLibrary::BP_DoesActorHaveTag(AActor* InActor, FGameplayTag TagToCheck, EKerraConfirmType& OutconfirmType)
+void UKerraFunctionLibrary::BP_DoesActorHaveTag(AActor* InActor, FGameplayTag TagToCheck, EKerraConfirmType& OutConfirmType)
 {
-	OutconfirmType = NativeDoesActorHaveTag(InActor, TagToCheck) ? EKerraConfirmType::Yes : EKerraConfirmType::No; 
+	OutConfirmType = NativeDoesActorHaveTag(InActor, TagToCheck) ? EKerraConfirmType::Yes : EKerraConfirmType::No; 
+}
+
+UKerraCombatComponent* UKerraFunctionLibrary::NativeGetKerraCombatComponentFromActor(AActor* InActor)
+{
+	check(InActor)
+
+	if(ICombatInterface* CombatInterface = Cast<ICombatInterface>(InActor))
+	{
+		return CombatInterface->GetKerraCombatComponent();
+	}
+	return nullptr;
+}
+
+UKerraCombatComponent* UKerraFunctionLibrary::BP_GetKerraCombatComponentFromActor(AActor* InActor, EKerraValidType& OutValidType)
+{
+	UKerraCombatComponent* CombatComponent = NativeGetKerraCombatComponentFromActor(InActor);
+	OutValidType = CombatComponent ? EKerraValidType::Valid : EKerraValidType::Invalid;
+	return CombatComponent;
 }

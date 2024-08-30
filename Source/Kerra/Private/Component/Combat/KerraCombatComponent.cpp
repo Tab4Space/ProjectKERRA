@@ -3,6 +3,7 @@
 
 #include "Component/Combat/KerraCombatComponent.h"
 #include "Actor/Item/Weapon/KerraWeaponBase.h"
+#include "Components/BoxComponent.h"
 
 void UKerraCombatComponent::RegisterSpawnedWeapon(FGameplayTag InWeaponTagToRegister, AKerraWeaponBase* InWeaponToRegister, bool bRegisterAsEquippedWeapon)
 {
@@ -11,11 +12,14 @@ void UKerraCombatComponent::RegisterSpawnedWeapon(FGameplayTag InWeaponTagToRegi
 
 	CharacterCarriedWeaponMap.Emplace(InWeaponTagToRegister, InWeaponToRegister);
 
+	InWeaponToRegister->OnWeaponHitTarget.BindUObject(this, &ThisClass::OnHitTargetActor);
+	InWeaponToRegister->OnWeaponPulledFromTarget.BindUObject(this, &ThisClass::OnWeaponPulledFromTargetActor);
+
 	if(bRegisterAsEquippedWeapon)
 	{
 		CurrentEquippedWeaponTag = InWeaponTagToRegister;
 	}
-	UE_LOG(LogTemp, Warning, TEXT("register %s"), *InWeaponTagToRegister.ToString());
+	
 }
 
 AKerraWeaponBase* UKerraCombatComponent::GetCharacterCarriedWeaponByTag(FGameplayTag InWeaponTagToGet) const
@@ -37,4 +41,33 @@ AKerraWeaponBase* UKerraCombatComponent::GetCharacterCurrentEquippedWeapon() con
 		return nullptr;	
 	}
 	return GetCharacterCarriedWeaponByTag(CurrentEquippedWeaponTag);
+}
+
+void UKerraCombatComponent::ToggleWeaponCollision(bool bShouldEnable, EToggleDamageType ToggleDamageType)
+{
+	if(ToggleDamageType == EToggleDamageType::CurrentEquippedWeapon)
+	{
+		AKerraWeaponBase* WeaponToToggle = GetCharacterCurrentEquippedWeapon();
+		check(WeaponToToggle)
+
+		if(bShouldEnable)
+		{
+			WeaponToToggle->GetWeaponCollisionBox()->SetCollisionEnabled(ECollisionEnabled::QueryOnly);
+		}
+		else
+		{
+			WeaponToToggle->GetWeaponCollisionBox()->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+			OverlappedActors.Empty();
+		}
+	}
+
+	// TODO:: Handle body collision boxes.
+}
+
+void UKerraCombatComponent::OnHitTargetActor(AActor* HitActor)
+{
+}
+
+void UKerraCombatComponent::OnWeaponPulledFromTargetActor(AActor* InteractedActor)
+{
 }
