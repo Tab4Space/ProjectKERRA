@@ -11,6 +11,16 @@ APlayerWeapon* UKerraPlayerCombatComponent::GetPlayerCarriedWeaponByTag(FGamepla
 	return Cast<APlayerWeapon>(GetCharacterCarriedWeaponByTag(InWeaponTag));
 }
 
+APlayerWeapon* UKerraPlayerCombatComponent::GetPlayerCurrentEquippedWeapon() const
+{
+	return Cast<APlayerWeapon>(GetCharacterCurrentEquippedWeapon());
+}
+
+float UKerraPlayerCombatComponent::GetPlayerCurrentEquippedWeaponDamageAtLevel(int32 InLevel) const
+{
+	return GetPlayerCurrentEquippedWeapon()->KerraPlayerWeaponData.WeaponBaseDamage.GetValueAtLevel(InLevel);
+}
+
 void UKerraPlayerCombatComponent::OnHitTargetActor(AActor* HitActor)
 {
 	if(OverlappedActors.Contains(HitActor))

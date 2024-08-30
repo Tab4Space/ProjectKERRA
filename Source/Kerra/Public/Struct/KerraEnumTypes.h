@@ -13,3 +13,10 @@ enum class EKerraValidType : uint8
 	Valid,
 	Invalid
 };
+
+UENUM()
+enum class EKerraSuccessType : uint8
+{
+	Successful,
+	Fail
+};

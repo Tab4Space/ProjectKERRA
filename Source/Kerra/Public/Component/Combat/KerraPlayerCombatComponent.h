@@ -18,6 +18,12 @@ public:
 	UFUNCTION(BlueprintCallable, Category="Kerra|Combat")
 	APlayerWeapon* GetPlayerCarriedWeaponByTag(FGameplayTag InWeaponTag) const;
 
+	UFUNCTION(BlueprintCallable, Category="Kerra|Combat")
+	APlayerWeapon* GetPlayerCurrentEquippedWeapon() const;
+
+	UFUNCTION(BlueprintCallable, Category="Kerra|Combat")
+	float GetPlayerCurrentEquippedWeaponDamageAtLevel(int32 InLevel) const;
+
 	virtual void OnHitTargetActor(AActor* HitActor) override;
 	virtual void OnWeaponPulledFromTargetActor(AActor* InteractedActor) override;
 };

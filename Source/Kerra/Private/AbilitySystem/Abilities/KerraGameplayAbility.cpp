@@ -2,10 +2,10 @@
 
 
 #include "AbilitySystem/Abilities/KerraGameplayAbility.h"
-
 #include "AbilitySystemComponent.h"
 #include "AbilitySystem/KerraAbilitySystemComponent.h"
 #include "Component/Combat/KerraCombatComponent.h"
+#include "AbilitySystemBlueprintLibrary.h"
 
 void UKerraGameplayAbility::OnGiveAbility(const FGameplayAbilityActorInfo* ActorInfo, const FGameplayAbilitySpec& Spec)
 {
@@ -42,4 +42,19 @@ UKerraCombatComponent* UKerraGameplayAbility::GetKerraCombatComponentFromActorIn
 UKerraAbilitySystemComponent* UKerraGameplayAbility::GetKerraAbilitySystemComponentFromActorInfo() const
 {
 	return Cast<UKerraAbilitySystemComponent>(CurrentActorInfo->AbilitySystemComponent);
+}
+
+FActiveGameplayEffectHandle UKerraGameplayAbility::NativeApplyEffectSpecHandleToTarget(AActor* TargetActor, const FGameplayEffectSpecHandle& InSpecHandle)
+{
+	UAbilitySystemComponent* TargetASC = UAbilitySystemBlueprintLibrary::GetAbilitySystemComponent(TargetActor);
+	check(TargetASC && InSpecHandle.IsValid());
+	
+	return GetKerraAbilitySystemComponentFromActorInfo()->ApplyGameplayEffectSpecToTarget(*InSpecHandle.Data, TargetASC);
+}
+
+FActiveGameplayEffectHandle UKerraGameplayAbility::BP_ApplyEffectSpecHandleToTarget(AActor* TargetActor, const FGameplayEffectSpecHandle& InSpecHandle, EKerraSuccessType& OutSuccessType)
+{
+	FActiveGameplayEffectHandle ActiveGameplayEffectHandle = NativeApplyEffectSpecHandleToTarget(TargetActor, InSpecHandle);
+	OutSuccessType = ActiveGameplayEffectHandle.WasSuccessfullyApplied() ? EKerraSuccessType::Successful : EKerraSuccessType::Fail;
+	return ActiveGameplayEffectHandle;
 }

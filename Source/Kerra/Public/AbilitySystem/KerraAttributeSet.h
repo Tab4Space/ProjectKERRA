@@ -47,6 +47,9 @@ public:
 	FGameplayAttributeData DefensePower;
 	ATTRIBUTE_ACCESSORS(UKerraAttributeSet, DefensePower);
 
-private:
+	UPROPERTY(BlueprintReadOnly, Category="Damage")
+	FGameplayAttributeData DamageTaken;
+	ATTRIBUTE_ACCESSORS(UKerraAttributeSet, DamageTaken);
 	
+private:
 };

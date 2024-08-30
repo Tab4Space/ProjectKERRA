@@ -23,6 +23,9 @@ namespace KerraGameplayTags
 	KERRA_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Player_Weapon_Sword);
 
 	KERRA_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Player_Status_JumpToFinisher);
+	
+	KERRA_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Player_SetByCaller_AttackType_Light);
+	KERRA_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Player_SetByCaller_AttackType_Heavy);
 
 	/* Player Event Tag */
 	KERRA_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Player_Event_Equip_Sword);
@@ -33,4 +36,6 @@ namespace KerraGameplayTags
 
 	/* Shared Tags */
 	KERRA_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Shared_Event_MeleeHit);
+
+	KERRA_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Shared_SetByCaller_BaseDamage);
 }
