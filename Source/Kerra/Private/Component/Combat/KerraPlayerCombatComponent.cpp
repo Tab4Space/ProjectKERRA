@@ -35,11 +35,11 @@ void UKerraPlayerCombatComponent::OnHitTargetActor(AActor* HitActor)
 	Data.Target = HitActor;
 	
 	UAbilitySystemBlueprintLibrary::SendGameplayEventToActor(GetOwningPawn(), KerraGameplayTags::Shared_Event_MeleeHit, Data);
+	UAbilitySystemBlueprintLibrary::SendGameplayEventToActor(GetOwningPawn(), KerraGameplayTags::Player_Event_HitPause, FGameplayEventData());
 	
 }
 
 void UKerraPlayerCombatComponent::OnWeaponPulledFromTargetActor(AActor* InteractedActor)
 {
-	
-	
+	UAbilitySystemBlueprintLibrary::SendGameplayEventToActor(GetOwningPawn(), KerraGameplayTags::Player_Event_HitPause, FGameplayEventData());
 }
