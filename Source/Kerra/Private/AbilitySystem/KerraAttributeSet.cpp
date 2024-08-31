@@ -3,6 +3,8 @@
 
 #include "AbilitySystem/KerraAttributeSet.h"
 #include "GameplayEffectExtension.h"
+#include "KerraFunctionLibrary.h"
+#include "KerraGameplayTags.h"
 
 UKerraAttributeSet::UKerraAttributeSet()
 {
@@ -37,10 +39,13 @@ void UKerraAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCallb
 
 		const float NewCurrentHealth = FMath::Clamp(OldHealth-Damage, 0.f, GetMaxHealth());
 		SetCurrentHealth(NewCurrentHealth);
-
-		UE_LOG(LogTemp, Warning, TEXT("%f / %f / %f"), OldHealth, Damage, NewCurrentHealth);
-		// TODO: Notify the UI and Handle death
 		
+		// TODO: Notify the UI
+		
+		if (NewCurrentHealth == 0.f)
+		{
+			UKerraFunctionLibrary::AddGameplayTagToActorIfNone(Data.Target.GetAvatarActor(), KerraGameplayTags::Shared_Status_Dead);
+		}
 	}
 	
 }

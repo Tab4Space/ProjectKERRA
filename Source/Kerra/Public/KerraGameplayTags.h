@@ -45,4 +45,8 @@ namespace KerraGameplayTags
 	KERRA_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Shared_SetByCaller_BaseDamage);
 
 	KERRA_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Shared_Ability_HitReact);
+	KERRA_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Shared_Ability_Death);
+
+	KERRA_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Shared_Status_Dead);
+	
 }
