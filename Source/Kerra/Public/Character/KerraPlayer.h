@@ -11,6 +11,7 @@
 class USpringArmComponent;
 class UCameraComponent;
 class UKerraPlayerCombatComponent;
+class UKerraPlayerUIComponent;
 
 UCLASS()
 class KERRA_API AKerraPlayer : public AKerraCharacterBase
@@ -27,7 +28,10 @@ public:
 
 	/* Combat Interface */
 	virtual UKerraCombatComponent* GetKerraCombatComponent() const override;
-	/* Combat Interface */
+
+	/* UI Interface */
+	virtual UPawnUIComponent* GetPawnUIComponent() const override;
+	virtual UKerraPlayerUIComponent* GetPlayerUIComponent() const override;
 
 private:
 	virtual void InitAbilityActorInfo() override;
@@ -41,5 +45,8 @@ private:
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Combat", meta=(AllowPrivateAccess="true"))
 	TObjectPtr<UKerraPlayerCombatComponent> PlayerCombatComponent;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="UI", meta=(AllowPrivateAccess="true"))
+	TObjectPtr<UKerraPlayerUIComponent> UIComponent;
 
 };

@@ -7,6 +7,8 @@
 #include "KerraEnemy.generated.h"
 
 
+class UWidgetComponent;
+class UKerraEnemyUIComponent;
 class UKerraEnemyCombatComponent;
 
 UCLASS()
@@ -17,16 +19,20 @@ class KERRA_API AKerraEnemy : public AKerraCharacterBase
 public:
 	AKerraEnemy();
 
-	virtual void BeginPlay() override;
-
 	FORCEINLINE UKerraEnemyCombatComponent* GetEnemyCombatComponent() const { return EnemyCombatComponent; }
 
 	/* Combat Interface */
 	virtual UKerraCombatComponent* GetKerraCombatComponent() const override;
-	/* Combat Interface */
 
+	/* UI Interface */
+	virtual UPawnUIComponent* GetPawnUIComponent() const override;
+	virtual UKerraEnemyUIComponent* GetEnemyUIComponent() const override;
+
+	
 protected:
+	virtual void BeginPlay() override;
 	virtual void PossessedBy(AController* NewController) override;
+	
 
 private:
 	virtual void InitAbilityActorInfo() override;
@@ -36,5 +42,10 @@ protected:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Combat")
 	TObjectPtr<UKerraEnemyCombatComponent> EnemyCombatComponent;
 
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="UI")
+	TObjectPtr<UKerraEnemyUIComponent> UIComponent;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="UI")
+	TObjectPtr<UWidgetComponent> EnemyHealthWidgetComponent; 
 	
 };

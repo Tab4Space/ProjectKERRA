@@ -12,6 +12,7 @@
 #include "GameFramework/SpringArmComponent.h"
 #include "Player/KerraPlayerState.h"
 #include "Component/Combat/KerraPlayerCombatComponent.h"
+#include "Component/UI/KerraPlayerUIComponent.h"
 
 AKerraPlayer::AKerraPlayer()
 {
@@ -37,6 +38,7 @@ AKerraPlayer::AKerraPlayer()
 	GetCharacterMovement()->BrakingDecelerationWalking = 2000.f;
 
 	PlayerCombatComponent = CreateDefaultSubobject<UKerraPlayerCombatComponent>("PlayerCombatComp");
+	UIComponent = CreateDefaultSubobject<UKerraPlayerUIComponent>("UIComponent");
 	
 }
 
@@ -65,6 +67,16 @@ void AKerraPlayer::OnRep_PlayerState()
 UKerraCombatComponent* AKerraPlayer::GetKerraCombatComponent() const
 {
 	return PlayerCombatComponent;
+}
+
+UPawnUIComponent* AKerraPlayer::GetPawnUIComponent() const
+{
+	return UIComponent;
+}
+
+UKerraPlayerUIComponent* AKerraPlayer::GetPlayerUIComponent() const
+{
+	return UIComponent;
 }
 
 void AKerraPlayer::InitAbilityActorInfo()

@@ -6,6 +6,7 @@
 #include "GameFramework/Character.h"
 #include "AbilitySystemInterface.h"
 #include "Interface/CombatInterface.h"
+#include "Interface/KerraUIInterface.h"
 #include "KerraCharacterBase.generated.h"
 
 
@@ -14,7 +15,7 @@ class UAbilitySystemComponent;
 class UAttributeSet;
 
 UCLASS()
-class KERRA_API AKerraCharacterBase : public ACharacter, public IAbilitySystemInterface, public ICombatInterface
+class KERRA_API AKerraCharacterBase : public ACharacter, public IAbilitySystemInterface, public ICombatInterface, public IKerraUIInterface
 {
 	GENERATED_BODY()
 
@@ -24,11 +25,12 @@ public:
 	/* Ability System */
 	virtual UAbilitySystemComponent* GetAbilitySystemComponent() const override;
 	UAttributeSet* GetAttributeSet() const { return AttributeSet; }
-	/* Ability System */
 
 	/* Combat Interface */
 	virtual UKerraCombatComponent* GetKerraCombatComponent() const override;
-	/* Combat Interface */
+
+	/* UI Interface */
+	virtual UPawnUIComponent* GetPawnUIComponent() const override;
 
 protected:
 	virtual void InitAbilityActorInfo();

@@ -23,6 +23,11 @@ UKerraCombatComponent* AKerraCharacterBase::GetKerraCombatComponent() const
 	return nullptr;
 }
 
+UPawnUIComponent* AKerraCharacterBase::GetPawnUIComponent() const
+{
+	return nullptr;
+}
+
 void AKerraCharacterBase::InitAbilityActorInfo()
 {
 }

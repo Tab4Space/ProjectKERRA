@@ -6,8 +6,11 @@
 #include "AbilitySystem/KerraAttributeSet.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "Component/Combat/KerraEnemyCombatComponent.h"
+#include "Component/UI/KerraEnemyUIComponent.h"
+#include "Components/WidgetComponent.h"
 #include "Engine/AssetManager.h"
 #include "DataAsset/EnemyStartupDataAsset.h"
+#include "Widget/KerraWidgetBase.h"
 
 
 AKerraEnemy::AKerraEnemy()
@@ -28,18 +31,37 @@ AKerraEnemy::AKerraEnemy()
 	AttributeSet = CreateDefaultSubobject<UKerraAttributeSet>("AttributeSet");
 	
 	EnemyCombatComponent = CreateDefaultSubobject<UKerraEnemyCombatComponent>("EnemyCombatComponent");
-	
-}
+	UIComponent = CreateDefaultSubobject<UKerraEnemyUIComponent>("UIComponent");
 
-void AKerraEnemy::BeginPlay()
-{
-	Super::BeginPlay();
+	EnemyHealthWidgetComponent = CreateDefaultSubobject<UWidgetComponent>("EnemyHealthWidgetComponent");
+	EnemyHealthWidgetComponent->SetupAttachment(GetMesh());
 	
 }
 
 UKerraCombatComponent* AKerraEnemy::GetKerraCombatComponent() const
 {
 	return EnemyCombatComponent;
+}
+
+UPawnUIComponent* AKerraEnemy::GetPawnUIComponent() const
+{
+	return UIComponent;
+}
+
+UKerraEnemyUIComponent* AKerraEnemy::GetEnemyUIComponent() const
+{
+	return UIComponent;
+}
+
+void AKerraEnemy::BeginPlay()
+{
+	Super::BeginPlay();
+
+	if(UKerraWidgetBase* HealthWidget = Cast<UKerraWidgetBase>(EnemyHealthWidgetComponent->GetUserWidgetObject()))
+	{
+		HealthWidget->InitEnemyCreatedWidget(this);
+	}
+	
 }
 
 void AKerraEnemy::PossessedBy(AController* NewController)
