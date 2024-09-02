@@ -4,7 +4,7 @@
 #include "KerraFunctionLibrary.h"
 #include "AbilitySystem/KerraAbilitySystemComponent.h"
 #include "AbilitySystemBlueprintLibrary.h"
-#include "Interface/CombatInterface.h"
+#include "Interface/KerraCombatInterface.h"
 
 UKerraAbilitySystemComponent* UKerraFunctionLibrary::NativeGetKerraASCFromActor(AActor* InActor)
 {
@@ -50,7 +50,7 @@ UKerraCombatComponent* UKerraFunctionLibrary::NativeGetKerraCombatComponentFromA
 {
 	check(InActor)
 
-	if(ICombatInterface* CombatInterface = Cast<ICombatInterface>(InActor))
+	if(IKerraCombatInterface* CombatInterface = Cast<IKerraCombatInterface>(InActor))
 	{
 		return CombatInterface->GetKerraCombatComponent();
 	}

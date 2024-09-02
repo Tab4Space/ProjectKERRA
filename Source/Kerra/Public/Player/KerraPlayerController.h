@@ -11,7 +11,7 @@
 
 class UInputMappingContext;
 class UInputAction;
-class UKerraInputConfig;
+class UKerraInputDataAsset;
 class UKerraAbilitySystemComponent;
 
 
@@ -28,15 +28,6 @@ protected:
 	virtual void SetupInputComponent() override;
 
 private:
-	/*
-	UPROPERTY(EditAnywhere, Category="Input")
-	TObjectPtr<UInputAction> MoveAction;
-	
-	UPROPERTY(EditAnywhere, Category="Input")
-	TObjectPtr<UInputAction> LookAction;
-	*/
-	
-
 	void Move(const FInputActionValue& InputActionValue);
 	void LookAt(const FInputActionValue& InputActionValue);
 
@@ -47,7 +38,7 @@ private:
 
 private:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="CharacterData", meta=(AllowPrivateAccess="true"))
-	TObjectPtr<UKerraInputConfig> InputConfigDataAsset;
+	TObjectPtr<UKerraInputDataAsset> InputConfigDataAsset;
 
 	TObjectPtr<UKerraAbilitySystemComponent> KerraAbilitySystemComponent;
 	

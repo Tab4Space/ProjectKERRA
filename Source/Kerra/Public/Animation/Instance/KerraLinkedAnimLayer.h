@@ -3,18 +3,18 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "Animation/Instance/KerraBaseAnimInstance.h"
+#include "Animation/Instance/KerraAnimInstanceBase.h"
 #include "KerraLinkedAnimLayer.generated.h"
 
 
-class UKerraPlayerAnimInstance;
+class UKerraHeroAnimInstance;
 
 UCLASS()
-class KERRA_API UKerraLinkedAnimLayer : public UKerraBaseAnimInstance
+class KERRA_API UKerraLinkedAnimLayer : public UKerraAnimInstanceBase
 {
 	GENERATED_BODY()
 	
 public:
 	UFUNCTION(BlueprintPure, meta=(BlueprintThreadSafe))
-	UKerraPlayerAnimInstance* GetKerraPlayerAnimInstance() const;
+	UKerraHeroAnimInstance* GetKerraPlayerAnimInstance() const;
 };

@@ -5,11 +5,11 @@
 #include "AbilitySystem/KerraAbilitySystemComponent.h"
 #include "AbilitySystem/KerraAttributeSet.h"
 #include "GameFramework/CharacterMovementComponent.h"
-#include "Component/Combat/KerraEnemyCombatComponent.h"
-#include "Component/UI/KerraEnemyUIComponent.h"
+#include "Component/Combat/EnemyCombatComponent.h"
+#include "Component/UI/EnemyUIComponent.h"
 #include "Components/WidgetComponent.h"
 #include "Engine/AssetManager.h"
-#include "DataAsset/EnemyStartupDataAsset.h"
+#include "DataAsset/StartUp/EnemyStartupDataAsset.h"
 #include "Widget/KerraWidgetBase.h"
 
 
@@ -30,8 +30,8 @@ AKerraEnemy::AKerraEnemy()
 	AbilitySystemComponent = CreateDefaultSubobject<UKerraAbilitySystemComponent>("AbilitySystemComponent");
 	AttributeSet = CreateDefaultSubobject<UKerraAttributeSet>("AttributeSet");
 	
-	EnemyCombatComponent = CreateDefaultSubobject<UKerraEnemyCombatComponent>("EnemyCombatComponent");
-	UIComponent = CreateDefaultSubobject<UKerraEnemyUIComponent>("UIComponent");
+	EnemyCombatComponent = CreateDefaultSubobject<UEnemyCombatComponent>("EnemyCombatComponent");
+	UIComponent = CreateDefaultSubobject<UEnemyUIComponent>("UIComponent");
 
 	EnemyHealthWidgetComponent = CreateDefaultSubobject<UWidgetComponent>("EnemyHealthWidgetComponent");
 	EnemyHealthWidgetComponent->SetupAttachment(GetMesh());
@@ -43,12 +43,12 @@ UKerraCombatComponent* AKerraEnemy::GetKerraCombatComponent() const
 	return EnemyCombatComponent;
 }
 
-UPawnUIComponent* AKerraEnemy::GetPawnUIComponent() const
+UKerraUIComponent* AKerraEnemy::GetPawnUIComponent() const
 {
 	return UIComponent;
 }
 
-UKerraEnemyUIComponent* AKerraEnemy::GetEnemyUIComponent() const
+UEnemyUIComponent* AKerraEnemy::GetEnemyUIComponent() const
 {
 	return UIComponent;
 }
@@ -90,7 +90,7 @@ void AKerraEnemy::InitStartupData()
 		FStreamableDelegate::CreateLambda(
 			[this]()
 			{
-				if(UStartupDataAssetBase* LoadedData = CharacterStartupData.Get())
+				if(UKerraStartUpDataAssetBase* LoadedData = CharacterStartupData.Get())
 				{
 					LoadedData->GiveToAbilitySystemComponent(Cast<UKerraAbilitySystemComponent>(AbilitySystemComponent));
 					UE_LOG(LogTemp, Warning, TEXT("Complete loading %s"), *CharacterStartupData.ToSoftObjectPath().ToString());

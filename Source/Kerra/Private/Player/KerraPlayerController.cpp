@@ -3,7 +3,7 @@
 
 #include "Player/KerraPlayerController.h"
 #include "EnhancedInputSubsystems.h"
-#include "DataAsset/KerraInputConfig.h"
+#include "DataAsset/Input/KerraInputDataAsset.h"
 #include "Component/Input/KerraInputComponent.h"
 #include "KerraGameplayTags.h"
 #include "AbilitySystemBlueprintLibrary.h"

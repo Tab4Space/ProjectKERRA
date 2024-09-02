@@ -23,7 +23,7 @@ UKerraCombatComponent* AKerraCharacterBase::GetKerraCombatComponent() const
 	return nullptr;
 }
 
-UPawnUIComponent* AKerraCharacterBase::GetPawnUIComponent() const
+UKerraUIComponent* AKerraCharacterBase::GetPawnUIComponent() const
 {
 	return nullptr;
 }

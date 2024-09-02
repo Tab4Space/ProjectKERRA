@@ -4,7 +4,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "Animation/Instance/KerraBaseAnimInstance.h"
+#include "Animation/Instance/KerraAnimInstanceBase.h"
 #include "KerraCharacterAnimInstance.generated.h"
 
 
@@ -12,7 +12,7 @@ class AKerraCharacterBase;
 class UCharacterMovementComponent;
 
 UCLASS()
-class KERRA_API UKerraCharacterAnimInstance : public UKerraBaseAnimInstance
+class KERRA_API UKerraCharacterAnimInstance : public UKerraAnimInstanceBase
 {
 	GENERATED_BODY()
 

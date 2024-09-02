@@ -7,8 +7,8 @@
 #include "KerraWidgetBase.generated.h"
 
 
-class UKerraEnemyUIComponent;
-class UKerraPlayerUIComponent;
+class UEnemyUIComponent;
+class UHeroUIComponent;
 
 UCLASS()
 class KERRA_API UKerraWidgetBase : public UUserWidget
@@ -25,8 +25,8 @@ protected:
 	virtual void NativeOnInitialized() override;
 
 	UFUNCTION(BlueprintImplementableEvent, meta=(DisplayName="OnOwningPlayerUIComponentInitialized"))
-	void BP_OnOwningPlayerUIComponentInitialized(UKerraPlayerUIComponent* OwningPlayerUIComponent);
+	void BP_OnOwningPlayerUIComponentInitialized(UHeroUIComponent* OwningPlayerUIComponent);
 
 	UFUNCTION(BlueprintImplementableEvent, meta=(DisplayName="OnOwningEnemyUIComponentInitialized"))
-	void BP_OnOwningEnemyUIComponentInitialized(UKerraEnemyUIComponent* OwningEnemyUIComponent);
+	void BP_OnOwningEnemyUIComponentInitialized(UEnemyUIComponent* OwningEnemyUIComponent);
 };

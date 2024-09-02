@@ -5,17 +5,17 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
 #include "AbilitySystemInterface.h"
-#include "Interface/CombatInterface.h"
-#include "Interface/KerraUIInterface.h"
+#include "Interface/KerraCombatInterface.h"
+#include "Interface/KerraWidgetInterface.h"
 #include "KerraCharacterBase.generated.h"
 
 
-class UStartupDataAssetBase;
+class UKerraStartUpDataAssetBase;
 class UAbilitySystemComponent;
 class UAttributeSet;
 
 UCLASS()
-class KERRA_API AKerraCharacterBase : public ACharacter, public IAbilitySystemInterface, public ICombatInterface, public IKerraUIInterface
+class KERRA_API AKerraCharacterBase : public ACharacter, public IAbilitySystemInterface, public IKerraCombatInterface, public IKerraWidgetInterface
 {
 	GENERATED_BODY()
 
@@ -30,7 +30,7 @@ public:
 	virtual UKerraCombatComponent* GetKerraCombatComponent() const override;
 
 	/* UI Interface */
-	virtual UPawnUIComponent* GetPawnUIComponent() const override;
+	virtual UKerraUIComponent* GetPawnUIComponent() const override;
 
 protected:
 	virtual void InitAbilityActorInfo();
@@ -45,6 +45,6 @@ protected:
 	TObjectPtr<UAttributeSet> AttributeSet;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="CharacterData")
-	TSoftObjectPtr<UStartupDataAssetBase> CharacterStartupData;
+	TSoftObjectPtr<UKerraStartUpDataAssetBase> CharacterStartupData;
 
 };

@@ -8,8 +8,8 @@
 
 
 class UWidgetComponent;
-class UKerraEnemyUIComponent;
-class UKerraEnemyCombatComponent;
+class UEnemyUIComponent;
+class UEnemyCombatComponent;
 
 UCLASS()
 class KERRA_API AKerraEnemy : public AKerraCharacterBase
@@ -19,14 +19,14 @@ class KERRA_API AKerraEnemy : public AKerraCharacterBase
 public:
 	AKerraEnemy();
 
-	FORCEINLINE UKerraEnemyCombatComponent* GetEnemyCombatComponent() const { return EnemyCombatComponent; }
+	FORCEINLINE UEnemyCombatComponent* GetEnemyCombatComponent() const { return EnemyCombatComponent; }
 
 	/* Combat Interface */
 	virtual UKerraCombatComponent* GetKerraCombatComponent() const override;
 
 	/* UI Interface */
-	virtual UPawnUIComponent* GetPawnUIComponent() const override;
-	virtual UKerraEnemyUIComponent* GetEnemyUIComponent() const override;
+	virtual UKerraUIComponent* GetPawnUIComponent() const override;
+	virtual UEnemyUIComponent* GetEnemyUIComponent() const override;
 
 	
 protected:
@@ -40,10 +40,10 @@ private:
 
 protected:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Combat")
-	TObjectPtr<UKerraEnemyCombatComponent> EnemyCombatComponent;
+	TObjectPtr<UEnemyCombatComponent> EnemyCombatComponent;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="UI")
-	TObjectPtr<UKerraEnemyUIComponent> UIComponent;
+	TObjectPtr<UEnemyUIComponent> UIComponent;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="UI")
 	TObjectPtr<UWidgetComponent> EnemyHealthWidgetComponent; 

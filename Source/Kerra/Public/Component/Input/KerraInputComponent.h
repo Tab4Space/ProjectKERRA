@@ -4,7 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "EnhancedInputComponent.h"
-#include "DataAsset/KerraInputConfig.h"
+#include "DataAsset/Input/KerraInputDataAsset.h"
 #include "KerraInputComponent.generated.h"
 
 
@@ -15,14 +15,14 @@ class KERRA_API UKerraInputComponent : public UEnhancedInputComponent
 
 public:
 	template<class UserObject, typename CallbackFunc>
-	void BindNativeInputAction(const UKerraInputConfig* InInputConfig, const FGameplayTag& InInputTag, ETriggerEvent TriggerEvent, UserObject* ContextObject, CallbackFunc Func);
+	void BindNativeInputAction(const UKerraInputDataAsset* InInputConfig, const FGameplayTag& InInputTag, ETriggerEvent TriggerEvent, UserObject* ContextObject, CallbackFunc Func);
 
 	template<class UserObject, typename CallbackFunc>
-	void BindAbilityInputAction(const UKerraInputConfig* InInputConfig, UserObject* ContextObject, CallbackFunc InputPressedFunc, CallbackFunc InputReleasedFunc);
+	void BindAbilityInputAction(const UKerraInputDataAsset* InInputConfig, UserObject* ContextObject, CallbackFunc InputPressedFunc, CallbackFunc InputReleasedFunc);
 };
 
 template <class UserObject, typename CallbackFunc>
-inline void UKerraInputComponent::BindNativeInputAction(const UKerraInputConfig* InInputConfig, const FGameplayTag& InInputTag, ETriggerEvent TriggerEvent, UserObject* ContextObject, CallbackFunc Func)
+inline void UKerraInputComponent::BindNativeInputAction(const UKerraInputDataAsset* InInputConfig, const FGameplayTag& InInputTag, ETriggerEvent TriggerEvent, UserObject* ContextObject, CallbackFunc Func)
 {
 	checkf(InInputConfig, TEXT("Input config data asset is null, can not bind"));
 
@@ -34,7 +34,7 @@ inline void UKerraInputComponent::BindNativeInputAction(const UKerraInputConfig*
 }
 
 template <class UserObject, typename CallbackFunc>
-void UKerraInputComponent::BindAbilityInputAction(const UKerraInputConfig* InInputConfig, UserObject* ContextObject, CallbackFunc InputPressedFunc, CallbackFunc InputReleasedFunc)
+void UKerraInputComponent::BindAbilityInputAction(const UKerraInputDataAsset* InInputConfig, UserObject* ContextObject, CallbackFunc InputPressedFunc, CallbackFunc InputReleasedFunc)
 {
 	checkf(InInputConfig, TEXT("Input config data asset is null, can not bind"));
 

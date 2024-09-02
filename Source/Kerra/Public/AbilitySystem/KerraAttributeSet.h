@@ -8,7 +8,7 @@
 #include "KerraAttributeSet.generated.h"
 
 
-class IKerraUIInterface;
+class IKerraWidgetInterface;
 
 #define ATTRIBUTE_ACCESSORS(ClassName, PropertyName) \
 GAMEPLAYATTRIBUTE_PROPERTY_GETTER(ClassName, PropertyName) \
@@ -58,6 +58,6 @@ public:
 	ATTRIBUTE_ACCESSORS(UKerraAttributeSet, DamageTaken);
 	
 private:
-	TWeakInterfacePtr<IKerraUIInterface> CachedUIInterface;
+	TWeakInterfacePtr<IKerraWidgetInterface> CachedUIInterface;
 	
 };

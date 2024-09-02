@@ -9,7 +9,7 @@
 
 class UInputMappingContext;
 class UKerraLinkedAnimLayer;
-class UKerraPlayerGameplayAbility;
+class UKerraHeroAbility;
 
 USTRUCT(BlueprintType)
 struct FKerraPlayerAbilitySet
@@ -20,7 +20,7 @@ struct FKerraPlayerAbilitySet
 	FGameplayTag InputTag;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
-	TSubclassOf<UKerraPlayerGameplayAbility> AbilityToGrant;
+	TSubclassOf<UKerraHeroAbility> AbilityToGrant;
 
 	bool IsValid() const;
 };

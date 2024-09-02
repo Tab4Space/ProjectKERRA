@@ -2,13 +2,13 @@
 
 
 #include "Widget/KerraWidgetBase.h"
-#include "Interface/KerraUIInterface.h"
+#include "Interface/KerraWidgetInterface.h"
 
 void UKerraWidgetBase::InitEnemyCreatedWidget(AActor* OwningEnemyActor)
 {
-	if(IKerraUIInterface* UIInterface = Cast<IKerraUIInterface>(OwningEnemyActor))
+	if(IKerraWidgetInterface* UIInterface = Cast<IKerraWidgetInterface>(OwningEnemyActor))
 	{
-		UKerraEnemyUIComponent* EnemyUIComponent = UIInterface->GetEnemyUIComponent();
+		UEnemyUIComponent* EnemyUIComponent = UIInterface->GetEnemyUIComponent();
 		checkf(EnemyUIComponent, TEXT("not found enemy ui component from %d"), *OwningEnemyActor->GetActorNameOrLabel());
 
 		BP_OnOwningEnemyUIComponentInitialized(EnemyUIComponent);
@@ -19,9 +19,9 @@ void UKerraWidgetBase::NativeOnInitialized()
 {
 	Super::NativeOnInitialized();
 
-	if(IKerraUIInterface* UIInterface = Cast<IKerraUIInterface>(GetOwningPlayerPawn()))
+	if(IKerraWidgetInterface* UIInterface = Cast<IKerraWidgetInterface>(GetOwningPlayerPawn()))
 	{
-		if(UKerraPlayerUIComponent* PlayerUIComponent = UIInterface->GetPlayerUIComponent())
+		if(UHeroUIComponent* PlayerUIComponent = UIInterface->GetPlayerUIComponent())
 		{
 			BP_OnOwningPlayerUIComponentInitialized(PlayerUIComponent);
 		}

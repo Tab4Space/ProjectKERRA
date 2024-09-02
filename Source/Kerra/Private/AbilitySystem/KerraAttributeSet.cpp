@@ -5,9 +5,9 @@
 #include "GameplayEffectExtension.h"
 #include "KerraFunctionLibrary.h"
 #include "KerraGameplayTags.h"
-#include "Interface/KerraUIInterface.h"
-#include "Component/UI/PawnUIComponent.h"
-#include "Component/UI/KerraPlayerUIComponent.h"
+#include "Interface/KerraWidgetInterface.h"
+#include "Component/UI/KerraUIComponent.h"
+#include "Component/UI/HeroUIComponent.h"
 
 UKerraAttributeSet::UKerraAttributeSet()
 {
@@ -23,12 +23,12 @@ void UKerraAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCallb
 {
 	if(!CachedUIInterface.IsValid())
 	{
-		CachedUIInterface = TWeakInterfacePtr<IKerraUIInterface>(Data.Target.GetAvatarActor());
+		CachedUIInterface = TWeakInterfacePtr<IKerraWidgetInterface>(Data.Target.GetAvatarActor());
 		// CachedUIInterface = Cast<IKerraUIInterface>(Data.Target.GetAvatarActor());
 	}
 	checkf(CachedUIInterface.IsValid(), TEXT("%s is not implement ui interface"), *Data.Target.GetAvatarActor()->GetActorNameOrLabel());
 
-	UPawnUIComponent* UIComponent = CachedUIInterface->GetPawnUIComponent();
+	UKerraUIComponent* UIComponent = CachedUIInterface->GetPawnUIComponent();
 	checkf(UIComponent, TEXT("%s no UI Component"), *Data.Target.GetAvatarActor()->GetActorNameOrLabel())
 	
 	// GE를 갖고 Attribute의 값을 변경하고 싶을 때 사용하는 함수
@@ -45,7 +45,7 @@ void UKerraAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCallb
 		const float NewCurrentRage = FMath::Clamp(GetCurrentRage(), 0.f, GetMaxRage());
 		SetCurrentRage(NewCurrentRage);
 
-		if(UKerraPlayerUIComponent* PlayerUIComponent = CachedUIInterface->GetPlayerUIComponent())
+		if(UHeroUIComponent* PlayerUIComponent = CachedUIInterface->GetPlayerUIComponent())
 		{
 			PlayerUIComponent->OnCurrentRageChanged.Broadcast(GetCurrentRage() / GetMaxRage());
 		}
