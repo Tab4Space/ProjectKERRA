@@ -12,6 +12,12 @@
 
 AKerraPlayerController::AKerraPlayerController()
 {
+	HeroTeamID = FGenericTeamId(0);
+}
+
+FGenericTeamId AKerraPlayerController::GetGenericTeamId() const
+{
+	return HeroTeamID;
 }
 
 void AKerraPlayerController::BeginPlay()

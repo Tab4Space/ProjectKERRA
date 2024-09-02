@@ -6,6 +6,7 @@
 #include "InputActionValue.h"
 #include "GameFramework/PlayerController.h"
 #include "GameplayTagContainer.h"
+#include "GenericTeamAgentInterface.h"
 #include "KerraPlayerController.generated.h"
 
 
@@ -14,14 +15,16 @@ class UInputAction;
 class UKerraInputDataAsset;
 class UKerraAbilitySystemComponent;
 
-
 UCLASS()
-class KERRA_API AKerraPlayerController : public APlayerController
+class KERRA_API AKerraPlayerController : public APlayerController, public IGenericTeamAgentInterface
 {
 	GENERATED_BODY()
 
 public:
 	AKerraPlayerController();
+
+	/* Interface */
+	virtual FGenericTeamId GetGenericTeamId() const override;
 
 protected:
 	virtual void BeginPlay() override;
@@ -41,5 +44,7 @@ private:
 	TObjectPtr<UKerraInputDataAsset> InputConfigDataAsset;
 
 	TObjectPtr<UKerraAbilitySystemComponent> KerraAbilitySystemComponent;
+
+	FGenericTeamId HeroTeamID;
 	
 };
