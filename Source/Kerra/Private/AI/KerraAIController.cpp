@@ -24,6 +24,7 @@ AKerraAIController::AKerraAIController(const FObjectInitializer& ObjectInitializ
 	PerceptionComponent->SetDominantSense(UAISense_Sight::StaticClass());
 	PerceptionComponent->OnTargetPerceptionUpdated.AddUniqueDynamic(this, &AKerraAIController::OnEnemyPerceptionUpdated);
 
+	// AI Controller Team ID is 1
 	SetGenericTeamId(FGenericTeamId(1));
 }
 
@@ -31,7 +32,7 @@ ETeamAttitude::Type AKerraAIController::GetTeamAttitudeTowards(const AActor& Oth
 {
 	const APawn* PawnToCheck = Cast<const APawn>(&Other);
 	const IGenericTeamAgentInterface* OtherTeamAgent = Cast<const IGenericTeamAgentInterface>(PawnToCheck->GetController());
-	if(OtherTeamAgent && OtherTeamAgent->GetGenericTeamId() != GetGenericTeamId())
+	if(OtherTeamAgent && OtherTeamAgent->GetGenericTeamId() < GetGenericTeamId())
 	{
 		return ETeamAttitude::Hostile;
 	}
@@ -65,11 +66,14 @@ void AKerraAIController::BeginPlay()
 
 void AKerraAIController::OnEnemyPerceptionUpdated(AActor* Actor, FAIStimulus Stimulus)
 {
-	if(Stimulus.WasSuccessfullySensed() && Actor)
+	if(UBlackboardComponent* BlackboardComponent = GetBlackboardComponent())
 	{
-		if(UBlackboardComponent* BlackboardComponent = GetBlackboardComponent())
+		if(!BlackboardComponent->GetValueAsObject(FName("TargetActor")))
 		{
-			BlackboardComponent->SetValueAsObject(FName("TargetActor"), Actor);
+			if(Stimulus.WasSuccessfullySensed() && Actor)
+			{
+				BlackboardComponent->SetValueAsObject(FName("TargetActor"), Actor);
+			}
 		}
 	}
 }

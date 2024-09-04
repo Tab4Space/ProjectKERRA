@@ -2,9 +2,10 @@
 
 
 #include "Animation/Instance/KerraCharacterAnimInstance.h"
-
 #include "Character/KerraCharacterBase.h"
 #include "GameFramework/CharacterMovementComponent.h"
+#include "KismetAnimationLibrary.h"
+#include "Kismet/KismetMathLibrary.h"
 
 void UKerraCharacterAnimInstance::NativeInitializeAnimation()
 {
@@ -24,5 +25,6 @@ void UKerraCharacterAnimInstance::NativeThreadSafeUpdateAnimation(float DeltaSec
 
 	GroundSpeed = OwningCharacter->GetVelocity().Size2D();
 	bHasAcceleration = OwningMovementComponent->GetCurrentAcceleration().SizeSquared2D() > 0.f;
+	LocomotionDirection = UKismetAnimationLibrary::CalculateDirection(OwningCharacter->GetVelocity(), OwningCharacter->GetActorRotation());
 	
 }
