@@ -30,7 +30,7 @@ UHeroCombatComponent* UKerraHeroAbility::GetKerraPlayerCombatComponentFromActorI
 	return GetKerraPlayerFromActorInfo()->GetKerraPlayerCombatComponent();
 }
 
-FGameplayEffectSpecHandle UKerraHeroAbility::MakePlayerDamageEffectSpecHandle(TSubclassOf<UGameplayEffect> EffectClass, float InWeaponBaseDamage, FGameplayTag InCurrentAttackTypeTag, int32 InUsedComboCount)
+FGameplayEffectSpecHandle UKerraHeroAbility::MakeDamageEffectSpecHandle(TSubclassOf<UGameplayEffect> EffectClass, float InWeaponBaseDamage, FGameplayTag InCurrentAttackTypeTag, int32 InUsedComboCount)
 {
 	check(EffectClass);
 

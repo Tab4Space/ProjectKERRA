@@ -2,8 +2,8 @@
 
 
 #include "Actor/Item/Weapon/KerraWeaponBase.h"
-
 #include "Components/BoxComponent.h"
+#include "KerraFunctionLibrary.h"
 
 
 AKerraWeaponBase::AKerraWeaponBase()
@@ -24,12 +24,12 @@ AKerraWeaponBase::AKerraWeaponBase()
 
 void AKerraWeaponBase::OnCollisionBoxBeginOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
-	APawn* WeaponOwingPawn = GetInstigator<APawn>();
-	checkf(WeaponOwingPawn, TEXT("Forgot to assign  instigator of weapon: %s"), *GetName())
+	APawn* WeaponOwningPawn = GetInstigator<APawn>();
+	checkf(WeaponOwningPawn, TEXT("Forgot to assign  instigator of weapon: %s"), *GetName());
 
 	if(APawn* HitPawn = Cast<APawn>(OtherActor))
 	{
-		if(WeaponOwingPawn != HitPawn)
+		if(UKerraFunctionLibrary::IsTargetPawnHostile(WeaponOwningPawn, HitPawn))
 		{
 			OnWeaponHitTarget.ExecuteIfBound(OtherActor);
 		}
@@ -37,12 +37,12 @@ void AKerraWeaponBase::OnCollisionBoxBeginOverlap(UPrimitiveComponent* Overlappe
 }
 void AKerraWeaponBase::OnCollisionBoxEndOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex)
 {
-	APawn* WeaponOwingPawn = GetInstigator<APawn>();
-	checkf(WeaponOwingPawn, TEXT("Forgot to assign  instigator of weapon: %s"), *GetName())
+	APawn* WeaponOwningPawn = GetInstigator<APawn>();
+	checkf(WeaponOwningPawn, TEXT("Forgot to assign  instigator of weapon: %s"), *GetName())
 
 	if(APawn* HitPawn = Cast<APawn>(OtherActor))
 	{
-		if(WeaponOwingPawn != HitPawn)
+		if(UKerraFunctionLibrary::IsTargetPawnHostile(WeaponOwningPawn, HitPawn))
 		{
 			OnWeaponPulledFromTarget.ExecuteIfBound(OtherActor);
 		}

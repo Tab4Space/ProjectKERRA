@@ -22,6 +22,9 @@ public:
 	UFUNCTION(BlueprintPure, Category="Kerra|Ability")
 	UEnemyCombatComponent* GetEnemyCombatComponentFromActorInfo();
 
+	UFUNCTION(BlueprintPure, Category="Kerra|Ability")
+	FGameplayEffectSpecHandle MakeDamageEffectSpecHandle(TSubclassOf<UGameplayEffect> EffectClass, const FScalableFloat& InDamageFloat);
+
 private:
 	TWeakObjectPtr<AKerraEnemy> CachedKerraEnemy;
 };

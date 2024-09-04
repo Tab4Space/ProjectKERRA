@@ -3,8 +3,8 @@
 
 #include "AbilitySystem/Abilities/KerraEnemyAbility.h"
 #include "Character/KerraEnemy.h"
-#include "AbilitySystem/Abilities/KerraEnemyAbility.h"
-#include "Component/Combat/EnemyCombatComponent.h"
+#include "AbilitySystem/KerraAbilitySystemComponent.h"
+#include "KerraGameplayTags.h"
 
 AKerraEnemy* UKerraEnemyAbility::GetEnemyActorInfo()
 {
@@ -18,4 +18,20 @@ AKerraEnemy* UKerraEnemyAbility::GetEnemyActorInfo()
 UEnemyCombatComponent* UKerraEnemyAbility::GetEnemyCombatComponentFromActorInfo()
 {
 	return GetEnemyActorInfo()->GetEnemyCombatComponent();
+}
+
+FGameplayEffectSpecHandle UKerraEnemyAbility::MakeDamageEffectSpecHandle(TSubclassOf<UGameplayEffect> EffectClass, const FScalableFloat& InDamageFloat)
+{
+	check(EffectClass);
+
+	FGameplayEffectContextHandle ContextHandle = GetKerraAbilitySystemComponentFromActorInfo()->MakeEffectContext();
+	ContextHandle.SetAbility(this);
+	ContextHandle.AddSourceObject(GetAvatarActorFromActorInfo());
+	ContextHandle.AddInstigator(GetAvatarActorFromActorInfo(), GetAvatarActorFromActorInfo());
+
+	// define damage
+	FGameplayEffectSpecHandle EffectSpecHandle = GetKerraAbilitySystemComponentFromActorInfo()->MakeOutgoingSpec(EffectClass, GetAbilityLevel(), ContextHandle);
+	EffectSpecHandle.Data->SetSetByCallerMagnitude(KerraGameplayTags::Shared_SetByCaller_BaseDamage, InDamageFloat.GetValueAtLevel(GetAbilityLevel()));
+
+	return EffectSpecHandle;
 }

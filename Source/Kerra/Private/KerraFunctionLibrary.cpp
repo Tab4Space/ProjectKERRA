@@ -5,6 +5,7 @@
 #include "AbilitySystem/KerraAbilitySystemComponent.h"
 #include "AbilitySystemBlueprintLibrary.h"
 #include "Interface/KerraCombatInterface.h"
+#include "GenericTeamAgentInterface.h"
 
 UKerraAbilitySystemComponent* UKerraFunctionLibrary::NativeGetKerraASCFromActor(AActor* InActor)
 {
@@ -63,3 +64,18 @@ UKerraCombatComponent* UKerraFunctionLibrary::BP_GetKerraCombatComponentFromActo
 	OutValidType = CombatComponent ? EKerraValidType::Valid : EKerraValidType::Invalid;
 	return CombatComponent;
 }
+
+bool UKerraFunctionLibrary::IsTargetPawnHostile(APawn* QueryPawn, APawn* TargetPawn)
+{
+	check(QueryPawn && TargetPawn);
+	
+	IGenericTeamAgentInterface* QueryTeamAgent = Cast<IGenericTeamAgentInterface>(QueryPawn->GetController());
+	IGenericTeamAgentInterface* TargetTeamAgent = Cast<IGenericTeamAgentInterface>(TargetPawn->GetController());
+
+	if(QueryTeamAgent && TargetTeamAgent)
+	{
+		return QueryTeamAgent->GetGenericTeamId() != TargetTeamAgent->GetGenericTeamId();
+	}
+	return false;
+}
+

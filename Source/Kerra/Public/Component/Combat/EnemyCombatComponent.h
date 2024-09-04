@@ -6,12 +6,12 @@
 #include "Component/Combat/KerraCombatComponent.h"
 #include "EnemyCombatComponent.generated.h"
 
-/**
- * 
- */
+
 UCLASS()
 class KERRA_API UEnemyCombatComponent : public UKerraCombatComponent
 {
 	GENERATED_BODY()
-	
+
+public:
+	virtual void OnHitTargetActor(AActor* HitActor) override;
 };

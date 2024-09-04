@@ -27,7 +27,7 @@ public:
 	UHeroCombatComponent* GetKerraPlayerCombatComponentFromActorInfo();
 
 	UFUNCTION(BlueprintPure, Category="Kerra|Ability")
-	FGameplayEffectSpecHandle MakePlayerDamageEffectSpecHandle(TSubclassOf<UGameplayEffect> EffectClass, float InWeaponBaseDamage, FGameplayTag InCurrentAttackTypeTag, int32 InUsedComboCount);
+	FGameplayEffectSpecHandle MakeDamageEffectSpecHandle(TSubclassOf<UGameplayEffect> EffectClass, float InWeaponBaseDamage, FGameplayTag InCurrentAttackTypeTag, int32 InUsedComboCount);
 
 private:
 	// 원시 포인터와는 다르게 object를 활성 상태로 유지하지 않는다, 단순히 참조만 보유하고 있다

@@ -37,5 +37,8 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category="Kerra|FunctinLibrary", meta=(DisplayName="Get Kerra Combat Component From Actor", ExpandEnumAsExecs="OutValidType"))
 	static UKerraCombatComponent* BP_GetKerraCombatComponentFromActor(AActor* InActor, EKerraValidType& OutValidType);
+
+	UFUNCTION(BlueprintPure, Category="Kerra|FunctinLibrary")
+	static bool IsTargetPawnHostile(APawn* QueryPawn, APawn* TargetPawn);
 		
 };
