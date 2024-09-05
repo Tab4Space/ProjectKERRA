@@ -79,3 +79,8 @@ bool UKerraFunctionLibrary::IsTargetPawnHostile(APawn* QueryPawn, APawn* TargetP
 	return false;
 }
 
+float UKerraFunctionLibrary::GetScalableFloatValueAtLevel(const FScalableFloat& InScalableFloat, float InLevel)
+{
+	return InScalableFloat.GetValueAtLevel(InLevel);
+}
+

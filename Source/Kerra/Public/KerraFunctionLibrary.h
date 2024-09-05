@@ -9,6 +9,7 @@
 #include "KerraFunctionLibrary.generated.h"
 
 
+struct FScalableFloat;
 class UKerraAbilitySystemComponent;
 class UKerraCombatComponent;
 
@@ -40,5 +41,8 @@ public:
 
 	UFUNCTION(BlueprintPure, Category="Kerra|FunctinLibrary")
 	static bool IsTargetPawnHostile(APawn* QueryPawn, APawn* TargetPawn);
+
+	UFUNCTION(BlueprintPure, Category="Kerra|FunctinLibrary", meta=(CompactNodeTitle="Get Value At Level"))
+	static float GetScalableFloatValueAtLevel(const FScalableFloat& InScalableFloat, float InLevel = 1.f);
 		
 };
