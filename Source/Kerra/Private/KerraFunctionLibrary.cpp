@@ -6,6 +6,8 @@
 #include "AbilitySystemBlueprintLibrary.h"
 #include "Interface/KerraCombatInterface.h"
 #include "GenericTeamAgentInterface.h"
+#include "KerraGameplayTags.h"
+#include "Kismet/KismetMathLibrary.h"
 
 UKerraAbilitySystemComponent* UKerraFunctionLibrary::NativeGetKerraASCFromActor(AActor* InActor)
 {
@@ -82,5 +84,41 @@ bool UKerraFunctionLibrary::IsTargetPawnHostile(APawn* QueryPawn, APawn* TargetP
 float UKerraFunctionLibrary::GetScalableFloatValueAtLevel(const FScalableFloat& InScalableFloat, float InLevel)
 {
 	return InScalableFloat.GetValueAtLevel(InLevel);
+}
+
+FGameplayTag UKerraFunctionLibrary::ComputeHitReactDirectionTag(AActor* InAttacker, AActor* InVictim, float& OutAngleDiffernce)
+{
+	check(InAttacker && InVictim);
+
+	const FVector VictimForward = InVictim->GetActorForwardVector();
+	const FVector VictimToAttackerNorm = (InAttacker->GetActorLocation() - InVictim->GetActorLocation()).GetSafeNormal();
+
+	const float DotResult = FVector::DotProduct(VictimForward, VictimToAttackerNorm);
+	OutAngleDiffernce = UKismetMathLibrary::DegAcos(DotResult);
+
+	const FVector CrossResult = FVector::CrossProduct(VictimForward, VictimToAttackerNorm);
+	if(CrossResult.Z < 0.f)
+	{
+		OutAngleDiffernce *= -1.f;
+	}
+
+	if(OutAngleDiffernce >= -45.f && OutAngleDiffernce <= 45.f)
+	{
+		return KerraGameplayTags::Shared_Status_HitReact_Front;
+	}
+	else if(OutAngleDiffernce < -45.f && OutAngleDiffernce > -135.f)
+	{
+		return KerraGameplayTags::Shared_Status_HitReact_Left;
+	}
+	else if (OutAngleDiffernce < -135.f || OutAngleDiffernce >135.f)
+	{
+		return KerraGameplayTags::Shared_Status_HitReact_Back;
+	}
+	else if (OutAngleDiffernce > 45.f && OutAngleDiffernce <= 135.f)
+	{
+		return KerraGameplayTags::Shared_Status_HitReact_Right;
+	}
+
+	return KerraGameplayTags::Shared_Status_HitReact_Front;
 }
 
