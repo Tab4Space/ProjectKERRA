@@ -2,6 +2,7 @@
 
 
 #include "Character/KerraCharacterBase.h"
+#include "MotionWarpingComponent.h"
 
 
 AKerraCharacterBase::AKerraCharacterBase()
@@ -10,6 +11,8 @@ AKerraCharacterBase::AKerraCharacterBase()
 	PrimaryActorTick.bStartWithTickEnabled = false;
 
 	GetMesh()->bReceivesDecals = false;
+
+	MotionWarpingComponent = CreateDefaultSubobject<UMotionWarpingComponent>("MotionWarping");
 }
 
 UAbilitySystemComponent* AKerraCharacterBase::GetAbilitySystemComponent() const

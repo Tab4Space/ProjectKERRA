@@ -13,6 +13,7 @@
 class UKerraStartUpDataAssetBase;
 class UAbilitySystemComponent;
 class UAttributeSet;
+class UMotionWarpingComponent;
 
 UCLASS()
 class KERRA_API AKerraCharacterBase : public ACharacter, public IAbilitySystemInterface, public IKerraCombatInterface, public IKerraWidgetInterface
@@ -44,7 +45,12 @@ protected:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="AbilitySystem")
 	TObjectPtr<UAttributeSet> AttributeSet;
 
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="MotionWarping")
+	TObjectPtr<UMotionWarpingComponent> MotionWarpingComponent;
+
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="CharacterData")
 	TSoftObjectPtr<UKerraStartUpDataAssetBase> CharacterStartupData;
+
+	
 
 };
