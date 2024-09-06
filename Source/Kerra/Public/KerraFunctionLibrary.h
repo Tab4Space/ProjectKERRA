@@ -47,4 +47,7 @@ public:
 
 	UFUNCTION(BlueprintPure, Category="Kerra|FunctinLibrary")
 	static FGameplayTag ComputeHitReactDirectionTag(AActor* InAttacker, AActor* InVictim, float& OutAngleDiffernce);
+
+	UFUNCTION(BlueprintPure, Category="Kerra|FunctinLibrary")
+	static bool IsValidBlock(AActor* InAttacker, AActor* InDefender);
 };

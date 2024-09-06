@@ -4,11 +4,10 @@
 #include "Component/Combat/EnemyCombatComponent.h"
 #include "AbilitySystemBlueprintLibrary.h"
 #include "KerraGameplayTags.h"
+#include "KerraFunctionLibrary.h"
 
 void UEnemyCombatComponent::OnHitTargetActor(AActor* HitActor)
 {
-	// UE_LOG(LogTemp, Warning, TEXT("%s is hitting %s"), *GetOwningPawn()->GetActorNameOrLabel(), *HitActor->GetActorNameOrLabel());
-
 	if(OverlappedActors.Contains(HitActor))
 	{
 		return;
@@ -16,12 +15,12 @@ void UEnemyCombatComponent::OnHitTargetActor(AActor* HitActor)
 	OverlappedActors.AddUnique(HitActor);
 
 	bool bIsValidBlock = false;
-	const bool bIsPlayerBlocking = false;
+	const bool bIsPlayerBlocking = UKerraFunctionLibrary::NativeDoesActorHaveTag(HitActor, KerraGameplayTags::Player_Status_Blocking);
 	const bool bIsMyAttackUnblockable = false;
 	
 	if(bIsPlayerBlocking && !bIsMyAttackUnblockable)
 	{
-		// TODO: check blocking
+		bIsValidBlock = UKerraFunctionLibrary::IsValidBlock(GetOwningPawn(), HitActor);
 	}
 	
 	FGameplayEventData EventData;
@@ -30,7 +29,7 @@ void UEnemyCombatComponent::OnHitTargetActor(AActor* HitActor)
 	
 	if(bIsValidBlock)
 	{
-		// TODO: success blocking
+		UAbilitySystemBlueprintLibrary::SendGameplayEventToActor(HitActor, KerraGameplayTags::Player_Event_SuccessBlock, EventData);
 	}
 	else
 	{

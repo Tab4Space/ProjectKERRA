@@ -122,3 +122,11 @@ FGameplayTag UKerraFunctionLibrary::ComputeHitReactDirectionTag(AActor* InAttack
 	return KerraGameplayTags::Shared_Status_HitReact_Front;
 }
 
+bool UKerraFunctionLibrary::IsValidBlock(AActor* InAttacker, AActor* InDefender)
+{
+	check(InAttacker && InDefender);
+
+	const float DotResult = FVector::DotProduct(InAttacker->GetActorForwardVector(), InDefender->GetActorForwardVector());
+	return DotResult < -0.1f;
+}
+

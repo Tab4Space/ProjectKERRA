@@ -75,13 +75,11 @@ void AKerraPlayerController::LookAt(const FInputActionValue& InputActionValue)
 
 void AKerraPlayerController::AbilityInputPressed(FGameplayTag InInputTag)
 {
-	UE_LOG(LogTemp, Warning, TEXT("Abilty Input Pressed"));
 	GetASC()->OnAbilityInputPressed(InInputTag);
 }
 
 void AKerraPlayerController::AbilityInputReleased(FGameplayTag InInputTag)
 {
-	UE_LOG(LogTemp, Warning, TEXT("Abilty Input Released"));
 	GetASC()->OnAbilityInputReleased(InInputTag);
 }
 

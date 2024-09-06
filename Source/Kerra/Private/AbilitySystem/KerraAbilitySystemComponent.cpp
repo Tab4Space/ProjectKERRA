@@ -3,10 +3,10 @@
 
 #include "AbilitySystem/KerraAbilitySystemComponent.h"
 #include "AbilitySystem/Abilities/KerraHeroAbility.h"
+#include "KerraGameplayTags.h"
 
 void UKerraAbilitySystemComponent::OnAbilityInputPressed(const FGameplayTag& InInputTag)
 {
-	UE_LOG(LogTemp, Warning, TEXT("On Abilty Input Pressed"));
 	if(!InInputTag.IsValid())
 	{
 		return;
@@ -26,7 +26,18 @@ void UKerraAbilitySystemComponent::OnAbilityInputPressed(const FGameplayTag& InI
 
 void UKerraAbilitySystemComponent::OnAbilityInputReleased(const FGameplayTag& InInputTag)
 {
-	UE_LOG(LogTemp, Warning, TEXT("On Abilty Input Released"));
+	if(!InInputTag.IsValid() || !InInputTag.MatchesTag(KerraGameplayTags::InputTag_MustBeHeld))
+	{
+		return;
+	}
+
+	for(const FGameplayAbilitySpec& AbilitySpec : GetActivatableAbilities())
+	{
+		if(AbilitySpec.DynamicAbilityTags.HasTagExact(InInputTag) && AbilitySpec.IsActive())
+		{
+			CancelAbilityHandle(AbilitySpec.Handle);
+		}
+	}
 }
 
 void UKerraAbilitySystemComponent::GrantWeaponAbilities(const TArray<FKerraPlayerAbilitySet>& InDefaultWeaponAbilities, int32 ApplyLevel, TArray<FGameplayAbilitySpecHandle>& OutGrantedAbilitySpecHandles)
