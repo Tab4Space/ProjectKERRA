@@ -19,8 +19,22 @@ void UKerraAbilitySystemComponent::OnAbilityInputPressed(const FGameplayTag& InI
 		{
 			continue;
 		}
-		
-		TryActivateAbility(AbilitySpec.Handle);
+
+		if(InInputTag.MatchesTag(KerraGameplayTags::InputTag_Toggleable))
+		{
+			if(AbilitySpec.IsActive())
+			{
+				CancelAbilityHandle(AbilitySpec.Handle);
+			}
+			else
+			{
+				TryActivateAbility(AbilitySpec.Handle);
+			}
+		}
+		else
+		{
+			TryActivateAbility(AbilitySpec.Handle);	
+		}
 	}
 }
 
