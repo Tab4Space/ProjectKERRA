@@ -34,6 +34,9 @@ private:
 	void Move(const FInputActionValue& InputActionValue);
 	void LookAt(const FInputActionValue& InputActionValue);
 
+	void Input_SwitchTargetTriggered(const FInputActionValue& InputActionValue);
+	void Input_SwitchTargetCompleted(const FInputActionValue& InputActionValue);
+
 	void AbilityInputPressed(FGameplayTag InInputTag);
 	void AbilityInputReleased(FGameplayTag InInputTag);
 
@@ -46,5 +49,7 @@ private:
 	TObjectPtr<UKerraAbilitySystemComponent> KerraAbilitySystemComponent;
 
 	FGenericTeamId HeroTeamID;
+
+	FVector2D SwitchDirection = FVector2D::ZeroVector;
 	
 };

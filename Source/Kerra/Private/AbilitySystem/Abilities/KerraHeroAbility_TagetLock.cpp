@@ -13,16 +13,22 @@
 #include "KerraGameplayTags.h"
 #include "Character/KerraHero.h"
 #include "Kismet/KismetMathLibrary.h"
+#include "GameFramework/CharacterMovementComponent.h"
+#include "EnhancedInputSubsystems.h"
 
 void UKerraHeroAbility_TagetLock::ActivateAbility(const FGameplayAbilitySpecHandle Handle, const FGameplayAbilityActorInfo* ActorInfo, const FGameplayAbilityActivationInfo ActivationInfo, const FGameplayEventData* TriggerEventData)
 {
 	TryLockOnTarget();
+	InitTargetLockMovement();
+	InitTargetLockMappingContext();
 	Super::ActivateAbility(Handle, ActorInfo, ActivationInfo, TriggerEventData);
 }
 
 void UKerraHeroAbility_TagetLock::EndAbility(const FGameplayAbilitySpecHandle Handle, const FGameplayAbilityActorInfo* ActorInfo, const FGameplayAbilityActivationInfo ActivationInfo, bool bReplicateEndAbility, bool bWasCancelled)
 {
 	// cancel ability 이후 알아서 end ability가 호출된다
+	ResetTargetLockMovement();
+	ResetTargetLockMappingContext();
 	CleanUp();
 	Super::EndAbility(Handle, ActorInfo, ActivationInfo, bReplicateEndAbility, bWasCancelled);
 }
@@ -78,8 +84,9 @@ void UKerraHeroAbility_TagetLock::TryLockOnTarget()
 
 void UKerraHeroAbility_TagetLock::GetAvailableActorsToLock()
 {
+	AvailableActorsToLock.Empty();
+	
 	TArray<FHitResult> BoxTraceHits;
-
 	UKismetSystemLibrary::BoxTraceMultiForObjects(
 		GetAvatarActorFromActorInfo(),
 		GetAvatarActorFromActorInfo()->GetActorLocation(),
@@ -121,6 +128,7 @@ void UKerraHeroAbility_TagetLock::CleanUp()
 	}
 	DrawnTargetLockWidget = nullptr;
 	TargetLockWidgetSize = FVector2D::ZeroVector;
+	CachedDefaultMaxWalkSpeed = 0.f;
 }
 
 AActor* UKerraHeroAbility_TagetLock::GetNearestTarget(const TArray<AActor*>& InAvailableActors)
@@ -167,4 +175,96 @@ void UKerraHeroAbility_TagetLock::SetTargetLockWidgetPosition()
 	ScreenPosition -= (TargetLockWidgetSize / 2.f);
 	
 	DrawnTargetLockWidget->SetPositionInViewport(ScreenPosition, false);
+}
+
+void UKerraHeroAbility_TagetLock::InitTargetLockMovement()
+{
+	CachedDefaultMaxWalkSpeed = GetKerraPlayerFromActorInfo()->GetCharacterMovement()->MaxWalkSpeed;
+	GetKerraPlayerFromActorInfo()->GetCharacterMovement()->MaxWalkSpeed = TargetLockMaxWalkSpeed;
+}
+
+void UKerraHeroAbility_TagetLock::ResetTargetLockMovement()
+{
+	if(CachedDefaultMaxWalkSpeed > 0.f)
+	{
+		GetKerraPlayerFromActorInfo()->GetCharacterMovement()->MaxWalkSpeed = CachedDefaultMaxWalkSpeed;
+	}
+}
+
+void UKerraHeroAbility_TagetLock::InitTargetLockMappingContext()
+{
+	const ULocalPlayer* LocalPlayer = GetKerraPlayerControllerFromActorInfo()->GetLocalPlayer();
+	UEnhancedInputLocalPlayerSubsystem* Subsystem = ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(LocalPlayer);
+	check(Subsystem);
+
+	Subsystem->AddMappingContext(TargetLockMappingContext, 3);
+}
+
+void UKerraHeroAbility_TagetLock::ResetTargetLockMappingContext()
+{
+	if(GetKerraPlayerControllerFromActorInfo())
+	{
+		return;
+	}
+	const ULocalPlayer* LocalPlayer = GetKerraPlayerControllerFromActorInfo()->GetLocalPlayer();
+	UEnhancedInputLocalPlayerSubsystem* Subsystem = ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(LocalPlayer);
+	check(Subsystem);
+
+	Subsystem->RemoveMappingContext(TargetLockMappingContext);
+}
+
+void UKerraHeroAbility_TagetLock::SwitchTarget(const FGameplayTag& InSwitchDirectionTag)
+{
+	GetAvailableActorsToLock();
+
+	TArray<AActor*> ActorsOnLeft;
+	TArray<AActor*> ActorsOnRight;
+	AActor* NewTargetToLock = nullptr;
+	GetAvailableActorsAroundTarget(ActorsOnLeft, ActorsOnRight);
+
+	if(InSwitchDirectionTag == KerraGameplayTags::Player_Event_SwitchTarget_Left)
+	{
+		NewTargetToLock = GetNearestTarget(ActorsOnLeft);
+	}
+	else
+	{
+		NewTargetToLock = GetNearestTarget(ActorsOnRight);
+	}
+
+	if(NewTargetToLock)
+	{
+		CurrentLockedActor = NewTargetToLock;
+	}
+}
+
+void UKerraHeroAbility_TagetLock::GetAvailableActorsAroundTarget(TArray<AActor*>& OutActorsOnLeft, TArray<AActor*>& OutActorsOnRight)
+{
+	if(!CurrentLockedActor || AvailableActorsToLock.IsEmpty())
+	{
+		CancelTargetLockAbility();
+		return;
+	}
+
+	const FVector PlayerLocation = GetAvatarActorFromActorInfo()->GetActorLocation();
+	const FVector PlayerToCurrentNorm = (CurrentLockedActor->GetActorLocation() - PlayerLocation).GetSafeNormal();
+
+	for(AActor* AvailableActor : AvailableActorsToLock)
+	{
+		if(!AvailableActor || AvailableActor == CurrentLockedActor)
+		{
+			continue;
+		}
+
+		const FVector PlayerToAvailableNom = (AvailableActor->GetActorLocation() - PlayerLocation).GetSafeNormal();
+		const FVector CrossResult = FVector::CrossProduct(PlayerToCurrentNorm, PlayerToAvailableNom);
+
+		if(CrossResult.Z > 0.f)
+		{
+			OutActorsOnRight.AddUnique(AvailableActor);
+		}
+		else
+		{
+			OutActorsOnLeft.AddUnique(AvailableActor);
+		}
+	}
 }

@@ -8,6 +8,7 @@
 #include "KerraGameplayTags.h"
 #include "AbilitySystemBlueprintLibrary.h"
 #include "AbilitySystem/KerraAbilitySystemComponent.h"
+#include "AbilitySystemBlueprintLibrary.h"
 
 
 AKerraPlayerController::AKerraPlayerController()
@@ -40,6 +41,9 @@ void AKerraPlayerController::SetupInputComponent()
 	KerraInputComponent->BindNativeInputAction(InputConfigDataAsset, KerraGameplayTags::InputTag_Move, ETriggerEvent::Triggered, this, &AKerraPlayerController::Move);
 	KerraInputComponent->BindNativeInputAction(InputConfigDataAsset, KerraGameplayTags::InputTag_Look, ETriggerEvent::Triggered, this, &AKerraPlayerController::LookAt);
 
+	KerraInputComponent->BindNativeInputAction(InputConfigDataAsset, KerraGameplayTags::InputTag_SwitchTarget, ETriggerEvent::Triggered, this, &AKerraPlayerController::Input_SwitchTargetTriggered);
+	KerraInputComponent->BindNativeInputAction(InputConfigDataAsset, KerraGameplayTags::InputTag_SwitchTarget, ETriggerEvent::Completed, this, &AKerraPlayerController::Input_SwitchTargetCompleted);
+
 	KerraInputComponent->BindAbilityInputAction(InputConfigDataAsset, this, &AKerraPlayerController::AbilityInputPressed, &AKerraPlayerController::AbilityInputReleased);
 	
 }
@@ -71,6 +75,24 @@ void AKerraPlayerController::LookAt(const FInputActionValue& InputActionValue)
 		ControlledPawn->AddControllerPitchInput(LookAxisVector.Y);
 	}
 	
+}
+
+void AKerraPlayerController::Input_SwitchTargetTriggered(const FInputActionValue& InputActionValue)
+{
+	// capture switch target lock input
+	SwitchDirection = InputActionValue.Get<FVector2D>();
+}
+
+void AKerraPlayerController::Input_SwitchTargetCompleted(const FInputActionValue& InputActionValue)
+{
+	// notify switch target lock input
+	FGameplayEventData Data;
+	
+	UAbilitySystemBlueprintLibrary::SendGameplayEventToActor(
+		GetPawn(),
+		SwitchDirection.X>0.f? KerraGameplayTags::Player_Event_SwitchTarget_Right : KerraGameplayTags::Player_Event_SwitchTarget_Left,
+		Data
+	);
 }
 
 void AKerraPlayerController::AbilityInputPressed(FGameplayTag InInputTag)
