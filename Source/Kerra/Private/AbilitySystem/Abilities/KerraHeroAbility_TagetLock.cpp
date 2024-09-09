@@ -205,7 +205,7 @@ void UKerraHeroAbility_TagetLock::InitTargetLockMappingContext()
 
 void UKerraHeroAbility_TagetLock::ResetTargetLockMappingContext()
 {
-	if(GetKerraPlayerControllerFromActorInfo())
+	if(!GetKerraPlayerControllerFromActorInfo())
 	{
 		return;
 	}
