@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "GameplayEffectTypes.h"
 #include "Kismet/BlueprintFunctionLibrary.h"
 #include "GameplayTagContainer.h"
 #include "Struct/KerraEnumTypes.h"
@@ -50,4 +51,7 @@ public:
 
 	UFUNCTION(BlueprintPure, Category="Kerra|FunctinLibrary")
 	static bool IsValidBlock(AActor* InAttacker, AActor* InDefender);
+
+	UFUNCTION(BlueprintCallable, Category="Kerra|FunctinLibrary")
+	static bool ApplyGameplayEffectSpecHandleToTargetActor(AActor* Instigator, AActor* TargetActor, FGameplayEffectSpecHandle &InSpecHandle);
 };

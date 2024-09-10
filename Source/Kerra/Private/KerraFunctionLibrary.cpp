@@ -124,9 +124,19 @@ FGameplayTag UKerraFunctionLibrary::ComputeHitReactDirectionTag(AActor* InAttack
 
 bool UKerraFunctionLibrary::IsValidBlock(AActor* InAttacker, AActor* InDefender)
 {
+	// check valid block direction
 	check(InAttacker && InDefender);
 
 	const float DotResult = FVector::DotProduct(InAttacker->GetActorForwardVector(), InDefender->GetActorForwardVector());
 	return DotResult < -0.1f;
+}
+
+bool UKerraFunctionLibrary::ApplyGameplayEffectSpecHandleToTargetActor(AActor* Instigator, AActor* TargetActor, FGameplayEffectSpecHandle& InSpecHandle)
+{
+	UKerraAbilitySystemComponent* SourceASC = NativeGetKerraASCFromActor(Instigator);
+	UKerraAbilitySystemComponent* TargetASC = NativeGetKerraASCFromActor(TargetActor);
+
+	FActiveGameplayEffectHandle ActiveGameplayEffectHandle = SourceASC->ApplyGameplayEffectSpecToTarget(*InSpecHandle.Data, TargetASC);
+	return ActiveGameplayEffectHandle.WasSuccessfullyApplied();
 }
 

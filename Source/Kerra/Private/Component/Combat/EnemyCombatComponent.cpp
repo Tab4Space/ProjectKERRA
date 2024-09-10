@@ -16,7 +16,7 @@ void UEnemyCombatComponent::OnHitTargetActor(AActor* HitActor)
 
 	bool bIsValidBlock = false;
 	const bool bIsPlayerBlocking = UKerraFunctionLibrary::NativeDoesActorHaveTag(HitActor, KerraGameplayTags::Player_Status_Blocking);
-	const bool bIsMyAttackUnblockable = false;
+	const bool bIsMyAttackUnblockable = UKerraFunctionLibrary::NativeDoesActorHaveTag(GetOwningPawn(), KerraGameplayTags::Enemy_Status_Unblockable);
 	
 	if(bIsPlayerBlocking && !bIsMyAttackUnblockable)
 	{
@@ -33,7 +33,6 @@ void UEnemyCombatComponent::OnHitTargetActor(AActor* HitActor)
 	}
 	else
 	{
-		
 		UAbilitySystemBlueprintLibrary::SendGameplayEventToActor(GetOwningPawn(), KerraGameplayTags::Shared_Event_MeleeHit, EventData);
 	}
 }
