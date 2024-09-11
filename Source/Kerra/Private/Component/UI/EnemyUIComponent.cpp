@@ -2,4 +2,24 @@
 
 
 #include "Component/UI/EnemyUIComponent.h"
+#include "Widget/KerraWidgetBase.h"
 
+void UEnemyUIComponent::RegisterEnemyDrawnWidget(UKerraWidgetBase* InWidgetToResister)
+{
+	EnemyDrawnWidgets.Add(InWidgetToResister);
+}
+
+void UEnemyUIComponent::RemoveEnemyDrawnWidgetIfAny()
+{
+	if(EnemyDrawnWidgets.IsEmpty())
+	{
+		return;
+	}
+	for(UKerraWidgetBase* DrawnWidget : EnemyDrawnWidgets)
+	{
+		if(DrawnWidget)
+		{
+			DrawnWidget->RemoveFromParent();
+		}
+	}
+}
