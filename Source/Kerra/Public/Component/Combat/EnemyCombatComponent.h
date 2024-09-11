@@ -14,4 +14,7 @@ class KERRA_API UEnemyCombatComponent : public UKerraCombatComponent
 
 public:
 	virtual void OnHitTargetActor(AActor* HitActor) override;
+
+protected:
+	virtual void ToggleHandCollisionBox(bool bShouldEnable, EToggleDamageType ToggleDamageType) override;
 };

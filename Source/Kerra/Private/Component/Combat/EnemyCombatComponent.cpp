@@ -5,6 +5,8 @@
 #include "AbilitySystemBlueprintLibrary.h"
 #include "KerraGameplayTags.h"
 #include "KerraFunctionLibrary.h"
+#include "Character/KerraEnemy.h"
+#include "Components/BoxComponent.h"
 
 void UEnemyCombatComponent::OnHitTargetActor(AActor* HitActor)
 {
@@ -35,4 +37,36 @@ void UEnemyCombatComponent::OnHitTargetActor(AActor* HitActor)
 	{
 		UAbilitySystemBlueprintLibrary::SendGameplayEventToActor(GetOwningPawn(), KerraGameplayTags::Shared_Event_MeleeHit, EventData);
 	}
+}
+
+void UEnemyCombatComponent::ToggleHandCollisionBox(bool bShouldEnable, EToggleDamageType ToggleDamageType)
+{
+	AKerraEnemy* OwningCharacter = GetOwningPawn<AKerraEnemy>();
+	check(OwningCharacter);
+
+	UBoxComponent* LeftHandBox = OwningCharacter->GetLeftHandCollisionBox();
+	UBoxComponent* RightHandBox = OwningCharacter->GetRightHandCollisionBox();
+	check(LeftHandBox && RightHandBox);
+
+	switch (ToggleDamageType)
+	{
+	case EToggleDamageType::LeftHand:
+			LeftHandBox->SetCollisionEnabled(bShouldEnable ? ECollisionEnabled::QueryOnly : ECollisionEnabled::NoCollision);
+			break;
+		case EToggleDamageType::RightHand:
+			RightHandBox->SetCollisionEnabled(bShouldEnable ? ECollisionEnabled::QueryOnly : ECollisionEnabled::NoCollision);
+			break;
+		case EToggleDamageType::TwoHand:
+			LeftHandBox->SetCollisionEnabled(bShouldEnable ? ECollisionEnabled::QueryOnly : ECollisionEnabled::NoCollision);
+			RightHandBox->SetCollisionEnabled(bShouldEnable ? ECollisionEnabled::QueryOnly : ECollisionEnabled::NoCollision);
+			break;
+		default:
+			break;
+	}
+
+	if(!bShouldEnable)
+	{
+		OverlappedActors.Empty();
+	}
+
 }

@@ -2,15 +2,19 @@
 
 
 #include "Character/KerraEnemy.h"
+
+#include "KerraFunctionLibrary.h"
 #include "AbilitySystem/KerraAbilitySystemComponent.h"
 #include "AbilitySystem/KerraAttributeSet.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "Component/Combat/EnemyCombatComponent.h"
 #include "Component/UI/EnemyUIComponent.h"
+#include "Components/BoxComponent.h"
 #include "Components/WidgetComponent.h"
 #include "Engine/AssetManager.h"
 #include "DataAsset/StartUp/EnemyStartupDataAsset.h"
 #include "Widget/KerraWidgetBase.h"
+#include "Components/BoxComponent.h"
 
 
 AKerraEnemy::AKerraEnemy()
@@ -35,6 +39,16 @@ AKerraEnemy::AKerraEnemy()
 
 	EnemyHealthWidgetComponent = CreateDefaultSubobject<UWidgetComponent>("EnemyHealthWidgetComponent");
 	EnemyHealthWidgetComponent->SetupAttachment(GetMesh());
+
+	LeftHandCollisionBox = CreateDefaultSubobject<UBoxComponent>("LeftHandCollisionBox");
+	LeftHandCollisionBox->SetupAttachment(GetMesh());
+	LeftHandCollisionBox->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+	LeftHandCollisionBox->OnComponentBeginOverlap.AddUniqueDynamic(this, &AKerraEnemy::OnBodyCollisionBoxBeginOverlap);
+	
+	RightHandCollisionBox = CreateDefaultSubobject<UBoxComponent>("RightHandCollisionBox");
+	RightHandCollisionBox->SetupAttachment(GetMesh());
+	RightHandCollisionBox->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+	RightHandCollisionBox->OnComponentBeginOverlap.AddUniqueDynamic(this, &AKerraEnemy::OnBodyCollisionBoxBeginOverlap);
 	
 }
 
@@ -72,10 +86,37 @@ void AKerraEnemy::PossessedBy(AController* NewController)
 	InitStartupData();
 }
 
+void AKerraEnemy::OnBodyCollisionBoxBeginOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
+{
+	if(APawn* HitPawn = Cast<APawn>(OtherActor))
+	{
+		if(UKerraFunctionLibrary::IsTargetPawnHostile(this, HitPawn))
+		{
+			EnemyCombatComponent->OnHitTargetActor(HitPawn);
+		}
+	}
+}
+
+#if WITH_EDITOR
+void AKerraEnemy::PostEditChangeProperty(FPropertyChangedEvent& PropertyChangedEvent)
+{
+	Super::PostEditChangeProperty(PropertyChangedEvent);
+
+	if(PropertyChangedEvent.GetMemberPropertyName() == GET_MEMBER_NAME_CHECKED(ThisClass, LeftHandBoxAttachBoneName))
+	{
+		LeftHandCollisionBox->AttachToComponent(GetMesh(), FAttachmentTransformRules::SnapToTargetNotIncludingScale, LeftHandBoxAttachBoneName);
+	}
+
+	if(PropertyChangedEvent.GetMemberPropertyName() == GET_MEMBER_NAME_CHECKED(ThisClass, RightHandBoxAttachBoneName))
+	{
+		RightHandCollisionBox->AttachToComponent(GetMesh(), FAttachmentTransformRules::SnapToTargetNotIncludingScale, RightHandBoxAttachBoneName);
+	}
+}
+#endif
+
 void AKerraEnemy::InitAbilityActorInfo()
 {
 	AbilitySystemComponent->InitAbilityActorInfo(this, this);
-	
 }
 
 void AKerraEnemy::InitStartupData()

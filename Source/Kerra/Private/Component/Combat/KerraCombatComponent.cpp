@@ -47,21 +47,12 @@ void UKerraCombatComponent::ToggleWeaponCollision(bool bShouldEnable, EToggleDam
 {
 	if(ToggleDamageType == EToggleDamageType::CurrentEquippedWeapon)
 	{
-		AKerraWeaponBase* WeaponToToggle = GetCharacterCurrentEquippedWeapon();
-		check(WeaponToToggle)
-
-		if(bShouldEnable)
-		{
-			WeaponToToggle->GetWeaponCollisionBox()->SetCollisionEnabled(ECollisionEnabled::QueryOnly);
-		}
-		else
-		{
-			WeaponToToggle->GetWeaponCollisionBox()->SetCollisionEnabled(ECollisionEnabled::NoCollision);
-			OverlappedActors.Empty();
-		}
+		ToggleCurrentEquippedWeaponCollision(bShouldEnable);
 	}
-
-	// TODO:: Handle body collision boxes.
+	else
+	{
+		ToggleHandCollisionBox(bShouldEnable, ToggleDamageType);
+	}
 }
 
 void UKerraCombatComponent::OnHitTargetActor(AActor* HitActor)
@@ -69,5 +60,25 @@ void UKerraCombatComponent::OnHitTargetActor(AActor* HitActor)
 }
 
 void UKerraCombatComponent::OnWeaponPulledFromTargetActor(AActor* InteractedActor)
+{
+}
+
+void UKerraCombatComponent::ToggleCurrentEquippedWeaponCollision(bool bShouldEnable)
+{
+	AKerraWeaponBase* WeaponToToggle = GetCharacterCurrentEquippedWeapon();
+	check(WeaponToToggle)
+
+	if(bShouldEnable)
+	{
+		WeaponToToggle->GetWeaponCollisionBox()->SetCollisionEnabled(ECollisionEnabled::QueryOnly);
+	}
+	else
+	{
+		WeaponToToggle->GetWeaponCollisionBox()->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+		OverlappedActors.Empty();
+	}
+}
+
+void UKerraCombatComponent::ToggleHandCollisionBox(bool bShouldEnable, EToggleDamageType ToggleDamageType)
 {
 }

@@ -15,7 +15,8 @@ enum class EToggleDamageType : uint8
 {
 	CurrentEquippedWeapon,
 	LeftHand,
-	RightHand
+	RightHand,
+	TwoHand
 };
 
 UCLASS()
@@ -38,6 +39,10 @@ public:
 
 	virtual void OnHitTargetActor(AActor* HitActor);
 	virtual void OnWeaponPulledFromTargetActor(AActor* InteractedActor);
+
+protected:
+	virtual void ToggleCurrentEquippedWeaponCollision(bool bShouldEnable);
+	virtual void ToggleHandCollisionBox(bool bShouldEnable, EToggleDamageType ToggleDamageType);
 
 public:
 	/* Track the currently weapon's tag */
