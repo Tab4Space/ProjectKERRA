@@ -45,6 +45,20 @@ void UKerraAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCallb
 		const float NewCurrentRage = FMath::Clamp(GetCurrentRage(), 0.f, GetMaxRage());
 		SetCurrentRage(NewCurrentRage);
 
+		if(GetCurrentRage() == GetMaxRage())
+		{
+			UKerraFunctionLibrary::AddGameplayTagToActorIfNone(Data.Target.GetAvatarActor(), KerraGameplayTags::Player_Status_Rage_Full);
+		}
+		else if(GetCurrentRage() == 0.f)
+		{
+			UKerraFunctionLibrary::AddGameplayTagToActorIfNone(Data.Target.GetAvatarActor(), KerraGameplayTags::Player_Status_Rage_None);
+		}
+		else
+		{
+			UKerraFunctionLibrary::RemoveGameplayTagFromActorIfFound(Data.Target.GetAvatarActor(), KerraGameplayTags::Player_Status_Rage_Full);
+			UKerraFunctionLibrary::RemoveGameplayTagFromActorIfFound(Data.Target.GetAvatarActor(), KerraGameplayTags::Player_Status_Rage_None);
+		}
+
 		if(UHeroUIComponent* PlayerUIComponent = CachedUIInterface->GetPlayerUIComponent())
 		{
 			PlayerUIComponent->OnCurrentRageChanged.Broadcast(GetCurrentRage() / GetMaxRage());

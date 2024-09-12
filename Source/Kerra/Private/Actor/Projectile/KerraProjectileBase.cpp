@@ -79,10 +79,24 @@ void AKerraProjectileBase::OnProjectileHit(UPrimitiveComponent* HitComponent, AA
 	Destroy();
 }
 
-void AKerraProjectileBase::OnProjectileBeginOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex,
-	bool bFromSweep, const FHitResult& SweepResult)
+void AKerraProjectileBase::OnProjectileBeginOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
-	UE_LOG(LogTemp, Warning, TEXT("Begin Overlap %s"), *OtherActor->GetActorNameOrLabel());
+	if(OverlappedActors.Contains(OtherActor))
+	{
+		return;
+	}
+	OverlappedActors.AddUnique(OtherActor);
+
+	if(APawn* HitPawn = Cast<APawn>(OtherActor))
+	{
+		FGameplayEventData Data;
+		Data.Instigator = this;
+		Data.Target = HitPawn;
+		if(UKerraFunctionLibrary::IsTargetPawnHostile(GetInstigator(), HitPawn))
+		{
+			HandleApplyProjectileDamage(HitPawn, Data);
+		}
+	}
 }
 
 void AKerraProjectileBase::HandleApplyProjectileDamage(APawn* InHitPawn, const FGameplayEventData& InPayload)

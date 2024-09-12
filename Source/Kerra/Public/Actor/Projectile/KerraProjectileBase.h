@@ -58,5 +58,8 @@ protected:
 
 	UPROPERTY(BlueprintReadOnly, Category="Projectile", meta=(ExposeOnSpawn="true"))
 	FGameplayEffectSpecHandle ProjectileDamageEffectSpecHandle;
+
+private:
+	TArray<AActor*> OverlappedActors;
 	
 };
