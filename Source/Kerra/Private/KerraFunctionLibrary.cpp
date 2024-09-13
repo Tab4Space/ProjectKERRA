@@ -8,6 +8,7 @@
 #include "GenericTeamAgentInterface.h"
 #include "KerraGameplayTags.h"
 #include "Kismet/KismetMathLibrary.h"
+#include "Struct/KerraCountDownAction.h"
 
 UKerraAbilitySystemComponent* UKerraFunctionLibrary::NativeGetKerraASCFromActor(AActor* InActor)
 {
@@ -140,3 +141,40 @@ bool UKerraFunctionLibrary::ApplyGameplayEffectSpecHandleToTargetActor(AActor* I
 	return ActiveGameplayEffectHandle.WasSuccessfullyApplied();
 }
 
+void UKerraFunctionLibrary::CountDown(const UObject* WorldContextObject, float TotalTime, float UpdateInterval, float& OutRemainingTime, EKerraCountDownActionInput CountDownInput, UPARAM(DisplayName="Output")EKerraCountDownOutput& CountDownOutput, FLatentActionInfo LatentInfo)
+{
+	UWorld* World = nullptr;
+	if(GEngine)
+	{
+		World = GEngine->GetWorldFromContextObject(WorldContextObject, EGetWorldErrorMode::LogAndReturnNull);
+	}
+
+	if(!World)
+	{
+		return;
+	}
+
+	FLatentActionManager& LatentActionManager = World->GetLatentActionManager();
+	FKerraCountDownAction* FoundAction = LatentActionManager.FindExistingAction<FKerraCountDownAction>(LatentInfo.CallbackTarget, LatentInfo.UUID);
+
+	if(CountDownInput == EKerraCountDownActionInput::Start)
+	{
+		// new operator is managed from memory. So don't care about memory leak.
+		if(!FoundAction)
+		{
+			LatentActionManager.AddNewAction(
+				LatentInfo.CallbackTarget,
+				LatentInfo.UUID,
+				new FKerraCountDownAction(TotalTime, UpdateInterval, OutRemainingTime, CountDownOutput, LatentInfo)
+			);
+		}
+	}
+
+	if(CountDownInput == EKerraCountDownActionInput::Cancel)
+	{
+		if(FoundAction)
+		{
+			FoundAction->CancelAction();
+		}
+	}
+}

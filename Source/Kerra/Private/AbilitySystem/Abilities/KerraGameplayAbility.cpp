@@ -6,6 +6,8 @@
 #include "AbilitySystem/KerraAbilitySystemComponent.h"
 #include "Component/Combat/KerraCombatComponent.h"
 #include "AbilitySystemBlueprintLibrary.h"
+#include "KerraFunctionLibrary.h"
+#include "KerraGameplayTags.h"
 
 void UKerraGameplayAbility::OnGiveAbility(const FGameplayAbilityActorInfo* ActorInfo, const FGameplayAbilitySpec& Spec)
 {
@@ -57,4 +59,37 @@ FActiveGameplayEffectHandle UKerraGameplayAbility::BP_ApplyEffectSpecHandleToTar
 	FActiveGameplayEffectHandle ActiveGameplayEffectHandle = NativeApplyEffectSpecHandleToTarget(TargetActor, InSpecHandle);
 	OutSuccessType = ActiveGameplayEffectHandle.WasSuccessfullyApplied() ? EKerraSuccessType::Successful : EKerraSuccessType::Fail;
 	return ActiveGameplayEffectHandle;
+}
+
+void UKerraGameplayAbility::ApplyGameplaySpecHandleToHitResults(const FGameplayEffectSpecHandle& InSpecHandle, const TArray<FHitResult>& HitResults)
+{
+	if(HitResults.IsEmpty())
+	{
+		return;
+	}
+
+	APawn* OwningPawn = Cast<APawn>(GetAvatarActorFromActorInfo());
+	TArray<APawn*> UniqueHitPawns;
+	for(const FHitResult& Hit : HitResults)
+	{
+		if(APawn* HitPawn = Cast<APawn>(Hit.GetActor()))
+		{
+			UniqueHitPawns.AddUnique(HitPawn);
+		}
+	}
+
+	for(APawn* HitPawn : UniqueHitPawns)
+	{
+		if(UKerraFunctionLibrary::IsTargetPawnHostile(OwningPawn, HitPawn))
+		{
+			FActiveGameplayEffectHandle ActiveGameplayEffectHandle = NativeApplyEffectSpecHandleToTarget(HitPawn, InSpecHandle);
+			FGameplayEventData Data;
+			Data.Instigator = OwningPawn;
+			Data.Target = HitPawn;
+			if(ActiveGameplayEffectHandle.WasSuccessfullyApplied())
+			{
+				UAbilitySystemBlueprintLibrary::SendGameplayEventToActor(HitPawn, KerraGameplayTags::Shared_Event_HitReact, Data);
+			}
+		}
+	}
 }

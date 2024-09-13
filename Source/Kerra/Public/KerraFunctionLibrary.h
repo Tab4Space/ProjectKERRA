@@ -54,4 +54,7 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category="Kerra|FunctinLibrary")
 	static bool ApplyGameplayEffectSpecHandleToTargetActor(AActor* Instigator, AActor* TargetActor, FGameplayEffectSpecHandle &InSpecHandle);
+
+	UFUNCTION(BlueprintCallable, Category="Kerra|FunctinLibrary",meta=(Latent, WorldContext="WorldContextObject", LatentInfo="LatentInfo", ExpandEnumAsExecs="CountDownInput|CountDownOutput", TotalTime="1.0", UpdateInterval="0.1"))
+	static void CountDown(const UObject* WorldContextObject, float TotalTime, float UpdateInterval, float& OutRemainingTime, EKerraCountDownActionInput CountDownInput, UPARAM(DisplayName="Output")EKerraCountDownOutput& CountDownOutput, FLatentActionInfo LatentInfo);
 };

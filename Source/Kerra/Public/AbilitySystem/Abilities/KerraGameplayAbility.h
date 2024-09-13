@@ -39,6 +39,9 @@ protected:
 	UFUNCTION(BlueprintCallable, Category="Kerra|Ability", meta=(DisplayName="Apply Gameplay Effect Spec Handle To Target Actor", ExpandEnumAsExecs="OutSuccessType"))
 	FActiveGameplayEffectHandle BP_ApplyEffectSpecHandleToTarget(AActor* TargetActor, const FGameplayEffectSpecHandle& InSpecHandle, EKerraSuccessType& OutSuccessType);
 
+	UFUNCTION(BlueprintCallable, Category="Kerra|Ability")
+	void ApplyGameplaySpecHandleToHitResults(const FGameplayEffectSpecHandle& InSpecHandle, const TArray<FHitResult>& HitResults);
+
 protected:
 	UPROPERTY(EditDefaultsOnly, Category="KerraAbility")
 	EKerraAbilityActivationPolicy AbilityActivationPolicy = EKerraAbilityActivationPolicy::OnTriggered;
