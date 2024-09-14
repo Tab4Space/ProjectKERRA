@@ -37,6 +37,8 @@ private:
 	void Input_SwitchTargetTriggered(const FInputActionValue& InputActionValue);
 	void Input_SwitchTargetCompleted(const FInputActionValue& InputActionValue);
 
+	void Input_PickUpStarted(const FInputActionValue& InputActionValue);
+
 	void AbilityInputPressed(FGameplayTag InInputTag);
 	void AbilityInputReleased(FGameplayTag InInputTag);
 
@@ -50,6 +52,7 @@ private:
 
 	FGenericTeamId HeroTeamID;
 
+	UPROPERTY()
 	FVector2D SwitchDirection = FVector2D::ZeroVector;
 	
 };

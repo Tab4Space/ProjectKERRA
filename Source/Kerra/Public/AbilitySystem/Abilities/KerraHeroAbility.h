@@ -7,6 +7,7 @@
 #include "KerraHeroAbility.generated.h"
 
 
+class UHeroUIComponent;
 class AKerraHero;
 class AKerraPlayerController;
 class UHeroCombatComponent;
@@ -31,6 +32,9 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category="Kerra|Ability")
 	bool GetAbilityRemainingCooldownByTag(FGameplayTag InCooldownTag, float& TotalCooldownTime, float& RemainingCooldownTime);
+	
+	UFUNCTION(BlueprintPure, Category="Kerra|Ability")
+	UHeroUIComponent* GetHeroUIComponentFromActorInfo();
 
 private:
 	// 원시 포인터와는 다르게 object를 활성 상태로 유지하지 않는다, 단순히 참조만 보유하고 있다

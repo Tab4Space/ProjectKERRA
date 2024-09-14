@@ -44,6 +44,8 @@ void AKerraPlayerController::SetupInputComponent()
 	KerraInputComponent->BindNativeInputAction(InputConfigDataAsset, KerraGameplayTags::InputTag_SwitchTarget, ETriggerEvent::Triggered, this, &AKerraPlayerController::Input_SwitchTargetTriggered);
 	KerraInputComponent->BindNativeInputAction(InputConfigDataAsset, KerraGameplayTags::InputTag_SwitchTarget, ETriggerEvent::Completed, this, &AKerraPlayerController::Input_SwitchTargetCompleted);
 
+	KerraInputComponent->BindNativeInputAction(InputConfigDataAsset, KerraGameplayTags::InputTag_PickUp, ETriggerEvent::Started, this, &AKerraPlayerController::Input_PickUpStarted);
+
 	KerraInputComponent->BindAbilityInputAction(InputConfigDataAsset, this, &AKerraPlayerController::AbilityInputPressed, &AKerraPlayerController::AbilityInputReleased);
 	
 }
@@ -87,12 +89,13 @@ void AKerraPlayerController::Input_SwitchTargetCompleted(const FInputActionValue
 {
 	// notify switch target lock input
 	FGameplayEventData Data;
-	
-	UAbilitySystemBlueprintLibrary::SendGameplayEventToActor(
-		GetPawn(),
-		SwitchDirection.X>0.f? KerraGameplayTags::Player_Event_SwitchTarget_Right : KerraGameplayTags::Player_Event_SwitchTarget_Left,
-		Data
-	);
+	UAbilitySystemBlueprintLibrary::SendGameplayEventToActor(GetPawn(),SwitchDirection.X>0.f? KerraGameplayTags::Player_Event_SwitchTarget_Right : KerraGameplayTags::Player_Event_SwitchTarget_Left,Data);
+}
+
+void AKerraPlayerController::Input_PickUpStarted(const FInputActionValue& InputActionValue)
+{
+	FGameplayEventData Data;
+	UAbilitySystemBlueprintLibrary::SendGameplayEventToActor(GetPawn(), KerraGameplayTags::Player_Event_Consume_Stones, Data);
 }
 
 void AKerraPlayerController::AbilityInputPressed(FGameplayTag InInputTag)

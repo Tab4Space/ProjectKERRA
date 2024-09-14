@@ -17,6 +17,7 @@ namespace KerraGameplayTags
 	KERRA_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(InputTag_SwitchTarget);
 	KERRA_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(InputTag_SpecialWeaponAbility_Light);
 	KERRA_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(InputTag_SpecialWeaponAbility_Heavy);
+	KERRA_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(InputTag_PickUp);
 	
 	KERRA_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(InputTag_MustBeHeld);
 	KERRA_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(InputTag_MustBeHeld_Block);
@@ -38,6 +39,7 @@ namespace KerraGameplayTags
 	KERRA_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Player_Ability_Rage);
 	KERRA_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Player_Ability_SpecialWeaponAbility_Light);
 	KERRA_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Player_Ability_SpecialWeaponAbility_Heavy);
+	KERRA_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Player_Ability_PickUp_Stones);
 
 	KERRA_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Player_Cooldown_SpecialWeaponAbility_Light);
 	KERRA_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Player_Cooldown_SpecialWeaponAbility_Heavy);
@@ -65,11 +67,13 @@ namespace KerraGameplayTags
 	KERRA_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Player_Event_SwitchTarget_Right);
 	KERRA_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Player_Event_ActivateRage);
 	KERRA_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Player_Event_AOE);
+	KERRA_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Player_Event_Consume_Stones);
 
 	/* Enemy Tag */
 	KERRA_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Enemy_Ability_Melee);
 	KERRA_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Enemy_Ability_Ranged);
 	KERRA_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Enemy_Ability_SummonEnemies);
+	KERRA_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Enemy_Ability_SpawnStone);
 
 	KERRA_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Enemy_Weapon);
 

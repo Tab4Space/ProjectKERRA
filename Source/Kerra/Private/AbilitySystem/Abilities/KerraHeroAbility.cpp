@@ -63,3 +63,8 @@ bool UKerraHeroAbility::GetAbilityRemainingCooldownByTag(FGameplayTag InCooldown
 	}
 	return RemainingCooldownTime > 0.f;
 }
+
+UHeroUIComponent* UKerraHeroAbility::GetHeroUIComponentFromActorInfo()
+{
+	return GetKerraPlayerFromActorInfo()->GetPlayerUIComponent();
+}
