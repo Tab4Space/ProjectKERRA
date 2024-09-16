@@ -22,19 +22,19 @@
 * **3 Types Enemy with Behavior Tree (Melee combat, Ranged combat, Boss)**
   * Apply EQS
   * Move and Strafe
-  * Implement several types of attack (melee/ranged attack, unblocking attack)
+  * Implement Several Types of Attacks (Melee/Ranged Attack, Unblocking Attack)
   * Handle Damage
-  * Drop the item (recovery hero character health or rage)
+  * Drop the Item (Recovery hero character health or rage)
   
 
 ## TODO List
 ###### **The parts below will be implemented (regardless of the order listed)**
 * ~~Part 1. Basic Combat Logic~~
-* Part 2. Advanced Locomotion (maybe apply motion matching)
+* Part 2. Advanced Locomotion (Maybe apply motion matching or ALS v4)
 * Part 3. Quest System with Dialogue
 * Part 4. SFX and VFX
 * Part 5. Map Design
-* Part 6. Cinematic movie
+* Part 6. Cinematic Movie
 * More Ability and Enemy
 
 ## Used Asset
