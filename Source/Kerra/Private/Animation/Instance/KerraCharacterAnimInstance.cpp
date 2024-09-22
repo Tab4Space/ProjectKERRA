@@ -23,8 +23,8 @@ void UKerraCharacterAnimInstance::NativeThreadSafeUpdateAnimation(float DeltaSec
 		return;
 	}
 
-	GroundSpeed = OwningCharacter->GetVelocity().Size2D();
 	bHasAcceleration = OwningMovementComponent->GetCurrentAcceleration().SizeSquared2D() > 0.f;
+	GroundSpeed = OwningCharacter->GetVelocity().Size2D();
 	LocomotionDirection = UKismetAnimationLibrary::CalculateDirection(OwningCharacter->GetVelocity(), OwningCharacter->GetActorRotation());
 	
 }
