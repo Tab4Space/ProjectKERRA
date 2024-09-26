@@ -35,3 +35,21 @@ enum class EKerraCountDownOutput : uint8
 	Completed,
 	Cancel
 };
+
+UENUM(BlueprintType)
+enum class EKerraLocomotionState : uint8
+{
+	Idle,
+	Walk,
+	Run
+};
+
+UENUM(BlueprintType)
+enum class EKerraMovementStartDirection : uint8
+{
+	Forward,
+	Right,
+	Left,
+	BackRight,
+	BackLeft
+};

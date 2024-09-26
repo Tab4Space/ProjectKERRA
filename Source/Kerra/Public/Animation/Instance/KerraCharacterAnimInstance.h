@@ -5,6 +5,7 @@
 
 #include "CoreMinimal.h"
 #include "Animation/Instance/KerraAnimInstanceBase.h"
+#include "Struct/KerraEnumTypes.h"
 #include "KerraCharacterAnimInstance.generated.h"
 
 
@@ -21,40 +22,69 @@ public:
 	virtual void NativeThreadSafeUpdateAnimation(float DeltaSeconds) override;
 
 protected:
+	UFUNCTION(BlueprintCallable, Category="Locomotion|Advanced")
+	void FindLocomotionState();
+
+	UFUNCTION(BlueprintCallable, Category="Locomotion|Advanced")
+	void FindLocomotionStartDirection();
+
+	UFUNCTION(BlueprintCallable, Category="Locomotion|Advanced")
+	void UpdateOnRunEnter();
+
+	UFUNCTION(BlueprintCallable, Category="Locomotion|Advanced")
+	void UpdateOnWalkEnter();
+
+	UFUNCTION(BlueprintCallable, Category="Locomotion|Advanced")
+	void UpdateRotationWhileMoving();
+
+	UFUNCTION(BlueprintCallable, Category="Locomotion|Advanced")
+	void UpdateLocomotionPlayRate();
+
+protected:
 	UPROPERTY()
 	AKerraCharacterBase* OwningCharacter;
 
 	UPROPERTY()
 	UCharacterMovementComponent* OwningMovementComponent;
 
-	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category="AnimData|LocomotionData")
+	/* Essential Data for Locomotion */
+	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category="AnimData|LocomotionData|Essential")
 	bool bHasAcceleration;
 
-	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category="AnimData|LocomotionData")
+	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category="AnimData|LocomotionData|Essential")
 	float GroundSpeed;
 
-	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category="AnimData|LocomotionData", meta=(ToolTip="[-180, 180]"))
+	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category="AnimData|LocomotionData|Essential", meta=(ToolTip="[-180, 180]"))
 	float LocomotionDirection;
-	
-	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category="AnimData|LocomotionData|Advanced")
-	float LocomotionStartAngle;
 
-	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category="AnimData|LocomotionData|Advanced")
+	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category="AnimData|LocomotionData|Essential")
 	FVector Acceleration;
 
-	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category="AnimData|LocomotionData|Advanced")
+	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category="AnimData|LocomotionData|Essential")
 	FVector Velocity;
 
-	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category="AnimData|LocomotionData|Advanced")
+	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category="AnimData|LocomotionData|Essential")
 	FVector LastInputVector;
 
-	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category="AnimData|LocomotionData|Advanced")
+	/* Sub data for Locomotion */
+	UPROPERTY(VisibleDefaultsOnly, BlueprintReadWrite, Category="AnimData|LocomotionData|Advanced")
 	FRotator StartRotator;
 
-	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category="AnimData|LocomotionData|Advanced")
+	UPROPERTY(VisibleDefaultsOnly, BlueprintReadWrite, Category="AnimData|LocomotionData|Advanced")
 	FRotator PrimaryRotation;
 
-	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category="AnimData|LocomotionData|Advanced")
+	UPROPERTY(VisibleDefaultsOnly, BlueprintReadWrite, Category="AnimData|LocomotionData|Advanced")
 	FRotator SecondaryRotation;
 
+	UPROPERTY(VisibleDefaultsOnly, BlueprintReadWrite, Category="AnimData|LocomotionData|Advanced")
+	float LocomotionStartAngle;
+
+	UPROPERTY(VisibleDefaultsOnly, BlueprintReadWrite, Category="AnimData|LocomotionData|Advanced")
+	EKerraLocomotionState LocomotionState;
+
+	UPROPERTY(VisibleDefaultsOnly, BlueprintReadWrite, Category="AnimData|LocomotionData|Advanced")
+	EKerraMovementStartDirection MovementDirection;
+
+	UPROPERTY(VisibleDefaultsOnly, BlueprintReadWrite, Category="AnimData|LocomotionData|Advanced")
+	float AnimPlayRate;
 };
