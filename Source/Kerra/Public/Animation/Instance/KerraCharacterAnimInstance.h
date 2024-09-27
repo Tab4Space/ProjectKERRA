@@ -20,25 +20,26 @@ class KERRA_API UKerraCharacterAnimInstance : public UKerraAnimInstanceBase
 public:
 	virtual void NativeInitializeAnimation() override;
 	virtual void NativeThreadSafeUpdateAnimation(float DeltaSeconds) override;
+	virtual void NativePostEvaluateAnimation() override;
 
 protected:
-	UFUNCTION(BlueprintCallable, Category="Locomotion|Advanced")
+	UFUNCTION(BlueprintCallable, Category="KerraLocomotion|Advanced")
 	void FindLocomotionState();
 
-	UFUNCTION(BlueprintCallable, Category="Locomotion|Advanced")
-	void FindLocomotionStartDirection();
+	UFUNCTION(BlueprintCallable, Category="KerraLocomotion|Advanced")
+	void FindLocomotionStartDirection(const float StartAngle);
 
-	UFUNCTION(BlueprintCallable, Category="Locomotion|Advanced")
+	UFUNCTION(BlueprintCallable, Category="KerraLocomotion|Advanced")
 	void UpdateOnRunEnter();
 
-	UFUNCTION(BlueprintCallable, Category="Locomotion|Advanced")
+	UFUNCTION(BlueprintCallable, Category="KerraLocomotion|Advanced")
 	void UpdateOnWalkEnter();
 
-	UFUNCTION(BlueprintCallable, Category="Locomotion|Advanced")
-	void UpdateRotationWhileMoving();
+	UFUNCTION(BlueprintCallable, Category="KerraLocomotion|Advanced")
+	void UpdateRotationWhileMoving(FName CurveName);
 
-	UFUNCTION(BlueprintCallable, Category="Locomotion|Advanced")
-	void UpdateLocomotionPlayRate();
+	UFUNCTION(BlueprintCallable, Category="KerraLocomotion|Advanced")
+	void UpdateLocomotionPlayRate(FName CurveName, float MinRate, float MaxRate);
 
 protected:
 	UPROPERTY()
@@ -67,24 +68,32 @@ protected:
 	FVector LastInputVector;
 
 	/* Sub data for Locomotion */
-	UPROPERTY(VisibleDefaultsOnly, BlueprintReadWrite, Category="AnimData|LocomotionData|Advanced")
-	FRotator StartRotator;
+	UPROPERTY(VisibleDefaultsOnly, BlueprintReadWrite, Category="AnimData|LocomotionData")
+	FRotator StartRotation;
 
-	UPROPERTY(VisibleDefaultsOnly, BlueprintReadWrite, Category="AnimData|LocomotionData|Advanced")
+	UPROPERTY(VisibleDefaultsOnly, BlueprintReadWrite, Category="AnimData|LocomotionData")
 	FRotator PrimaryRotation;
 
-	UPROPERTY(VisibleDefaultsOnly, BlueprintReadWrite, Category="AnimData|LocomotionData|Advanced")
+	UPROPERTY(VisibleDefaultsOnly, BlueprintReadWrite, Category="AnimData|LocomotionData")
 	FRotator SecondaryRotation;
 
-	UPROPERTY(VisibleDefaultsOnly, BlueprintReadWrite, Category="AnimData|LocomotionData|Advanced")
+	UPROPERTY(VisibleDefaultsOnly, BlueprintReadWrite, Category="AnimData|LocomotionData")
 	float LocomotionStartAngle;
 
-	UPROPERTY(VisibleDefaultsOnly, BlueprintReadWrite, Category="AnimData|LocomotionData|Advanced")
+	UPROPERTY(VisibleDefaultsOnly, BlueprintReadWrite, Category="AnimData|LocomotionData")
 	EKerraLocomotionState LocomotionState;
 
-	UPROPERTY(VisibleDefaultsOnly, BlueprintReadWrite, Category="AnimData|LocomotionData|Advanced")
+	UPROPERTY(VisibleDefaultsOnly, BlueprintReadWrite, Category="AnimData|LocomotionData")
 	EKerraMovementStartDirection MovementDirection;
 
-	UPROPERTY(VisibleDefaultsOnly, BlueprintReadWrite, Category="AnimData|LocomotionData|Advanced")
+	UPROPERTY(VisibleDefaultsOnly, BlueprintReadWrite, Category="AnimData|LocomotionData")
 	float AnimPlayRate;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="AnimData|LocomotionData|CurveName")
+	FName SpeedCurveName;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="AnimData|LocomotionData|CurveName")
+	FName RotationCurveName;
+
+	
 };

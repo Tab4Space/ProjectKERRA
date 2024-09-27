@@ -6,6 +6,7 @@
 #include "GameFramework/CharacterMovementComponent.h"
 #include "KismetAnimationLibrary.h"
 #include "Kismet/KismetMathLibrary.h"
+#include "Kismet/GameplayStatics.h"
 
 void UKerraCharacterAnimInstance::NativeInitializeAnimation()
 {
@@ -13,6 +14,7 @@ void UKerraCharacterAnimInstance::NativeInitializeAnimation()
 	if(OwningCharacter)
 	{
 		OwningMovementComponent = OwningCharacter->GetCharacterMovement();
+		PrimaryRotation = OwningCharacter->GetActorRotation();
 	}
 }
 
@@ -32,6 +34,22 @@ void UKerraCharacterAnimInstance::NativeThreadSafeUpdateAnimation(float DeltaSec
 	LastInputVector = OwningMovementComponent->GetLastInputVector();
 }
 
+
+void UKerraCharacterAnimInstance::NativePostEvaluateAnimation()
+{
+	Super::NativePostEvaluateAnimation();
+
+	if(LocomotionState == EKerraLocomotionState::Idle)
+	{
+		// TODO: Turn in place
+	}
+	else
+	{
+		UpdateRotationWhileMoving(RotationCurveName);
+	}
+}
+
+
 void UKerraCharacterAnimInstance::FindLocomotionState()
 {
 	if( FVector::DotProduct(Velocity.GetSafeNormal(), Acceleration.GetSafeNormal()) < 0.f)
@@ -50,25 +68,74 @@ void UKerraCharacterAnimInstance::FindLocomotionState()
 	{
 		LocomotionState = EKerraLocomotionState::Idle;
 	}
-	
 }
 
-void UKerraCharacterAnimInstance::FindLocomotionStartDirection()
+void UKerraCharacterAnimInstance::FindLocomotionStartDirection(const float StartAngle)
 {
+	if(UKismetMathLibrary::InRange_FloatFloat(StartAngle, -60.f, 60.f))
+	{
+		MovementDirection = EKerraMovementStartDirection::Forward;
+	}
+	else if(UKismetMathLibrary::InRange_FloatFloat(StartAngle, 60.f, 120.f))
+	{
+		MovementDirection = EKerraMovementStartDirection::Right;
+	}
+	else if(UKismetMathLibrary::InRange_FloatFloat(StartAngle, -120.f, -60.f))
+	{
+		MovementDirection = EKerraMovementStartDirection::Left;
+	}
+	else if(UKismetMathLibrary::InRange_FloatFloat(StartAngle, 120.f, 180.f))
+	{
+		MovementDirection = EKerraMovementStartDirection::BackRight;
+	}
+	else
+	{
+		MovementDirection = EKerraMovementStartDirection::BackLeft;
+	}
 }
 
 void UKerraCharacterAnimInstance::UpdateOnRunEnter()
 {
+	if(!OwningCharacter)
+	{
+		return;
+	}
+	
+	StartRotation = OwningCharacter->GetActorRotation();
+	PrimaryRotation = LastInputVector.ToOrientationRotator();
+	SecondaryRotation = PrimaryRotation;
+	LocomotionStartAngle = UKismetMathLibrary::NormalizedDeltaRotator(PrimaryRotation, StartRotation).Yaw;
+	FindLocomotionStartDirection(LocomotionStartAngle);
 }
 
 void UKerraCharacterAnimInstance::UpdateOnWalkEnter()
 {
+	if(!OwningCharacter)
+	{
+		return;
+	}
+	
+	StartRotation = OwningCharacter->GetActorRotation();
+	PrimaryRotation = LastInputVector.ToOrientationRotator();
+	SecondaryRotation = PrimaryRotation;
+	LocomotionStartAngle = UKismetMathLibrary::NormalizedDeltaRotator(PrimaryRotation, StartRotation).Yaw;
+	FindLocomotionStartDirection(LocomotionStartAngle);
 }
 
-void UKerraCharacterAnimInstance::UpdateRotationWhileMoving()
+void UKerraCharacterAnimInstance::UpdateRotationWhileMoving(FName CurveName)
 {
+	PrimaryRotation = UKismetMathLibrary::RInterpTo_Constant(PrimaryRotation, UKismetMathLibrary::MakeRotFromX(LastInputVector), UGameplayStatics::GetWorldDeltaSeconds(this), 1000.f);
+	SecondaryRotation = UKismetMathLibrary::RInterpTo(SecondaryRotation, PrimaryRotation, UGameplayStatics::GetWorldDeltaSeconds(this), 8.f);
+
+	FRotator UpdateRotation = FRotator::ZeroRotator;
+	float CurveValue = GetCurveValue(CurveName);
+	float ArrangeCurveValue = UKismetMathLibrary::MapRangeClamped(CurveValue, 0.f, 1.f, 1.f, 0.f);
+	UpdateRotation.Yaw = (ArrangeCurveValue * -1.f * LocomotionStartAngle) + SecondaryRotation.Yaw;
+	OwningCharacter->SetActorRotation(UpdateRotation);
 }
 
-void UKerraCharacterAnimInstance::UpdateLocomotionPlayRate()
+void UKerraCharacterAnimInstance::UpdateLocomotionPlayRate(FName CurveName, float MinRate, float MaxRate)
 {
+	float CurveValue = GetCurveValue(CurveName);
+	AnimPlayRate = FMath::Clamp(UKismetMathLibrary::SafeDivide(GroundSpeed, CurveValue), MinRate, MaxRate);
 }
