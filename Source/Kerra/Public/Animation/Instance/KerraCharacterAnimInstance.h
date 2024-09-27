@@ -41,6 +41,9 @@ protected:
 	UFUNCTION(BlueprintCallable, Category="KerraLocomotion|Advanced")
 	void UpdateLocomotionPlayRate(FName CurveName, float MinRate, float MaxRate);
 
+private:
+	float GetPredictStopDistance();
+
 protected:
 	UPROPERTY()
 	AKerraCharacterBase* OwningCharacter;
@@ -88,6 +91,9 @@ protected:
 
 	UPROPERTY(VisibleDefaultsOnly, BlueprintReadWrite, Category="AnimData|LocomotionData")
 	float AnimPlayRate;
+
+	UPROPERTY(VisibleDefaultsOnly, BlueprintReadWrite, Category="AnimData|LocomotionData")
+	float DistanceToMatch;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="AnimData|LocomotionData|CurveName")
 	FName SpeedCurveName;

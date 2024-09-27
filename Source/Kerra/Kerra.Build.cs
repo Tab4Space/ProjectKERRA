@@ -13,7 +13,7 @@ public class Kerra : ModuleRules
 			"Core", "CoreUObject", "Engine", "InputCore", "EnhancedInput",
 			"GameplayAbilities", "GameplayTags", "GameplayTasks",
 			"AnimGraphRuntime", "MotionWarping", "Niagara",
-			"NavigationSystem"
+			"NavigationSystem", "AnimationLocomotionLibraryRuntime"
 		});
 
 		PrivateDependencyModuleNames.AddRange(new string[] {  });

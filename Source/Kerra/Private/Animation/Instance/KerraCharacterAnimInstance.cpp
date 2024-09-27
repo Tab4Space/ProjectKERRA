@@ -7,6 +7,7 @@
 #include "KismetAnimationLibrary.h"
 #include "Kismet/KismetMathLibrary.h"
 #include "Kismet/GameplayStatics.h"
+#include "AnimCharacterMovementLibrary.h"
 
 void UKerraCharacterAnimInstance::NativeInitializeAnimation()
 {
@@ -32,13 +33,20 @@ void UKerraCharacterAnimInstance::NativeThreadSafeUpdateAnimation(float DeltaSec
 	Velocity = OwningCharacter->GetVelocity();
 	Acceleration = OwningMovementComponent->GetCurrentAcceleration();
 	LastInputVector = OwningMovementComponent->GetLastInputVector();
+
+	if(LocomotionState == EKerraLocomotionState::Idle)
+	{
+		DistanceToMatch = GetPredictStopDistance();
+	}
+	else
+	{
+		DistanceToMatch = 0.f;
+	}
 }
 
 
 void UKerraCharacterAnimInstance::NativePostEvaluateAnimation()
 {
-	Super::NativePostEvaluateAnimation();
-
 	if(LocomotionState == EKerraLocomotionState::Idle)
 	{
 		// TODO: Turn in place
@@ -138,4 +146,18 @@ void UKerraCharacterAnimInstance::UpdateLocomotionPlayRate(FName CurveName, floa
 {
 	float CurveValue = GetCurveValue(CurveName);
 	AnimPlayRate = FMath::Clamp(UKismetMathLibrary::SafeDivide(GroundSpeed, CurveValue), MinRate, MaxRate);
+}
+
+float UKerraCharacterAnimInstance::GetPredictStopDistance()
+{
+	FVector PredictVector = UAnimCharacterMovementLibrary::PredictGroundMovementStopLocation(
+		Velocity,
+		OwningMovementComponent->bUseSeparateBrakingFriction,
+		OwningMovementComponent->BrakingFriction,
+		OwningMovementComponent->GroundFriction,
+		OwningMovementComponent->BrakingFrictionFactor,
+		OwningMovementComponent->BrakingDecelerationWalking
+	);
+
+	return PredictVector.Length();
 }
