@@ -42,6 +42,7 @@ protected:
 	void UpdateLocomotionPlayRate(FName CurveName, float MinRate, float MaxRate);
 
 private:
+	UFUNCTION(BlueprintCallable, meta=(BlueprintThreadSafe))
 	float GetPredictStopDistance();
 
 protected:

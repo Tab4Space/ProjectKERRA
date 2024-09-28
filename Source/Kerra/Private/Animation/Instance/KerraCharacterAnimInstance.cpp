@@ -60,7 +60,7 @@ void UKerraCharacterAnimInstance::NativePostEvaluateAnimation()
 
 void UKerraCharacterAnimInstance::FindLocomotionState()
 {
-	if( FVector::DotProduct(Velocity.GetSafeNormal(), Acceleration.GetSafeNormal()) < 0.f)
+	if( FVector::DotProduct(Velocity.GetSafeNormal(), Acceleration.GetSafeNormal()) < -0.5f)
 	{
 		LocomotionState = EKerraLocomotionState::Idle;
 	}
