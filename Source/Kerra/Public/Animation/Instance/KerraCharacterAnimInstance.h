@@ -101,6 +101,4 @@ protected:
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="AnimData|LocomotionData|CurveName")
 	FName RotationCurveName;
-
-	
 };
