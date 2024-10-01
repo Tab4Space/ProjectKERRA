@@ -47,6 +47,7 @@ void UKerraCharacterAnimInstance::NativeThreadSafeUpdateAnimation(float DeltaSec
 
 void UKerraCharacterAnimInstance::NativePostEvaluateAnimation()
 {
+	if(OwningCharacter)
 	if(LocomotionState == EKerraLocomotionState::Idle)
 	{
 		// TODO: Turn in place
