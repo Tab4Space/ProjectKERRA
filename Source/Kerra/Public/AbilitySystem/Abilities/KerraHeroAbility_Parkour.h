@@ -19,6 +19,12 @@ protected:
 	
 	UFUNCTION(BlueprintCallable)
 	void CalcDistanceToParkourTarget();
+
+	UFUNCTION(BlueprintCallable)
+	void CalcEssentialValues();
+
+	UFUNCTION(BlueprintCallable)
+	void DetermineParkourMode();
 	
 protected:
 	UPROPERTY(EditDefaultsOnly, Category="Parkour")
@@ -28,5 +34,9 @@ protected:
 	bool bDrawDebug;
 
 private:
-	float WallThickness;
+	float ObstacleDepth;
+	float ObstacleHeight;
+
+	bool bHasObstacle;
+	float HeightTraceRadius = 30.f;
 };
