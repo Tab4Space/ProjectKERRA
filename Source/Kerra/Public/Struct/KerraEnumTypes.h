@@ -53,3 +53,12 @@ enum class EKerraMovementStartDirection : uint8
 	BackRight,
 	BackLeft
 };
+
+UENUM(BlueprintType)
+enum class EKerraParkourType : uint8
+{
+	None,
+	Hurdle,
+	Vault,
+	Mantle
+};

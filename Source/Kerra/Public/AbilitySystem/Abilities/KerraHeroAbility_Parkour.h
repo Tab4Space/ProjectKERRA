@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "AbilitySystem/Abilities/KerraHeroAbility.h"
+#include "Struct/KerraEnumTypes.h"
 #include "KerraHeroAbility_Parkour.generated.h"
 
 
@@ -24,19 +25,35 @@ protected:
 	void CalcEssentialValues();
 
 	UFUNCTION(BlueprintCallable)
-	void DetermineParkourMode();
+	EKerraParkourType DetermineParkourMode();
 	
 protected:
 	UPROPERTY(EditDefaultsOnly, Category="Parkour")
 	float TraceForwardDistance;
 
 	UPROPERTY(EditDefaultsOnly, Category="Parkour")
+	float CapsuleTraceRadius = 42.f;
+
+	UPROPERTY(EditDefaultsOnly, Category="Parkour")
+	float CapsuleTraceHalfHeight = 90.f;
+
+	UPROPERTY(EditDefaultsOnly, Category="Parkour")
+	float ObstacleHeightThreshold = 250.f;
+
+	UPROPERTY(EditDefaultsOnly, Category="Parkour")
 	bool bDrawDebug;
+
+	EKerraParkourType ParkourType = EKerraParkourType::None;
 
 private:
 	float ObstacleDepth;
 	float ObstacleHeight;
 
 	bool bHasObstacle;
+	bool bSuccessParkour = false;;
 	float HeightTraceRadius = 30.f;
+
+	FVector ParkourFrontLedgeLocation;
+	FVector ParkourBackLedgeLocation;
+	FVector ParkourLandLocation;
 };
