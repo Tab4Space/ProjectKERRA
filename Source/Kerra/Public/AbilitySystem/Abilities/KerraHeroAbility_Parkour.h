@@ -17,9 +17,6 @@ protected:
 	/* Interface */
 	virtual void ActivateAbility(const FGameplayAbilitySpecHandle Handle, const FGameplayAbilityActorInfo* ActorInfo, const FGameplayAbilityActivationInfo ActivationInfo, const FGameplayEventData* TriggerEventData) override;
 	virtual void EndAbility(const FGameplayAbilitySpecHandle Handle, const FGameplayAbilityActorInfo* ActorInfo, const FGameplayAbilityActivationInfo ActivationInfo, bool bReplicateEndAbility, bool bWasCancelled) override;
-	
-	UFUNCTION(BlueprintCallable)
-	void CalcDistanceToParkourTarget();
 
 	UFUNCTION(BlueprintCallable)
 	void CalcEssentialValues();
@@ -40,7 +37,7 @@ protected:
 	UPROPERTY(EditDefaultsOnly, Category="Parkour")
 	float ObstacleHeightThreshold = 250.f;
 
-	UPROPERTY(EditDefaultsOnly, Category="Parkour")
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="Parkour")
 	bool bDrawDebug;
 
 	EKerraParkourType ParkourType = EKerraParkourType::None;
@@ -51,9 +48,20 @@ private:
 
 	bool bHasObstacle;
 	bool bSuccessParkour = false;;
-	float HeightTraceRadius = 30.f;
+	bool TraceResult2;
+	bool TraceResult3;
+	bool TraceResult4;
+	bool TraceResult5;
 
-	FVector ParkourFrontLedgeLocation;
-	FVector ParkourBackLedgeLocation;
-	FVector ParkourLandLocation;
+	bool bHasFrontLedge;
+	bool bHasBackLedge;
+	bool bHasBackFloor;
+
+	bool bHasAnotherObstacle;
+	
+	float SphereTraceRadius = 30.f;
+
+	FVector ParkourFrontLedgeLocation = FVector::ZeroVector;
+	FVector ParkourBackLedgeLocation = FVector::ZeroVector;
+	FVector ParkourLandLocation = FVector::ZeroVector;
 };
