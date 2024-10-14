@@ -40,17 +40,13 @@ void UKerraHeroAbility_Parkour::CalcEssentialValues()
 		bSuccessParkour = false;
 		return;
 	}
-	else
-	{
-		bSuccessParkour = true;
-	}
 
 	// step 2. Measure the height of the obstacle and set front ledge location
 	FVector StartLocation_2 = OutHit_CheckForwardObstacle.Location + FVector(0.f, 0.f, ObstacleHeightThreshold);
 	FVector EndLocation_2 = OutHit_CheckForwardObstacle.Location + FVector(0.f, 0.f, -ObstacleHeightThreshold);
 	FHitResult OutHit_ForObstacleHeight;
 	
-	bool Step2_Result = UKismetSystemLibrary::SphereTraceSingle(
+	UKismetSystemLibrary::SphereTraceSingle(
 		GetAvatarActorFromActorInfo(), StartLocation_2, EndLocation_2, SphereTraceRadius,
 		static_cast<ETraceTypeQuery>(ECC_Parkour), false, IgnoreToActors,
 		bDrawDebug ? EDrawDebugTrace::ForDuration : EDrawDebugTrace::None, OutHit_ForObstacleHeight, true
@@ -62,12 +58,8 @@ void UKerraHeroAbility_Parkour::CalcEssentialValues()
 		bSuccessParkour = false;
 		return;
 	}
-	else
-	{
-		bSuccessParkour = true;
-		bHasFrontLedge = true;
-	}
-	ParkourFrontLedgeLocation = OutHit_ForObstacleHeight.ImpactPoint;
+	bHasFrontLedge = true;
+	ParkourFrontLedgeLocation = OutHit_ForObstacleHeight.ImpactPoint + (GetAvatarActorFromActorInfo()->GetActorForwardVector() * 30.f);
 	
 	// step 3. Check whether exist obstacle or not on the first obstacle.
 	FVector StartLocation_3 = OutHit_ForObstacleHeight.Location;
@@ -88,6 +80,7 @@ void UKerraHeroAbility_Parkour::CalcEssentialValues()
 		return;
 	}
 
+	// if pass to step 3, success parkour
 	bSuccessParkour = true;
 	
 	// step 4. Measure the depth of the obstacle using a bi-directional trace
@@ -162,8 +155,6 @@ void UKerraHeroAbility_Parkour::CalcEssentialValues()
 		}
 		UE_LOG(LogTemp, Warning, TEXT("Depth: %f, Height: %f"), ObstacleDepth, ObstacleHeight);
 	}
-	
-	
 }
 
 EKerraParkourType UKerraHeroAbility_Parkour::DetermineParkourMode()
@@ -173,19 +164,37 @@ EKerraParkourType UKerraHeroAbility_Parkour::DetermineParkourMode()
 		return EKerraParkourType::None;
 	}
 
-	if(bHasAnotherObstacle)
-	{
-		return EKerraParkourType::Mantle;
-	}
-
-	if(bHasFrontLedge && bHasBackLedge && bHasBackFloor)
-	{
-		return EKerraParkourType::Hurdle;
-	}
-
-	if(bHasFrontLedge && bHasBackLedge && !bHasBackFloor)
+	if(bHasFrontLedge && bHasBackLedge && !bHasBackFloor && ObstacleDepth < 60.f)
 	{
 		return EKerraParkourType::Vault;
 	}
-	return EKerraParkourType::None;
+	else if(bHasFrontLedge && bHasBackLedge && bHasBackFloor && ObstacleDepth < 60.f)
+	{
+		return EKerraParkourType::Hurdle;
+	}
+	else if(bHasFrontLedge && ObstacleDepth >= 60.f)
+	{
+		return EKerraParkourType::Mantle;
+	}
+	else
+	{
+		return EKerraParkourType::None;
+	}
+}
+
+void UKerraHeroAbility_Parkour::CleanUp()
+{
+	ObstacleDepth = 0.f;
+	ObstacleHeight = 0.f;
+	
+	bSuccessParkour = false;
+	bHasObstacle = false;
+	bHasAnotherObstacle = false;
+	bHasFrontLedge = false;
+	bHasBackLedge = false;
+	bHasBackFloor = false;
+	
+	ParkourFrontLedgeLocation = FVector::ZeroVector;
+	ParkourBackLedgeLocation = FVector::ZeroVector;
+	ParkourLandLocation = FVector::ZeroVector;
 }

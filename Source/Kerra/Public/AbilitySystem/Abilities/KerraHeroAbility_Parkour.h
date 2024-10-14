@@ -23,6 +23,9 @@ protected:
 
 	UFUNCTION(BlueprintCallable)
 	EKerraParkourType DetermineParkourMode();
+
+private:
+	void CleanUp();
 	
 protected:
 	UPROPERTY(EditDefaultsOnly, Category="Parkour")
@@ -46,19 +49,14 @@ private:
 	float ObstacleDepth;
 	float ObstacleHeight;
 
+	bool bSuccessParkour;
 	bool bHasObstacle;
-	bool bSuccessParkour = false;;
-	bool TraceResult2;
-	bool TraceResult3;
-	bool TraceResult4;
-	bool TraceResult5;
+	bool bHasAnotherObstacle;
 
 	bool bHasFrontLedge;
 	bool bHasBackLedge;
 	bool bHasBackFloor;
 
-	bool bHasAnotherObstacle;
-	
 	float SphereTraceRadius = 30.f;
 
 	FVector ParkourFrontLedgeLocation = FVector::ZeroVector;
