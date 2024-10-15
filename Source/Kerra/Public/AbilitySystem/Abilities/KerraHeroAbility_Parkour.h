@@ -24,6 +24,10 @@ protected:
 	UFUNCTION(BlueprintCallable)
 	EKerraParkourType DetermineParkourMode();
 
+	UFUNCTION(BlueprintCallable)
+	void UpdateMotionWarpingTarget();
+	
+
 private:
 	void CleanUp();
 	
@@ -53,9 +57,9 @@ private:
 	bool bHasObstacle;
 	bool bHasAnotherObstacle;
 
-	bool bHasFrontLedge;
-	bool bHasBackLedge;
-	bool bHasBackFloor;
+	bool bHasFrontLedge = false;
+	bool bHasBackLedge = false;
+	bool bHasBackFloor = false;
 
 	float SphereTraceRadius = 30.f;
 

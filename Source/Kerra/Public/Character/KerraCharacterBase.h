@@ -33,6 +33,8 @@ public:
 	/* UI Interface */
 	virtual UKerraUIComponent* GetPawnUIComponent() const override;
 
+	UMotionWarpingComponent* GetMotionWarpingComponent() { return MotionWarpingComponent; }
+
 protected:
 	virtual void InitAbilityActorInfo();
 	virtual void BeginPlay() override;

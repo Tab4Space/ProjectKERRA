@@ -3,9 +3,11 @@
 
 #include "AbilitySystem/Abilities/KerraHeroAbility_Parkour.h"
 
+#include "MotionWarpingComponent.h"
 #include "Character/KerraHero.h"
 #include "Components/CapsuleComponent.h"
 #include "Kismet/KismetSystemLibrary.h"
+#include "Character/KerraCharacterBase.h"
 
 #define ECC_Parkour ECC_GameTraceChannel1
 
@@ -59,7 +61,7 @@ void UKerraHeroAbility_Parkour::CalcEssentialValues()
 		return;
 	}
 	bHasFrontLedge = true;
-	ParkourFrontLedgeLocation = OutHit_ForObstacleHeight.ImpactPoint + (GetAvatarActorFromActorInfo()->GetActorForwardVector() * 30.f);
+	ParkourFrontLedgeLocation = OutHit_ForObstacleHeight.ImpactPoint + (GetAvatarActorFromActorInfo()->GetActorForwardVector() * 10.f);
 	
 	// step 3. Check whether exist obstacle or not on the first obstacle.
 	FVector StartLocation_3 = OutHit_ForObstacleHeight.Location;
@@ -110,14 +112,15 @@ void UKerraHeroAbility_Parkour::CalcEssentialValues()
 	FVector EndLocation_5 = StartLocation_5 + FVector(0.f, 0.f, -ObstacleHeightThreshold);
 	FHitResult OutHit_ForObstacleBackLedge;
 
-	bHasBackLedge = UKismetSystemLibrary::SphereTraceSingle(
+	bool Step5_Result = UKismetSystemLibrary::SphereTraceSingle(
 		GetAvatarActorFromActorInfo(), StartLocation_5, EndLocation_5, SphereTraceRadius,
 		static_cast<ETraceTypeQuery>(ECC_Parkour), false, IgnoreToActors,
 		bDrawDebug ? EDrawDebugTrace::ForDuration : EDrawDebugTrace::None, OutHit_ForObstacleBackLedge, true
 	);
 
-	if(bHasBackLedge && ObstacleDepth <= 70.f)
+	if(Step5_Result && ObstacleDepth <= 70.f)
 	{
+		bHasBackLedge = true;
 		ParkourBackLedgeLocation = OutHit_ForObstacleBackLedge.ImpactPoint;
 	}
 
@@ -161,25 +164,74 @@ EKerraParkourType UKerraHeroAbility_Parkour::DetermineParkourMode()
 {
 	if (!bSuccessParkour)
 	{
+		ParkourType = EKerraParkourType::None;
 		return EKerraParkourType::None;
 	}
 
 	if(bHasFrontLedge && bHasBackLedge && !bHasBackFloor && ObstacleDepth < 60.f)
 	{
+		ParkourType = EKerraParkourType::Vault; 
 		return EKerraParkourType::Vault;
 	}
 	else if(bHasFrontLedge && bHasBackLedge && bHasBackFloor && ObstacleDepth < 60.f)
 	{
+		ParkourType = EKerraParkourType::Hurdle;
 		return EKerraParkourType::Hurdle;
 	}
 	else if(bHasFrontLedge && ObstacleDepth >= 60.f)
 	{
+		ParkourType = EKerraParkourType::Mantle;
 		return EKerraParkourType::Mantle;
 	}
 	else
 	{
+		ParkourType = EKerraParkourType::None;
 		return EKerraParkourType::None;
 	}
+}
+
+void UKerraHeroAbility_Parkour::UpdateMotionWarpingTarget()
+{
+	UMotionWarpingComponent* MotionWarpingComponent = GetKerraPlayerFromActorInfo()->GetMotionWarpingComponent();
+	check(MotionWarpingComponent);
+
+	if (ParkourType == EKerraParkourType::Mantle)
+	{
+		ParkourFrontLedgeLocation += (GetAvatarActorFromActorInfo()->GetActorForwardVector() * 20.f);
+		MotionWarpingComponent->AddOrUpdateWarpTargetFromLocationAndRotation(TEXT("FrontLedge"), ParkourFrontLedgeLocation, GetAvatarActorFromActorInfo()->GetActorRotation());
+	}
+	else
+	{
+		MotionWarpingComponent->AddOrUpdateWarpTargetFromLocationAndRotation(TEXT("FrontLedge"), ParkourFrontLedgeLocation, GetAvatarActorFromActorInfo()->GetActorRotation());
+	}
+	
+	if(ParkourType == EKerraParkourType::Vault || ParkourType == EKerraParkourType::Hurdle)
+	{
+		MotionWarpingComponent->AddOrUpdateWarpTargetFromLocationAndRotation(TEXT("BackLedge"), ParkourBackLedgeLocation, GetAvatarActorFromActorInfo()->GetActorRotation());
+	}
+	else
+	{
+		MotionWarpingComponent->RemoveWarpTarget(TEXT("BackLedge"));
+	}
+
+	if(ParkourType == EKerraParkourType::Hurdle)
+	{
+		MotionWarpingComponent->AddOrUpdateWarpTargetFromLocationAndRotation(TEXT("BackFloor"), ParkourLandLocation, GetAvatarActorFromActorInfo()->GetActorRotation());
+	}
+	else
+	{
+		MotionWarpingComponent->RemoveWarpTarget(TEXT("BackFloor"));
+	}
+
+	/*
+	UE_LOG(LogTemp, Warning, TEXT("%d"), bHasFrontLedge)
+	UE_LOG(LogTemp, Warning, TEXT("%d"), bHasBackLedge)
+	UE_LOG(LogTemp, Warning, TEXT("%d"), bHasBackFloor)
+
+	UE_LOG(LogTemp, Warning, TEXT("%s"), *ParkourFrontLedgeLocation.ToString())
+	UE_LOG(LogTemp, Warning, TEXT("%s"), *ParkourBackLedgeLocation.ToString())
+	UE_LOG(LogTemp, Warning, TEXT("%s"), *ParkourLandLocation.ToString())
+	*/
 }
 
 void UKerraHeroAbility_Parkour::CleanUp()
