@@ -13,8 +13,12 @@
 UKerraAbilitySystemComponent* UKerraFunctionLibrary::NativeGetKerraASCFromActor(AActor* InActor)
 {
 	check(InActor);
-
-	return CastChecked<UKerraAbilitySystemComponent>(UAbilitySystemBlueprintLibrary::GetAbilitySystemComponent(InActor));
+	UAbilitySystemComponent* ASC = UAbilitySystemBlueprintLibrary::GetAbilitySystemComponent(InActor);
+	if(ASC)
+	{
+		return CastChecked<UKerraAbilitySystemComponent>(ASC);	
+	}
+	return nullptr;
 }
 
 void UKerraFunctionLibrary::AddGameplayTagToActorIfNone(AActor* InActor, FGameplayTag TagToAdd)
@@ -41,8 +45,11 @@ void UKerraFunctionLibrary::RemoveGameplayTagFromActorIfFound(AActor* InActor, F
 bool UKerraFunctionLibrary::NativeDoesActorHaveTag(AActor* InActor, FGameplayTag TagToCheck)
 {
 	UKerraAbilitySystemComponent* ASC = NativeGetKerraASCFromActor(InActor);
-
-	return ASC->HasMatchingGameplayTag(TagToCheck);
+	if(ASC)
+	{
+		return ASC->HasMatchingGameplayTag(TagToCheck);	
+	}
+	return false;
 }
 
 void UKerraFunctionLibrary::BP_DoesActorHaveTag(AActor* InActor, FGameplayTag TagToCheck, EKerraConfirmType& OutConfirmType)

@@ -6,7 +6,9 @@
 
 bool UKerraAnimInstanceBase::DoesOwnerHaveTag(FGameplayTag TagToCheck) const
 {
-	if(APawn* OwningPawn = TryGetPawnOwner())
+	APawn* OwningPawn = TryGetPawnOwner();
+	
+	if(OwningPawn != nullptr)
 	{
 		return UKerraFunctionLibrary::NativeDoesActorHaveTag(OwningPawn, TagToCheck);
 	}

@@ -2,12 +2,15 @@
 
 
 #include "Animation/Instance/KerraCharacterAnimInstance.h"
+
+#include "AbilitySystemComponent.h"
 #include "Character/KerraCharacterBase.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "KismetAnimationLibrary.h"
 #include "Kismet/KismetMathLibrary.h"
 #include "Kismet/GameplayStatics.h"
 #include "AnimCharacterMovementLibrary.h"
+#include "KerraGameplayTags.h"
 
 void UKerraCharacterAnimInstance::NativeInitializeAnimation()
 {
@@ -47,14 +50,22 @@ void UKerraCharacterAnimInstance::NativeThreadSafeUpdateAnimation(float DeltaSec
 
 void UKerraCharacterAnimInstance::NativePostEvaluateAnimation()
 {
-	if(OwningCharacter)
 	if(LocomotionState == EKerraLocomotionState::Idle)
 	{
 		// TODO: Turn in place
 	}
 	else
 	{
-		UpdateRotationWhileMoving(RotationCurveName);
+		// TODO: Check gameplay tag list -> movement(rolling, parkour and so on.)
+		if(OwningCharacter->GetAbilitySystemComponent()->HasMatchingGameplayTag(KerraGameplayTags::Player_Status_Rolling))
+		{
+			UE_LOG(LogTemp, Warning, TEXT("Rolling"))
+		}
+		else
+		{
+			UE_LOG(LogTemp, Warning, TEXT("Update Rotation While Moving"));
+			UpdateRotationWhileMoving(RotationCurveName);	
+		}
 	}
 }
 
