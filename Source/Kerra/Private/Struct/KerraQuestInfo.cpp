@@ -3,6 +3,10 @@
 
 #include "Struct/KerraQuestInfo.h"
 
+FKerraQuestInfo::FKerraQuestInfo()
+{
+}
+
 bool FKerraQuestInfo::IsValid() const
 {
 	return false;
