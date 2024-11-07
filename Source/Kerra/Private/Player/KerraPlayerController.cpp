@@ -9,6 +9,8 @@
 #include "AbilitySystemBlueprintLibrary.h"
 #include "AbilitySystem/KerraAbilitySystemComponent.h"
 #include "AbilitySystemBlueprintLibrary.h"
+#include "Character/KerraHero.h"
+#include "Component/Quest/KerraQuestComponent.h"
 
 
 AKerraPlayerController::AKerraPlayerController()
@@ -38,14 +40,21 @@ void AKerraPlayerController::SetupInputComponent()
 	Subsystem->AddMappingContext(InputConfigDataAsset->DefaultMappingContext, 0);
 	UKerraInputComponent* KerraInputComponent = CastChecked<UKerraInputComponent>(InputComponent);
 
+	// Movement
 	KerraInputComponent->BindNativeInputAction(InputConfigDataAsset, KerraGameplayTags::InputTag_Move, ETriggerEvent::Triggered, this, &AKerraPlayerController::Move);
 	KerraInputComponent->BindNativeInputAction(InputConfigDataAsset, KerraGameplayTags::InputTag_Look, ETriggerEvent::Triggered, this, &AKerraPlayerController::LookAt);
 
+	// Targeting
 	KerraInputComponent->BindNativeInputAction(InputConfigDataAsset, KerraGameplayTags::InputTag_SwitchTarget, ETriggerEvent::Triggered, this, &AKerraPlayerController::Input_SwitchTargetTriggered);
 	KerraInputComponent->BindNativeInputAction(InputConfigDataAsset, KerraGameplayTags::InputTag_SwitchTarget, ETriggerEvent::Completed, this, &AKerraPlayerController::Input_SwitchTargetCompleted);
 
+	// Item Pick up
 	KerraInputComponent->BindNativeInputAction(InputConfigDataAsset, KerraGameplayTags::InputTag_PickUp, ETriggerEvent::Started, this, &AKerraPlayerController::Input_PickUpStarted);
 
+	// Quest pop-up
+	KerraInputComponent->BindNativeInputAction(InputConfigDataAsset, KerraGameplayTags::InputTag_Quest, ETriggerEvent::Started, this, &AKerraPlayerController::Input_Quest);
+
+	// Ability
 	KerraInputComponent->BindAbilityInputAction(InputConfigDataAsset, this, &AKerraPlayerController::AbilityInputPressed, &AKerraPlayerController::AbilityInputReleased);
 	
 }
@@ -83,6 +92,7 @@ void AKerraPlayerController::Input_SwitchTargetTriggered(const FInputActionValue
 {
 	// capture switch target lock input
 	SwitchDirection = InputActionValue.Get<FVector2D>();
+	UE_LOG(LogTemp, Warning, TEXT("aaaaaaaaaaaa"));
 }
 
 void AKerraPlayerController::Input_SwitchTargetCompleted(const FInputActionValue& InputActionValue)
@@ -97,6 +107,19 @@ void AKerraPlayerController::Input_PickUpStarted(const FInputActionValue& InputA
 	FGameplayEventData Data;
 	UAbilitySystemBlueprintLibrary::SendGameplayEventToActor(GetPawn(), KerraGameplayTags::Player_Event_Consume_Stones, Data);
 }
+
+void AKerraPlayerController::Input_Quest(const FInputActionValue& InputActionValue)
+{
+	UE_LOG(LogTemp, Warning, TEXT("Quest Input"));
+	AKerraHero* ControlledPawn = Cast<AKerraHero>(GetPawn());
+	UKerraQuestComponent* QuestComponent = ControlledPawn->GetQuestComponent();
+
+	QuestComponent->ToggleQuestWidget();
+	/*
+	 * 1. Send
+	 */
+}
+
 
 void AKerraPlayerController::AbilityInputPressed(FGameplayTag InInputTag)
 {

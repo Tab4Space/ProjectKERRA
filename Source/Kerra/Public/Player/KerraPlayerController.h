@@ -39,6 +39,8 @@ private:
 
 	void Input_PickUpStarted(const FInputActionValue& InputActionValue);
 
+	void Input_Quest(const FInputActionValue& InputActionValue);
+
 	void AbilityInputPressed(FGameplayTag InInputTag);
 	void AbilityInputReleased(FGameplayTag InInputTag);
 

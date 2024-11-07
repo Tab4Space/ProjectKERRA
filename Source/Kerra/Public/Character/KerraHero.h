@@ -8,6 +8,7 @@
 #include "KerraHero.generated.h"
 
 
+class UKerraQuestComponent;
 class USpringArmComponent;
 class UCameraComponent;
 class UHeroCombatComponent;
@@ -33,6 +34,9 @@ public:
 	virtual UKerraUIComponent* GetPawnUIComponent() const override;
 	virtual UHeroUIComponent* GetPlayerUIComponent() const override;
 
+	/* Quest */
+	virtual UKerraQuestComponent* GetQuestComponent();
+
 private:
 	virtual void InitAbilityActorInfo() override;
 	
@@ -48,5 +52,8 @@ private:
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="UI", meta=(AllowPrivateAccess="true"))
 	TObjectPtr<UHeroUIComponent> UIComponent;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Quest", meta=(AllowPrivateAccess="true"))
+	TObjectPtr<UKerraQuestComponent> QuestComponent;
 
 };
