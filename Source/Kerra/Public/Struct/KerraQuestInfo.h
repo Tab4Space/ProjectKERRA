@@ -125,6 +125,9 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	FQuestReward QuestReward;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	EQuestArea QuestLocation;
 	
 	bool IsValid() const;
 };

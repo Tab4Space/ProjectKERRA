@@ -115,9 +115,6 @@ void AKerraPlayerController::Input_Quest(const FInputActionValue& InputActionVal
 	UKerraQuestComponent* QuestComponent = ControlledPawn->GetQuestComponent();
 
 	QuestComponent->ToggleQuestWidget();
-	/*
-	 * 1. Send
-	 */
 }
 
 

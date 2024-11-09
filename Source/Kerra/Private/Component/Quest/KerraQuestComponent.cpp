@@ -33,3 +33,61 @@ void UKerraQuestComponent::ToggleQuestWidget()
 	}
 	
 }
+
+bool UKerraQuestComponent::AddQuest(FKerraQuestInfo AddQuestInfo)
+{
+	if(CanAcceptQuest(AddQuestInfo))
+	{
+		AcceptedQuests.Add(AddQuestInfo);
+		ActiveQuest = AddQuestInfo;
+		return true;
+	}
+	return false;
+}
+
+bool UKerraQuestComponent::CanAcceptQuest(FKerraQuestInfo CheckQuestInfo)
+{
+	/* Check accept quest or not */
+	if(CheckCompletedQuest(CheckQuestInfo))
+		return false;
+
+	bool bIsFound = true;
+	for(const FKerraQuestInfo Info : AcceptedQuests)
+	{
+		if(Info.QuestID == CheckQuestInfo.QuestID)
+		{
+			bIsFound = false;
+			break;
+		}
+	}
+	return bIsFound;
+}
+
+bool UKerraQuestComponent::CheckCompletedQuest(FKerraQuestInfo CheckQuestInfo)
+{
+	/* Check already completed quest or not*/
+	bool bIsFound = false;
+	
+	for(FName QuestName : CompletedQuest)
+	{
+		if(bIsFound)
+		{
+			break;
+		}
+
+		const FName DisplayName = FName(UEnum::GetDisplayValueAsText(CheckQuestInfo.QuestID).ToString());
+		if(QuestName == DisplayName)
+		{
+			bIsFound = true;
+		}
+	}
+
+	if(bIsFound)
+	{
+		if(CheckQuestInfo.bRepeatable)
+		{
+			return true;
+		}
+	}
+	return false;
+}

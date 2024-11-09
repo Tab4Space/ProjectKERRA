@@ -4,7 +4,9 @@
 
 #include "CoreMinimal.h"
 #include "Component/KerraExtensionComponentBase.h"
+#include "Struct/KerraQuestInfo.h"
 #include "KerraQuestComponent.generated.h"
+
 
 class UKerraWidgetBase;
 class AKerraPlayerController;
@@ -21,6 +23,11 @@ public:
 	
 	void ToggleQuestWidget();
 
+	UFUNCTION(BlueprintCallable)
+	bool AddQuest(FKerraQuestInfo AddQuestInfo);
+	bool CanAcceptQuest(FKerraQuestInfo CheckQuestInfo);
+	bool CheckCompletedQuest(FKerraQuestInfo CheckQuestInfo);
+
 private:
 	TObjectPtr<AKerraPlayerController> KerraPC;
 
@@ -28,4 +35,16 @@ private:
 	TSubclassOf<UKerraWidgetBase> QuestWidgetClass;
 	
 	TObjectPtr<UKerraWidgetBase> QuestWidget = nullptr;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="Quest", meta=(AllowPrivateAccess="true"))
+	TArray<FKerraQuestInfo> AcceptedQuests;
+
+	UPROPERTY(EditDefaultsOnly, Category="Quest")
+	FKerraQuestInfo ActiveQuest;
+
+	UPROPERTY(EditDefaultsOnly, Category="Quest")
+	TArray<FName> CompletedQuest;
+
+	UPROPERTY(EditDefaultsOnly, Category="Quest")
+	TArray<FName> FailedQuest;
 };
