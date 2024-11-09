@@ -20,13 +20,17 @@ class KERRA_API UKerraQuestComponent : public UKerraExtensionComponentBase
 public:
 	/* Override */
 	virtual void BeginPlay() override;
-	
+
+	UFUNCTION(BlueprintCallable)
 	void ToggleQuestWidget();
 
 	UFUNCTION(BlueprintCallable)
 	bool AddQuest(FKerraQuestInfo AddQuestInfo);
 	bool CanAcceptQuest(FKerraQuestInfo CheckQuestInfo);
 	bool CheckCompletedQuest(FKerraQuestInfo CheckQuestInfo);
+
+	UFUNCTION(BlueprintCallable)
+	FKerraQuestInfo GetQuestInfoFromQuestName(const FName QuestName, bool& OutIsFound);
 
 private:
 	TObjectPtr<AKerraPlayerController> KerraPC;
@@ -36,15 +40,18 @@ private:
 	
 	TObjectPtr<UKerraWidgetBase> QuestWidget = nullptr;
 
+	UPROPERTY(EditDefaultsOnly, Category="Quest")
+	TObjectPtr<UDataTable> QuestDataTable;
+
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="Quest", meta=(AllowPrivateAccess="true"))
 	TArray<FKerraQuestInfo> AcceptedQuests;
 
-	UPROPERTY(EditDefaultsOnly, Category="Quest")
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="Quest", meta=(AllowPrivateAccess="true"))
 	FKerraQuestInfo ActiveQuest;
 
-	UPROPERTY(EditDefaultsOnly, Category="Quest")
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="Quest", meta=(AllowPrivateAccess="true"))
 	TArray<FName> CompletedQuest;
 
-	UPROPERTY(EditDefaultsOnly, Category="Quest")
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="Quest", meta=(AllowPrivateAccess="true"))
 	TArray<FName> FailedQuest;
 };

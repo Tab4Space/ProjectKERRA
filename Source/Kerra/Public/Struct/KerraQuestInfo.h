@@ -17,7 +17,8 @@ UENUM()
 enum class EQuestName : uint8
 {
 	None,
-	Welcome
+	Welcome,
+	SecondQuest
 };
 
 UENUM()
@@ -38,6 +39,17 @@ enum class EQuestArea : uint8
 {
 	None
 };
+
+UENUM(BlueprintType, Blueprintable)
+enum class EQuestFilter : uint8
+{
+	None,
+	MainQuest,
+	SubQuest,
+	CompletedQuest,
+	FailedQuest
+};
+
 
 USTRUCT(BlueprintType)
 struct FQuestObjective

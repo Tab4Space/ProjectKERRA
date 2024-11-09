@@ -91,3 +91,21 @@ bool UKerraQuestComponent::CheckCompletedQuest(FKerraQuestInfo CheckQuestInfo)
 	}
 	return false;
 }
+
+FKerraQuestInfo UKerraQuestComponent::GetQuestInfoFromQuestName(const FName QuestName, bool& OutIsFound)
+{
+	check(QuestDataTable)
+
+	for(const FName RowName : QuestDataTable->GetRowNames())
+	{
+		FKerraQuestInfo* QuestInfo = QuestDataTable->FindRow<FKerraQuestInfo>(RowName, "");
+		// FName(UEnum::GetValueAsString(QuestInfo->QuestID));
+		if(QuestName == UEnum::GetValueAsName(QuestInfo->QuestID))
+		{
+			OutIsFound = true;
+			return *QuestInfo;
+		}
+	}
+	OutIsFound = false;
+	return FKerraQuestInfo();
+}
