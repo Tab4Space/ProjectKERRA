@@ -7,6 +7,8 @@
 #include "Struct/KerraQuestInfo.h"
 #include "KerraQuestComponent.generated.h"
 
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnAddQuestDelegate, FKerraQuestInfo, AddedQuestInfo);
+
 
 class UKerraWidgetBase;
 class AKerraPlayerController;
@@ -26,11 +28,18 @@ public:
 
 	UFUNCTION(BlueprintCallable)
 	bool AddQuest(FKerraQuestInfo AddQuestInfo);
+	
 	bool CanAcceptQuest(FKerraQuestInfo CheckQuestInfo);
 	bool CheckCompletedQuest(FKerraQuestInfo CheckQuestInfo);
 
 	UFUNCTION(BlueprintCallable)
 	FKerraQuestInfo GetQuestInfoFromQuestName(const FName QuestName, bool& OutIsFound);
+
+	void AddQuestNotification(EQuestNotification Notification, FKerraQuestInfo& QuestInfo);
+
+public:
+	UPROPERTY(BlueprintAssignable)
+	FOnAddQuestDelegate OnAddQuest;
 
 private:
 	TObjectPtr<AKerraPlayerController> KerraPC;
@@ -39,6 +48,11 @@ private:
 	TSubclassOf<UKerraWidgetBase> QuestWidgetClass;
 	
 	TObjectPtr<UKerraWidgetBase> QuestWidget = nullptr;
+
+	UPROPERTY(EditDefaultsOnly, Category="Widget")
+	TSubclassOf<UKerraWidgetBase> QuestNotificationWidgetClass;
+	
+	TObjectPtr<UKerraWidgetBase> QuestNotificationWidget = nullptr;
 
 	UPROPERTY(EditDefaultsOnly, Category="Quest")
 	TObjectPtr<UDataTable> QuestDataTable;

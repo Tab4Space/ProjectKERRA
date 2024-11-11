@@ -40,6 +40,7 @@ bool UKerraQuestComponent::AddQuest(FKerraQuestInfo AddQuestInfo)
 	{
 		AcceptedQuests.Add(AddQuestInfo);
 		ActiveQuest = AddQuestInfo;
+		AddQuestNotification(EQuestNotification::NewQuest, AddQuestInfo);
 		return true;
 	}
 	return false;
@@ -108,4 +109,17 @@ FKerraQuestInfo UKerraQuestComponent::GetQuestInfoFromQuestName(const FName Ques
 	}
 	OutIsFound = false;
 	return FKerraQuestInfo();
+}
+
+void UKerraQuestComponent::AddQuestNotification(EQuestNotification Notification, FKerraQuestInfo& QuestInfo)
+{
+	if(Notification == EQuestNotification::NewQuest)
+	{
+		QuestNotificationWidget = CreateWidget<UKerraWidgetBase>(KerraPC, QuestNotificationWidgetClass);
+		if(OnAddQuest.IsBound())
+		{
+			OnAddQuest.Broadcast(QuestInfo);
+			QuestNotificationWidget->AddToViewport();
+		}
+	}
 }

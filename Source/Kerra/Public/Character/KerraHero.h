@@ -34,8 +34,8 @@ public:
 	virtual UKerraUIComponent* GetPawnUIComponent() const override;
 	virtual UHeroUIComponent* GetPlayerUIComponent() const override;
 
-	/* Quest */
-	virtual UKerraQuestComponent* GetQuestComponent();
+	/* Quest Interface */
+	virtual UKerraQuestComponent* GetQuestComponent() const override;
 
 private:
 	virtual void InitAbilityActorInfo() override;

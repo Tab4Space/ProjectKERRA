@@ -50,6 +50,15 @@ enum class EQuestFilter : uint8
 	FailedQuest
 };
 
+UENUM()
+enum EQuestNotification
+{
+	None,
+	NewQuest,
+	CompletedQuest,
+	FailedQuest
+};
+
 
 USTRUCT(BlueprintType)
 struct FQuestObjective

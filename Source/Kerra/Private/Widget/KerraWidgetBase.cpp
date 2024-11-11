@@ -2,6 +2,8 @@
 
 
 #include "Widget/KerraWidgetBase.h"
+
+#include "Interface/KerraQuestInterface.h"
 #include "Interface/KerraWidgetInterface.h"
 
 void UKerraWidgetBase::InitEnemyCreatedWidget(AActor* OwningEnemyActor)
@@ -24,6 +26,14 @@ void UKerraWidgetBase::NativeOnInitialized()
 		if(UHeroUIComponent* PlayerUIComponent = UIInterface->GetPlayerUIComponent())
 		{
 			BP_OnOwningPlayerUIComponentInitialized(PlayerUIComponent);
+		}
+	}
+
+	if(IKerraQuestInterface* QuestInterface = Cast<IKerraQuestInterface>(GetOwningPlayerPawn()))
+	{
+		if(UKerraQuestComponent* QuestComponent = QuestInterface->GetQuestComponent())
+		{
+			BP_OnOwningPlayerQuestComponentIntialized(QuestComponent);
 		}
 	}
 }

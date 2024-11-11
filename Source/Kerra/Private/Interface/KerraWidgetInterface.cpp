@@ -3,7 +3,7 @@
 
 #include "Interface/KerraWidgetInterface.h"
 
-// Add default functionality here for any IKerraUIInterface functions that are not pure virtual.
+
 UHeroUIComponent* IKerraWidgetInterface::GetPlayerUIComponent() const
 {
 	return nullptr;

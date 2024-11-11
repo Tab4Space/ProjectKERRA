@@ -31,6 +31,11 @@ UKerraUIComponent* AKerraCharacterBase::GetPawnUIComponent() const
 	return nullptr;
 }
 
+UKerraQuestComponent* AKerraCharacterBase::GetQuestComponent() const
+{
+	return nullptr;
+}
+
 void AKerraCharacterBase::InitAbilityActorInfo()
 {
 }

@@ -9,6 +9,7 @@
 
 class UEnemyUIComponent;
 class UHeroUIComponent;
+class UKerraQuestComponent;
 
 UCLASS()
 class KERRA_API UKerraWidgetBase : public UUserWidget
@@ -29,4 +30,7 @@ protected:
 
 	UFUNCTION(BlueprintImplementableEvent, meta=(DisplayName="OnOwningEnemyUIComponentInitialized"))
 	void BP_OnOwningEnemyUIComponentInitialized(UEnemyUIComponent* OwningEnemyUIComponent);
+
+	UFUNCTION(BlueprintImplementableEvent, meta=(DisplayName="OnOwningQuestComponentInitialized"))
+	void BP_OnOwningPlayerQuestComponentIntialized(UKerraQuestComponent* OwningPlayerQuestComponent);
 };

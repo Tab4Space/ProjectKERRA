@@ -6,6 +6,7 @@
 #include "GameFramework/Character.h"
 #include "AbilitySystemInterface.h"
 #include "Interface/KerraCombatInterface.h"
+#include "Interface/KerraQuestInterface.h"
 #include "Interface/KerraWidgetInterface.h"
 #include "KerraCharacterBase.generated.h"
 
@@ -16,7 +17,7 @@ class UAttributeSet;
 class UMotionWarpingComponent;
 
 UCLASS()
-class KERRA_API AKerraCharacterBase : public ACharacter, public IAbilitySystemInterface, public IKerraCombatInterface, public IKerraWidgetInterface
+class KERRA_API AKerraCharacterBase : public ACharacter, public IAbilitySystemInterface, public IKerraCombatInterface, public IKerraWidgetInterface, public IKerraQuestInterface
 {
 	GENERATED_BODY()
 
@@ -32,6 +33,9 @@ public:
 
 	/* UI Interface */
 	virtual UKerraUIComponent* GetPawnUIComponent() const override;
+
+	/* Quest Interface */
+	virtual UKerraQuestComponent* GetQuestComponent() const override;
 
 	UMotionWarpingComponent* GetMotionWarpingComponent() { return MotionWarpingComponent; }
 
@@ -52,7 +56,5 @@ protected:
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="CharacterData")
 	TSoftObjectPtr<UKerraStartUpDataAssetBase> CharacterStartupData;
-
-	
 
 };
