@@ -41,6 +41,8 @@ private:
 
 	void Input_Quest(const FInputActionValue& InputActionValue);
 
+	void Input_Interaction(const FInputActionValue& InputActionValue);
+
 	void AbilityInputPressed(FGameplayTag InInputTag);
 	void AbilityInputReleased(FGameplayTag InInputTag);
 

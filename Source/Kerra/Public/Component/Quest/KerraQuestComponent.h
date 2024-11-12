@@ -37,6 +37,9 @@ public:
 
 	void AddQuestNotification(EQuestNotification Notification, FKerraQuestInfo& QuestInfo);
 
+	/* Getter */
+	UDataTable* GetQuestDataTable() { return QuestDataTable; }
+
 public:
 	UPROPERTY(BlueprintAssignable)
 	FOnAddQuestDelegate OnAddQuest;
@@ -46,13 +49,15 @@ private:
 
 	UPROPERTY(EditDefaultsOnly, Category="Widget")
 	TSubclassOf<UKerraWidgetBase> QuestWidgetClass;
-	
 	TObjectPtr<UKerraWidgetBase> QuestWidget = nullptr;
 
 	UPROPERTY(EditDefaultsOnly, Category="Widget")
 	TSubclassOf<UKerraWidgetBase> QuestNotificationWidgetClass;
-	
 	TObjectPtr<UKerraWidgetBase> QuestNotificationWidget = nullptr;
+
+	UPROPERTY(EditDefaultsOnly, Category="Widget")
+	TSubclassOf<UKerraWidgetBase> QuestCompleteNotifyWidgetClass;
+	TObjectPtr<UKerraWidgetBase> QuestCompleteNotifyWidget = nullptr;
 
 	UPROPERTY(EditDefaultsOnly, Category="Quest")
 	TObjectPtr<UDataTable> QuestDataTable;

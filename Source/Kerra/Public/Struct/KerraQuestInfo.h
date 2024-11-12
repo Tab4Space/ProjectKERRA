@@ -24,7 +24,10 @@ enum class EQuestName : uint8
 UENUM()
 enum class EQuestGiver : uint8
 {
-	None
+	None,
+	Jone,
+	Bob,
+	Test
 };
 
 UENUM()

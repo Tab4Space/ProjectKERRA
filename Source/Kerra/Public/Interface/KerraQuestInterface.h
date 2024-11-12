@@ -21,4 +21,5 @@ class KERRA_API IKerraQuestInterface
 
 public:
 	virtual UKerraQuestComponent* GetQuestComponent() const;
+	virtual void DoInteraction(AActor* TargetActor);
 };

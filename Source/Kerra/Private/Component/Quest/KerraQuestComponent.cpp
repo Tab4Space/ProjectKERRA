@@ -122,4 +122,13 @@ void UKerraQuestComponent::AddQuestNotification(EQuestNotification Notification,
 			QuestNotificationWidget->AddToViewport();
 		}
 	}
+	else if(Notification == EQuestNotification::CompletedQuest)
+	{
+		QuestCompleteNotifyWidget = CreateWidget<UKerraWidgetBase>(KerraPC, QuestCompleteNotifyWidgetClass);
+		if(OnAddQuest.IsBound())
+		{
+			OnAddQuest.Broadcast(QuestInfo);
+			QuestCompleteNotifyWidget->AddToViewport();
+		}
+	}
 }
