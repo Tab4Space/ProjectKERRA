@@ -13,6 +13,7 @@ void UKerraQuestComponent::BeginPlay()
 	
 	KerraPC = GetOwningController<AKerraPlayerController>();
 	
+	OnObjectiveChanged.AddDynamic(this, &UKerraQuestComponent::ObjectiveUpdate);
 }
 
 void UKerraQuestComponent::ToggleQuestWidget()
@@ -41,6 +42,10 @@ bool UKerraQuestComponent::AddQuest(FKerraQuestInfo AddQuestInfo)
 		AcceptedQuests.Add(AddQuestInfo);
 		ActiveQuest = AddQuestInfo;
 		AddQuestNotification(EQuestNotification::NewQuest, AddQuestInfo);
+
+		TrackQuestWidget = CreateWidget<UKerraWidgetBase>(KerraPC, TrackQuestWidgetClass);
+		OnAddQuest.Broadcast(AddQuestInfo);
+		TrackQuestWidget->AddToViewport();
 		return true;
 	}
 	return false;
@@ -93,6 +98,109 @@ bool UKerraQuestComponent::CheckCompletedQuest(FKerraQuestInfo CheckQuestInfo)
 	return false;
 }
 
+void UKerraQuestComponent::AddQuestItem(EQuestItemName ItemName, ENpcName NpcName, EQuestArea Area)
+{
+	bool IsFound = false;
+	EQuestName QuestID;
+	int32 QuestIndex;
+	FKerraQuestInfo QuestInfo;
+	FindQuestID(ItemName, NpcName, Area, IsFound, QuestID, QuestIndex, QuestInfo);
+
+	FQuestObjective CurrentQuestObjective;
+	int32 ObjectIndex;
+	if(IsFound)
+	{
+		if(GetCurrentObjective(QuestInfo, CurrentQuestObjective, ObjectIndex))
+		{
+			if(CurrentQuestObjective.ItemName == ItemName)
+			{
+				// QuestInfo.Objectives[ObjectIndex].CurrentAmount = ++CurrentQuestObjective.CurrentAmount;
+				CurrentQuestObjective.CurrentAmount++;
+				QuestInfo.Objectives[ObjectIndex] = CurrentQuestObjective;
+
+				AcceptedQuests[QuestIndex] = QuestInfo;
+				OnObjectiveChanged.Broadcast(QuestInfo);
+			}
+		}
+	}
+	else
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Add Item To Inventory"));
+	}
+}
+
+void UKerraQuestComponent::FindQuestID(EQuestItemName ItemName, ENpcName NpcName, EQuestArea Area, bool& OutFound, EQuestName& OutQuestName, int32& OutQuestIndex, FKerraQuestInfo& OutQuestInfo)
+{
+	/* Find quest id in accepted quests */
+	FQuestObjective CurrentObjective;
+	int32 CurrentObjectiveIndex = -1;
+	
+	if(ItemName != EQuestItemName::None)
+	{
+		bool FoundQuestID = false;
+		for(FKerraQuestInfo& QuestInfo : AcceptedQuests)
+		{
+			if(GetCurrentObjective(QuestInfo, CurrentObjective, CurrentObjectiveIndex))
+			{
+				if(ItemName == CurrentObjective.ItemName)
+				{
+					FoundQuestID = true;
+					break;
+				}	
+			}
+			CurrentObjectiveIndex++;
+		}
+		if(FoundQuestID)
+		{
+			OutFound = FoundQuestID;
+			OutQuestName = AcceptedQuests[CurrentObjectiveIndex].QuestID;
+			OutQuestIndex = CurrentObjectiveIndex;
+			OutQuestInfo = AcceptedQuests[CurrentObjectiveIndex];
+		}
+	}
+	else
+	{
+		if(NpcName != ENpcName::None)
+		{
+			
+		}
+		else
+		{
+			if(Area != EQuestArea::None)
+			{
+				
+			}
+		}
+	}
+}
+
+bool UKerraQuestComponent::GetCurrentObjective(FKerraQuestInfo QuestInfo, FQuestObjective& OutObjective, int32& OutObjectiveIndex)
+{
+	bool IsFound = false;
+	FQuestObjective FoundObjective;
+	int32 FoundObjectIndex = 0;
+	
+	for(const FQuestObjective& QuestObject : QuestInfo.Objectives)
+	{
+		if(QuestObject.CurrentAmount < QuestObject.RequireAmount)
+		{
+			FoundObjective = QuestObject;
+			IsFound = true;
+			break;
+		}
+		FoundObjectIndex++;
+	}
+
+	if(IsFound)
+	{
+		OutObjective = FoundObjective;
+		OutObjectiveIndex = FoundObjectIndex;
+		return true;	
+	}
+
+	return false;
+}
+
 FKerraQuestInfo UKerraQuestComponent::GetQuestInfoFromQuestName(const FName QuestName, bool& OutIsFound)
 {
 	check(QuestDataTable)
@@ -131,4 +239,9 @@ void UKerraQuestComponent::AddQuestNotification(EQuestNotification Notification,
 			QuestCompleteNotifyWidget->AddToViewport();
 		}
 	}
+}
+
+void UKerraQuestComponent::ObjectiveUpdate(FKerraQuestInfo TrackedQuest)
+{
+	UE_LOG(LogTemp, Warning, TEXT("Objective Update Delegate Function"));
 }

@@ -8,7 +8,7 @@
 #include "KerraQuestComponent.generated.h"
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnAddQuestDelegate, FKerraQuestInfo, AddedQuestInfo);
-
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnObjectiveChanged, FKerraQuestInfo, TrackedQuest);
 
 class UKerraWidgetBase;
 class AKerraPlayerController;
@@ -33,6 +33,15 @@ public:
 	bool CheckCompletedQuest(FKerraQuestInfo CheckQuestInfo);
 
 	UFUNCTION(BlueprintCallable)
+	void AddQuestItem(EQuestItemName ItemName, ENpcName NpcName, EQuestArea Area);
+
+	UFUNCTION(BlueprintCallable)
+	void FindQuestID(EQuestItemName ItemName, ENpcName NpcName, EQuestArea Area, bool& OutFound, EQuestName& OutQuestName, int32& OutQuestIndex, FKerraQuestInfo& OutQuestInfo);
+
+	UFUNCTION(BlueprintCallable)
+	bool GetCurrentObjective(FKerraQuestInfo QuestInfo, FQuestObjective& OutObjective, int32& OutObjectiveIndex);
+
+	UFUNCTION(BlueprintCallable)
 	FKerraQuestInfo GetQuestInfoFromQuestName(const FName QuestName, bool& OutIsFound);
 
 	void AddQuestNotification(EQuestNotification Notification, FKerraQuestInfo& QuestInfo);
@@ -40,9 +49,14 @@ public:
 	/* Getter */
 	UDataTable* GetQuestDataTable() { return QuestDataTable; }
 
+	void ObjectiveUpdate(FKerraQuestInfo TrackedQuest);
+
 public:
 	UPROPERTY(BlueprintAssignable)
 	FOnAddQuestDelegate OnAddQuest;
+
+	UPROPERTY(BlueprintAssignable)
+	FOnObjectiveChanged OnObjectiveChanged;
 
 private:
 	TObjectPtr<AKerraPlayerController> KerraPC;
@@ -58,6 +72,11 @@ private:
 	UPROPERTY(EditDefaultsOnly, Category="Widget")
 	TSubclassOf<UKerraWidgetBase> QuestCompleteNotifyWidgetClass;
 	TObjectPtr<UKerraWidgetBase> QuestCompleteNotifyWidget = nullptr;
+
+	UPROPERTY(EditDefaultsOnly, Category="Widget")
+	TSubclassOf<UKerraWidgetBase> TrackQuestWidgetClass;
+	TObjectPtr<UKerraWidgetBase> TrackQuestWidget = nullptr;
+
 
 	UPROPERTY(EditDefaultsOnly, Category="Quest")
 	TObjectPtr<UDataTable> QuestDataTable;

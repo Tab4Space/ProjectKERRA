@@ -54,12 +54,18 @@ enum class EQuestFilter : uint8
 };
 
 UENUM()
-enum EQuestNotification
+enum class EQuestNotification : uint8
 {
 	None,
 	NewQuest,
 	CompletedQuest,
 	FailedQuest
+};
+
+UENUM()
+enum class ENpcName : uint8
+{
+	None,
 };
 
 
