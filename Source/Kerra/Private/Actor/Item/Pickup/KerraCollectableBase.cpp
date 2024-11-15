@@ -16,7 +16,7 @@ void AKerraCollectableBase::DoInteraction(AActor* TargetActor)
 	if(IKerraQuestInterface* QuestInterface = Cast<IKerraQuestInterface>(TargetActor))
 	{
 		UKerraQuestComponent* TargetQuestComponent = QuestInterface->GetQuestComponent();
-		TargetQuestComponent->AddQuestItem(ItemName, ENpcName::None, EQuestArea::None);
+		TargetQuestComponent->AddItemToQuestObjective(ItemName, ENpcName::None, EQuestArea::None);
 	}
 	
 }

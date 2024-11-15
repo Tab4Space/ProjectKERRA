@@ -74,7 +74,7 @@ bool UKerraQuestComponent::CheckCompletedQuest(FKerraQuestInfo CheckQuestInfo)
 	/* Check already completed quest or not*/
 	bool bIsFound = false;
 	
-	for(FName QuestName : CompletedQuest)
+	for(FName QuestName : CompletedQuestNames)
 	{
 		if(bIsFound)
 		{
@@ -98,7 +98,7 @@ bool UKerraQuestComponent::CheckCompletedQuest(FKerraQuestInfo CheckQuestInfo)
 	return false;
 }
 
-void UKerraQuestComponent::AddQuestItem(EQuestItemName ItemName, ENpcName NpcName, EQuestArea Area)
+void UKerraQuestComponent::AddItemToQuestObjective(EQuestItemName ItemName, ENpcName NpcName, EQuestArea Area)
 {
 	bool IsFound = false;
 	EQuestName QuestID;
@@ -120,6 +120,16 @@ void UKerraQuestComponent::AddQuestItem(EQuestItemName ItemName, ENpcName NpcNam
 
 				AcceptedQuests[QuestIndex] = QuestInfo;
 				OnObjectiveChanged.Broadcast(QuestInfo);
+
+				FKerraQuestInfo CheckedQuest;
+				if(CanQuestCompleted(QuestInfo, CheckedQuest))
+				{
+					CompleteQuest(CheckedQuest);
+				}
+				else
+				{
+					UE_LOG(LogTemp, Warning, TEXT("Add Item To Inventory"));
+				}
 			}
 		}
 	}
@@ -168,7 +178,26 @@ void UKerraQuestComponent::FindQuestID(EQuestItemName ItemName, ENpcName NpcName
 		{
 			if(Area != EQuestArea::None)
 			{
-				
+				bool FoundQuestID = false;
+				for(FKerraQuestInfo& QuestInfo : AcceptedQuests)
+				{
+					if(GetCurrentObjective(QuestInfo, CurrentObjective, CurrentObjectiveIndex))
+					{
+						if(Area == CurrentObjective.AreaLocation)
+						{
+							FoundQuestID = true;
+							break;
+						}	
+					}
+					CurrentObjectiveIndex++;
+				}
+				if(FoundQuestID)
+				{
+					OutFound = FoundQuestID;
+					OutQuestName = AcceptedQuests[CurrentObjectiveIndex].QuestID;
+					OutQuestIndex = CurrentObjectiveIndex;
+					OutQuestInfo = AcceptedQuests[CurrentObjectiveIndex];
+				}
 			}
 		}
 	}
@@ -239,6 +268,49 @@ void UKerraQuestComponent::AddQuestNotification(EQuestNotification Notification,
 			QuestCompleteNotifyWidget->AddToViewport();
 		}
 	}
+}
+
+bool UKerraQuestComponent::CanQuestCompleted(const FKerraQuestInfo& QuestToCheck, FKerraQuestInfo& OutCheckedQuest)
+{
+	for(const FQuestObjective CheckObjective : QuestToCheck.Objectives)
+	{
+		if(CheckObjective.CurrentAmount < CheckObjective.RequireAmount)
+		{
+			OutCheckedQuest = QuestToCheck;
+			return false;
+		}
+	}
+	OutCheckedQuest = QuestToCheck;
+	return true;
+}
+
+void UKerraQuestComponent::CompleteQuest(FKerraQuestInfo QuestToComplete)
+{
+	bool FoundQuest = false;
+	for(const FKerraQuestInfo AcceptedQuest : AcceptedQuests)
+	{
+		if(AcceptedQuest.QuestID == QuestToComplete.QuestID)
+		{
+			CompletedQuestNames.Add(UEnum::GetValueAsName(QuestToComplete.QuestID));
+			AcceptedQuests.Remove(QuestToComplete);
+			FoundQuest = true;
+			break;
+		}
+	}
+
+	if(FoundQuest)
+	{
+		if(TrackQuestWidget)
+		{
+			TrackQuestWidget->RemoveFromParent();
+			AddQuestNotification(EQuestNotification::CompletedQuest, QuestToComplete);
+		}
+	}
+}
+
+EQuestName UKerraQuestComponent::TrackingQuest(FKerraQuestInfo QuestToTrack)
+{
+	return QuestToTrack.QuestID;
 }
 
 void UKerraQuestComponent::ObjectiveUpdate(FKerraQuestInfo TrackedQuest)

@@ -33,7 +33,7 @@ public:
 	bool CheckCompletedQuest(FKerraQuestInfo CheckQuestInfo);
 
 	UFUNCTION(BlueprintCallable)
-	void AddQuestItem(EQuestItemName ItemName, ENpcName NpcName, EQuestArea Area);
+	void AddItemToQuestObjective(EQuestItemName ItemName, ENpcName NpcName, EQuestArea Area);
 
 	UFUNCTION(BlueprintCallable)
 	void FindQuestID(EQuestItemName ItemName, ENpcName NpcName, EQuestArea Area, bool& OutFound, EQuestName& OutQuestName, int32& OutQuestIndex, FKerraQuestInfo& OutQuestInfo);
@@ -43,9 +43,17 @@ public:
 
 	UFUNCTION(BlueprintCallable)
 	FKerraQuestInfo GetQuestInfoFromQuestName(const FName QuestName, bool& OutIsFound);
-
+	
 	void AddQuestNotification(EQuestNotification Notification, FKerraQuestInfo& QuestInfo);
 
+	UFUNCTION(BlueprintCallable)
+	bool CanQuestCompleted(const FKerraQuestInfo& QuestToCheck, FKerraQuestInfo& OutCheckedQuest);
+
+	void CompleteQuest(FKerraQuestInfo QuestToComplete);
+
+	UFUNCTION(BlueprintCallable)
+	EQuestName TrackingQuest(FKerraQuestInfo QuestToTrack);
+	
 	/* Getter */
 	UDataTable* GetQuestDataTable() { return QuestDataTable; }
 
@@ -88,7 +96,7 @@ private:
 	FKerraQuestInfo ActiveQuest;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="Quest", meta=(AllowPrivateAccess="true"))
-	TArray<FName> CompletedQuest;
+	TArray<FName> CompletedQuestNames;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="Quest", meta=(AllowPrivateAccess="true"))
 	TArray<FName> FailedQuest;

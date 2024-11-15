@@ -13,12 +13,13 @@ enum class EQuestType : uint8
 	SubQuest
 };
 
-UENUM()
+UENUM(BlueprintType, Blueprintable)
 enum class EQuestName : uint8
 {
 	None,
 	Welcome,
-	SecondQuest
+	SecondQuest,
+	ThirdQuest
 };
 
 UENUM()
@@ -27,6 +28,7 @@ enum class EQuestGiver : uint8
 	None,
 	Jone,
 	Bob,
+	Matt,
 	Test
 };
 
@@ -40,7 +42,8 @@ enum class EQuestItemName : uint8
 UENUM()
 enum class EQuestArea : uint8
 {
-	None
+	None,
+	FirstLocation
 };
 
 UENUM(BlueprintType, Blueprintable)
@@ -160,5 +163,14 @@ public:
 	EQuestArea QuestLocation;
 	
 	bool IsValid() const;
+
+	bool operator==(const FKerraQuestInfo& Other) const
+	{
+		if(QuestID != Other.QuestID)
+		{
+			return false;
+		}
+		return true;
+	}
 };
 
