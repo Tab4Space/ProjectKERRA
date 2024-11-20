@@ -13,15 +13,6 @@ enum class EQuestType : uint8
 	SubQuest
 };
 
-UENUM(BlueprintType, Blueprintable)
-enum class EQuestName : uint8
-{
-	None,
-	Welcome,
-	SecondQuest,
-	ThirdQuest
-};
-
 UENUM()
 enum class EQuestGiver : uint8
 {
@@ -99,7 +90,8 @@ struct FQuestObjective
 	bool bObjectiveCompleteAnotherQuest;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	TArray<EQuestName> QuestID;
+	FGameplayTagContainer QuestIDs;
+	//TArray<EQuestName> QuestID;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	EQuestItemName ItemName;
@@ -133,7 +125,7 @@ public:
 	FKerraQuestInfo();
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	EQuestName QuestID;
+	FGameplayTag QuestID;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	EQuestType QuestType;
@@ -154,7 +146,8 @@ public:
 	EQuestGiver QuestGiver;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	EQuestName GiveNextQuest;
+	FGameplayTag NextQuestID;
+	//EQuestName GiveNextQuest;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	FQuestReward QuestReward;

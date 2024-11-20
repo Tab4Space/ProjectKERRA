@@ -20,7 +20,7 @@ public:
 
 	/* Quest Interface */
 	UFUNCTION(BlueprintCallable)
-	virtual void DoInteraction(AActor* TargetActor) override;
+	virtual void DoInteraction_Implementation(AActor* TargetActor) override;
 
 protected:
 	virtual void BeginPlay() override;

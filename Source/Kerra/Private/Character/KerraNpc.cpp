@@ -3,6 +3,7 @@
 
 #include "Character/KerraNpc.h"
 
+#include "KerraGameplayTags.h"
 #include "Component/Quest/KerraQuestComponent.h"
 
 
@@ -31,11 +32,12 @@ void AKerraNpc::InitForQuest()
 	}
 }
 
-void AKerraNpc::DoInteraction(AActor* TargetActor)
+void AKerraNpc::DoInteraction_Implementation(AActor* TargetActor)
 {
 	UE_LOG(LogTemp, Warning, TEXT("DoInteraction"));
 	GiveQuestToPlayer(TargetActor);
 }
+
 
 void AKerraNpc::BeginPlay()
 {
@@ -45,13 +47,14 @@ void AKerraNpc::BeginPlay()
 
 void AKerraNpc::GiveQuestToPlayer(AActor* TargetActor)
 {
+	// IKerraQuestInterface::Execute_DoInteraction(this, TargetActor);
 	if(IKerraQuestInterface* QuestInterface = Cast<IKerraQuestInterface>(TargetActor))
 	{
 		UKerraQuestComponent* TargetQuestComponent = QuestInterface->GetQuestComponent();
 
 		for(FKerraQuestInfo& QuestInfo : OwnedQuest)
 		{
-			bool bSuccessGiving = TargetQuestComponent->AddQuest(QuestInfo);
+			bool bSuccessGiving = TargetQuestComponent->AddQuest(KerraGameplayTags::Quest_ID_FirstQuest);
 			if(bSuccessGiving)
 			{
 				break;

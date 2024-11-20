@@ -9,7 +9,7 @@ AKerraCollectableBase::AKerraCollectableBase()
 {
 }
 
-void AKerraCollectableBase::DoInteraction(AActor* TargetActor)
+void AKerraCollectableBase::DoInteraction_Implementation(AActor* TargetActor)
 {
 	UE_LOG(LogTemp, Warning, TEXT("%s"), *TargetActor->GetActorNameOrLabel());
 

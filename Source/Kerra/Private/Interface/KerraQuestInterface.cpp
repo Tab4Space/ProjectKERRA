@@ -9,7 +9,3 @@ UKerraQuestComponent* IKerraQuestInterface::GetQuestComponent() const
 	return nullptr;
 }
 
-void IKerraQuestInterface::DoInteraction(AActor* TargetActor)
-{
-}
-

@@ -101,5 +101,10 @@ namespace KerraGameplayTags
 	UE_DEFINE_GAMEPLAY_TAG(Shared_Status_HitReact_Right, "Shared.Status.HitReact.Right");
 	UE_DEFINE_GAMEPLAY_TAG(Shared_Status_HitReact_Back, "Shared.Status.HitReact.Back");
 	UE_DEFINE_GAMEPLAY_TAG(Shared_Status_Invincible, "Shared.Status.Invincible");
+
+	/* Quest Tags */
+	UE_DEFINE_GAMEPLAY_TAG(Quest_ID_FirstQuest, "Quest.ID.FirstQuest");
+	UE_DEFINE_GAMEPLAY_TAG(Quest_ID_SecondQuest, "Quest.ID.SecondQuest");
+	UE_DEFINE_GAMEPLAY_TAG(Quest_ID_ThirdQuest, "Quest.ID.ThirdQuest");
 	
 }

@@ -27,7 +27,7 @@ public:
 	void ToggleQuestWidget();
 
 	UFUNCTION(BlueprintCallable)
-	bool AddQuest(FKerraQuestInfo AddQuestInfo);
+	bool AddQuest(FGameplayTag QuestIDTag);
 	
 	bool CanAcceptQuest(FKerraQuestInfo CheckQuestInfo);
 	bool CheckCompletedQuest(FKerraQuestInfo CheckQuestInfo);
@@ -36,7 +36,7 @@ public:
 	void AddItemToQuestObjective(EQuestItemName ItemName, ENpcName NpcName, EQuestArea Area);
 
 	UFUNCTION(BlueprintCallable)
-	void FindQuestID(EQuestItemName ItemName, ENpcName NpcName, EQuestArea Area, bool& OutFound, EQuestName& OutQuestName, int32& OutQuestIndex, FKerraQuestInfo& OutQuestInfo);
+	void FindQuestID(EQuestItemName ItemName, ENpcName NpcName, EQuestArea Area, bool& OutFound, FGameplayTag& OutQuestID, int32& OutQuestIndex, FKerraQuestInfo& OutQuestInfo);
 
 	UFUNCTION(BlueprintCallable)
 	bool GetCurrentObjective(FKerraQuestInfo QuestInfo, FQuestObjective& OutObjective, int32& OutObjectiveIndex);
@@ -52,7 +52,7 @@ public:
 	void CompleteQuest(FKerraQuestInfo QuestToComplete);
 
 	UFUNCTION(BlueprintCallable)
-	EQuestName TrackingQuest(FKerraQuestInfo QuestToTrack);
+	FGameplayTag TrackingQuest(FKerraQuestInfo QuestToTrack);
 	
 	/* Getter */
 	UDataTable* GetQuestDataTable() { return QuestDataTable; }
@@ -85,18 +85,26 @@ private:
 	TSubclassOf<UKerraWidgetBase> TrackQuestWidgetClass;
 	TObjectPtr<UKerraWidgetBase> TrackQuestWidget = nullptr;
 
-
 	UPROPERTY(EditDefaultsOnly, Category="Quest")
 	TObjectPtr<UDataTable> QuestDataTable;
 
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="Quest", meta=(AllowPrivateAccess="true"))
-	TArray<FKerraQuestInfo> AcceptedQuests;
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Quest|List", meta=(AllowPrivateAccess="true"))
+	FGameplayTagContainer AcceptedQuests;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Quest|List", meta=(AllowPrivateAccess="true"))
+	FGameplayTagContainer CompletedQuests;
+	
+
+	/*UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="Quest", meta=(AllowPrivateAccess="true"))
+	TArray<FKerraQuestInfo> AcceptedQuests;*/
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="Quest", meta=(AllowPrivateAccess="true"))
 	FKerraQuestInfo ActiveQuest;
 
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="Quest", meta=(AllowPrivateAccess="true"))
-	TArray<FName> CompletedQuestNames;
+	/*UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="Quest", meta=(AllowPrivateAccess="true"))
+	TArray<FName> CompletedQuestNames;*/
+
+	
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="Quest", meta=(AllowPrivateAccess="true"))
 	TArray<FName> FailedQuest;

@@ -21,7 +21,7 @@ public:
 
 	/* Quest Interface */
 	UFUNCTION(BlueprintCallable)
-	virtual void DoInteraction(AActor* TargetActor) override;
+	virtual void DoInteraction_Implementation(AActor* TargetActor) override;
 
 private:
 	UPROPERTY(EditAnywhere, Category="Quest", meta=(AllowPrivateAccess="true"))
