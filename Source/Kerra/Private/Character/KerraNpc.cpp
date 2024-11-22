@@ -54,7 +54,7 @@ void AKerraNpc::GiveQuestToPlayer(AActor* TargetActor)
 
 		for(FKerraQuestInfo& QuestInfo : OwnedQuest)
 		{
-			bool bSuccessGiving = TargetQuestComponent->AddQuest(KerraGameplayTags::Quest_ID_FirstQuest);
+			bool bSuccessGiving = TargetQuestComponent->AddQuest(QuestInfo.QuestID);
 			if(bSuccessGiving)
 			{
 				break;

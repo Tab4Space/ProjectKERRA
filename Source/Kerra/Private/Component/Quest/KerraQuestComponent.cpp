@@ -33,89 +33,59 @@ void UKerraQuestComponent::ToggleQuestWidget()
 	}
 }
 
-bool UKerraQuestComponent::AddQuest(FGameplayTag QuestIDTag)
+bool UKerraQuestComponent::AddQuest(FGameplayTag QuestIDTagToAdd)
 {
 	/* Add Quest in 'AcceptedQuests' */
 	/*
-	 * 1. check quest is possible accepted?
+	 * 1. check quest is possible accepted (already accepted, completed, repeatable)?
+	 * 2. Add to quest tracking widget
+	 * TODO: check repeatable quest
 	 */
 	
-	if(!AcceptedQuests.HasTagExact(QuestIDTag) && !CompletedQuests.HasTagExact(QuestIDTag))
+	if(!AcceptedQuests.HasTagExact(QuestIDTagToAdd) && !CompletedQuests.HasTagExact(QuestIDTagToAdd))
 	{
-		AcceptedQuests.AddTag(QuestIDTag);
-		FKerraQuestInfo* QuestInfo = QuestDataTable->FindRow<FKerraQuestInfo>(QuestIDTag.GetTagName(), ".");
-		
-		//QuestIDTag.ToString()
-		//UE_LOG(LogTemp, Warning, TEXT("%s"), *QuestIDTag.GetTagName().ToString());
-		//UE_LOG(LogTemp, Warning, TEXT("%s"), *QuestIDTag.ToString());
-		
-		//AddQuestNotification(EQuestNotification::NewQuest, )
-	}
-	
-	
-	/*if(CanAcceptQuest(AddQuestInfo))
-	{
-		AcceptedQuests.Add(AddQuestInfo);
-		ActiveQuest = AddQuestInfo;
-		AddQuestNotification(EQuestNotification::NewQuest, AddQuestInfo);
+		FKerraQuestInfo* QuestInfoToAdd = QuestDataTable->FindRow<FKerraQuestInfo>(QuestIDTagToAdd.GetTagName(), "");
+		check(QuestInfoToAdd)
+		AcceptedQuests.AddTag(QuestIDTagToAdd);
+		AcceptedQuestsMap.Add(QuestIDTagToAdd, *QuestInfoToAdd);
 
+		ActiveQuest = *QuestInfoToAdd;
+		AddQuestNotification(EQuestNotification::NewQuest, *QuestInfoToAdd);
+		
 		TrackQuestWidget = CreateWidget<UKerraWidgetBase>(KerraPC, TrackQuestWidgetClass);
-		OnAddQuest.Broadcast(AddQuestInfo);
+		OnAddQuest.Broadcast(*QuestInfoToAdd);
 		TrackQuestWidget->AddToViewport();
 		return true;
-	}*/
+	}
 	return false;
 }
 
-bool UKerraQuestComponent::CanAcceptQuest(FKerraQuestInfo CheckQuestInfo)
+void UKerraQuestComponent::AddItemInQuestObjectives(const FGameplayTag ItemIDTag, const FGameplayTagContainer& UsedQuests)
 {
-
+	/* 아이템이 적용되는 quest 리스트에서 iter를 돌아 map에서 찾고 object list 추적 */
 	
-
-	
-	/* Check accept quest or not */
-	/*if(CheckCompletedQuest(CheckQuestInfo))
-		return false;
-
-	bool bIsFound = true;
-	for(const FKerraQuestInfo Info : AcceptedQuests)
+	for(FGameplayTag QuestTag : UsedQuests.GetGameplayTagArray())
 	{
-		if(Info.QuestID == CheckQuestInfo.QuestID)
-		{
-			bIsFound = false;
-			break;
-		}
-	}*/
-	return false;
-}
+		UE_LOG(LogTemp, Warning, TEXT("%s"), *QuestTag.ToString())
+		const FKerraQuestInfo* QuestInfo = AcceptedQuestsMap.Find(QuestTag);
 
-bool UKerraQuestComponent::CheckCompletedQuest(FKerraQuestInfo CheckQuestInfo)
-{
-	/* Check already completed quest or not*/
-	/*bool bIsFound = false;
-	
-	for(FName QuestName : CompletedQuestNames)
-	{
-		if(bIsFound)
+		if(QuestInfo && QuestInfo->RequireObjects.Contains(ItemIDTag))
 		{
-			break;
-		}
+			AcceptedQuestsMap[QuestTag].RequireObjects[ItemIDTag].CurrentAmount++;
+			OnObjectiveChanged.Broadcast(AcceptedQuestsMap[QuestTag]);
 
-		const FName DisplayName = FName(UEnum::GetDisplayValueAsText(CheckQuestInfo.QuestID).ToString());
-		if(QuestName == DisplayName)
-		{
-			bIsFound = true;
+			//CanCompleteQuest(AcceptedQuestsMap[QuestTag], AcceptedQuestsMap[QuestTag].QuestClearType);
 		}
 	}
+}
 
-	if(bIsFound)
+void UKerraQuestComponent::CanCompleteQuest(const FKerraQuestInfo QuestInfo, const EQuestClearType ClearType)
+{
+	if(ClearType == EQuestClearType::CollectItem)
 	{
-		if(CheckQuestInfo.bRepeatable)
-		{
-			return true;
-		}
-	}*/
-	return false;
+		// if(QuestInfo.RequireObjects)
+	}
+	
 }
 
 void UKerraQuestComponent::AddItemToQuestObjective(EQuestItemName ItemName, ENpcName NpcName, EQuestArea Area)
@@ -125,6 +95,12 @@ void UKerraQuestComponent::AddItemToQuestObjective(EQuestItemName ItemName, ENpc
 	int32 QuestIndex;
 	FKerraQuestInfo QuestInfo;
 	FindQuestID(ItemName, NpcName, Area, IsFound, QuestID, QuestIndex, QuestInfo);
+
+	/*
+	 * 1. 오브젝트 카운팅 해주고
+	 * 2. quest가 완료되는지 확인하고
+	 * 3. 완료할 수 있으면 퀘스트를 accepted에서 complete로 넣어줌
+	 */
 
 	/*FQuestObjective CurrentQuestObjective;
 	int32 ObjectIndex;
@@ -162,6 +138,7 @@ void UKerraQuestComponent::AddItemToQuestObjective(EQuestItemName ItemName, ENpc
 void UKerraQuestComponent::FindQuestID(EQuestItemName ItemName, ENpcName NpcName, EQuestArea Area, bool& OutFound, FGameplayTag& OutQuestID, int32& OutQuestIndex, FKerraQuestInfo& OutQuestInfo)
 {
 	/* Find quest id in accepted quests */
+	
 	/*FQuestObjective CurrentObjective;
 	int32 CurrentObjectiveIndex = -1;
 	
@@ -270,10 +247,8 @@ FKerraQuestInfo UKerraQuestComponent::GetQuestInfoFromQuestName(const FName Ques
 
 void UKerraQuestComponent::AddQuestNotification(EQuestNotification Notification, FKerraQuestInfo& QuestInfo)
 {
-	/* if add quest, notify to widget using delegate broadcast*/
-
-	
-	/*if(Notification == EQuestNotification::NewQuest)
+	/* if add quest, notify to widget using delegate broadcast */
+	if(Notification == EQuestNotification::NewQuest)
 	{
 		QuestNotificationWidget = CreateWidget<UKerraWidgetBase>(KerraPC, QuestNotificationWidgetClass);
 		if(OnAddQuest.IsBound())
@@ -290,7 +265,7 @@ void UKerraQuestComponent::AddQuestNotification(EQuestNotification Notification,
 			OnAddQuest.Broadcast(QuestInfo);
 			QuestCompleteNotifyWidget->AddToViewport();
 		}
-	}*/
+	}
 }
 
 bool UKerraQuestComponent::CanQuestCompleted(const FKerraQuestInfo& QuestToCheck, FKerraQuestInfo& OutCheckedQuest)
@@ -338,5 +313,5 @@ FGameplayTag UKerraQuestComponent::TrackingQuest(FKerraQuestInfo QuestToTrack)
 
 void UKerraQuestComponent::ObjectiveUpdate(FKerraQuestInfo TrackedQuest)
 {
-	//UE_LOG(LogTemp, Warning, TEXT("Objective Update Delegate Function"));
+	UE_LOG(LogTemp, Warning, TEXT("Objective Update Delegate Function"));
 }

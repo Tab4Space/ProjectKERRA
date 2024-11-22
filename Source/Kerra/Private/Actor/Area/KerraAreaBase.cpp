@@ -3,7 +3,9 @@
 
 #include "Actor/Area/KerraAreaBase.h"
 
+#include "Component/Quest/KerraQuestComponent.h"
 #include "Components/BoxComponent.h"
+#include "Interface/KerraQuestInterface.h"
 
 
 AKerraAreaBase::AKerraAreaBase()
@@ -19,5 +21,8 @@ AKerraAreaBase::AKerraAreaBase()
 void AKerraAreaBase::OnBoxCollisionBeginOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep,
 	const FHitResult& SweepResult)
 {
-	
+	if(IKerraQuestInterface* QuestInterface = Cast<IKerraQuestInterface>(OtherActor))
+	{
+		// QuestInterface->GetQuestComponent()->AddQuest()
+	}
 }

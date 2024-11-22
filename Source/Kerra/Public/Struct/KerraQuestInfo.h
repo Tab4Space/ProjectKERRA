@@ -7,10 +7,20 @@
 #include "KerraQuestInfo.generated.h"
 
 UENUM()
-enum class EQuestType : uint8
+enum class EQuestCategory : uint8
 {
 	MainQuest,
 	SubQuest
+};
+
+UENUM()
+enum class EQuestClearType : uint8
+{
+	None,
+	CollectItem,
+	KillEnemy,
+	GoToLocation,
+	TalkToNpc
 };
 
 UENUM()
@@ -91,7 +101,6 @@ struct FQuestObjective
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	FGameplayTagContainer QuestIDs;
-	//TArray<EQuestName> QuestID;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	EQuestItemName ItemName;
@@ -128,7 +137,10 @@ public:
 	FGameplayTag QuestID;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	EQuestType QuestType;
+	EQuestCategory QuestType;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	EQuestClearType QuestClearType;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	FText QuestName;
@@ -138,16 +150,15 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	bool bRepeatable;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	TArray<FQuestObjective> Objectives;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta=(Categories="Item.ID"))
+	TMap<FGameplayTag, FQuestObjective> RequireObjects;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	EQuestGiver QuestGiver;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	FGameplayTag NextQuestID;
-	//EQuestName GiveNextQuest;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	FQuestReward QuestReward;

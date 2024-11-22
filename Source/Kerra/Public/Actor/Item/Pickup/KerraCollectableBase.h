@@ -24,6 +24,16 @@ public:
 	virtual void DoInteraction_Implementation(AActor* TargetActor) override;
 
 private:
+	// Unique tag for item
+	UPROPERTY(EditAnywhere, Category="Quest", meta=(AllowPrivateAccess="true", Categories="Item.ID"))
+	FGameplayTag ItemIDTag;
+	
+	UPROPERTY(EditAnywhere, Category="Quest", meta=(AllowPrivateAccess="true"))
+	bool bUseInQuest;
+
+	UPROPERTY(EditAnywhere, Category="Quest", meta=(AllowPrivateAccess="true", EditCondition="bUseInQuest", Categories="Quest.ID", EditConditionHides))
+	FGameplayTagContainer UsedInQuests;
+	
 	UPROPERTY(EditAnywhere, Category="Quest", meta=(AllowPrivateAccess="true"))
 	EQuestItemName ItemName;
 };

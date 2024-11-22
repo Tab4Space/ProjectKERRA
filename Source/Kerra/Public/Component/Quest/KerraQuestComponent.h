@@ -27,13 +27,17 @@ public:
 	void ToggleQuestWidget();
 
 	UFUNCTION(BlueprintCallable)
-	bool AddQuest(FGameplayTag QuestIDTag);
+	bool AddQuest(FGameplayTag QuestIDTagToAdd);
+
+	UFUNCTION(BlueprintCallable)
+	void AddItemInQuestObjectives(const FGameplayTag ItemIDTag, const FGameplayTagContainer& UsedQuests);
 	
-	bool CanAcceptQuest(FKerraQuestInfo CheckQuestInfo);
-	bool CheckCompletedQuest(FKerraQuestInfo CheckQuestInfo);
 
 	UFUNCTION(BlueprintCallable)
 	void AddItemToQuestObjective(EQuestItemName ItemName, ENpcName NpcName, EQuestArea Area);
+
+	UFUNCTION(BlueprintCallable)
+	void CanCompleteQuest(const FKerraQuestInfo QuestInfo, const EQuestClearType ClearType);
 
 	UFUNCTION(BlueprintCallable)
 	void FindQuestID(EQuestItemName ItemName, ENpcName NpcName, EQuestArea Area, bool& OutFound, FGameplayTag& OutQuestID, int32& OutQuestIndex, FKerraQuestInfo& OutQuestInfo);
@@ -88,11 +92,19 @@ private:
 	UPROPERTY(EditDefaultsOnly, Category="Quest")
 	TObjectPtr<UDataTable> QuestDataTable;
 
+	// Currently accepted quests
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Quest|List", meta=(AllowPrivateAccess="true"))
 	FGameplayTagContainer AcceptedQuests;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Quest|List", meta=(AllowPrivateAccess="true"))
+	TMap<FGameplayTag, FKerraQuestInfo> AcceptedQuestsMap;
+
+	// Already completed quests
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Quest|List", meta=(AllowPrivateAccess="true"))
 	FGameplayTagContainer CompletedQuests;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Quest|List", meta=(AllowPrivateAccess="true"))
+	TMap<FGameplayTag, FKerraQuestInfo> CompletedQuestsMap;
 	
 
 	/*UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="Quest", meta=(AllowPrivateAccess="true"))
@@ -103,8 +115,6 @@ private:
 
 	/*UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="Quest", meta=(AllowPrivateAccess="true"))
 	TArray<FName> CompletedQuestNames;*/
-
-	
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="Quest", meta=(AllowPrivateAccess="true"))
 	TArray<FName> FailedQuest;
