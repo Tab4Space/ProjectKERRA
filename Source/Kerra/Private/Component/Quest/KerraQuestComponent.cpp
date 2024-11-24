@@ -63,7 +63,7 @@ bool UKerraQuestComponent::AddQuest(FGameplayTag QuestIDTagToAdd)
 void UKerraQuestComponent::AddItemInQuestObjectives(const FGameplayTag ItemIDTag, const FGameplayTagContainer& UsedQuests)
 {
 	/* 아이템이 적용되는 quest 리스트에서 iter를 돌아 map에서 찾고 object list 추적 */
-	/* TODO: 여기에서 바로 퀘스트 완료 검사를 안 하고 퀘스트 완료 버튼 만들고 누를 때 검사하도록 변경하기
+	/* TODO: 여기에서 바로 퀘스트 완료 검사를 안 하고 퀘스트 완료 버튼 만들고 누를 때 검사하도록 변경하기, check item in inventory
 	 * 누를 때
 	*/
 	for(FGameplayTag QuestTag : UsedQuests.GetGameplayTagArray())
@@ -87,7 +87,6 @@ void UKerraQuestComponent::CanCompleteQuest(const FKerraQuestInfo QuestInfo, con
 	{
 		// if(QuestInfo.RequireObjects)
 	}
-	
 }
 
 void UKerraQuestComponent::AddItemToQuestObjective(EQuestItemName ItemName, ENpcName NpcName, EQuestArea Area)
