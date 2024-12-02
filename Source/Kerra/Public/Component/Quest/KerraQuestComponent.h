@@ -61,6 +61,7 @@ public:
 	/* Getter */
 	UDataTable* GetQuestDataTable() { return QuestDataTable; }
 
+	UFUNCTION()
 	void ObjectiveUpdate(FKerraQuestInfo TrackedQuest);
 
 public:
@@ -105,17 +106,12 @@ private:
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Quest|List", meta=(AllowPrivateAccess="true"))
 	TMap<FGameplayTag, FKerraQuestInfo> CompletedQuestsMap;
-	
-
-	/*UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="Quest", meta=(AllowPrivateAccess="true"))
-	TArray<FKerraQuestInfo> AcceptedQuests;*/
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="Quest", meta=(AllowPrivateAccess="true"))
 	FKerraQuestInfo ActiveQuest;
 
-	/*UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="Quest", meta=(AllowPrivateAccess="true"))
-	TArray<FName> CompletedQuestNames;*/
-
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="Quest", meta=(AllowPrivateAccess="true"))
 	TArray<FName> FailedQuest;
+
+	bool bShowQuestWindow = false;
 };

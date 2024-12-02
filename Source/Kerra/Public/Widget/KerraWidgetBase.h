@@ -25,12 +25,15 @@ protected:
 	// 위젯이 생성된 후 한 번만 호출되는 함수
 	virtual void NativeOnInitialized() override;
 
+	// Get player's ui component
 	UFUNCTION(BlueprintImplementableEvent, meta=(DisplayName="OnOwningPlayerUIComponentInitialized"))
 	void BP_OnOwningPlayerUIComponentInitialized(UHeroUIComponent* OwningPlayerUIComponent);
 
+	// Get enemy's ui component's
 	UFUNCTION(BlueprintImplementableEvent, meta=(DisplayName="OnOwningEnemyUIComponentInitialized"))
 	void BP_OnOwningEnemyUIComponentInitialized(UEnemyUIComponent* OwningEnemyUIComponent);
 
+	// Get player's quest component
 	UFUNCTION(BlueprintImplementableEvent, meta=(DisplayName="OnOwningQuestComponentInitialized"))
 	void BP_OnOwningPlayerQuestComponentIntialized(UKerraQuestComponent* OwningPlayerQuestComponent);
 };

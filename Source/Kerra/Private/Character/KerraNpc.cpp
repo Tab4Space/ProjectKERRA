@@ -35,6 +35,7 @@ void AKerraNpc::InitForQuest()
 void AKerraNpc::DoInteraction_Implementation(AActor* TargetActor)
 {
 	UE_LOG(LogTemp, Warning, TEXT("DoInteraction"));
+	// TODO: adding dialogue.
 	GiveQuestToPlayer(TargetActor);
 }
 
