@@ -22,4 +22,6 @@ protected:
 protected:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Area")
 	TObjectPtr<UBoxComponent> AreaCollision;
+
+
 };

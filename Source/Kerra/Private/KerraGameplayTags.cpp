@@ -103,12 +103,28 @@ namespace KerraGameplayTags
 	UE_DEFINE_GAMEPLAY_TAG(Shared_Status_Invincible, "Shared.Status.Invincible");
 
 	/* Quest Tags */
-	UE_DEFINE_GAMEPLAY_TAG(Quest_ID_FirstQuest, "Quest.ID.FirstQuest");
-	UE_DEFINE_GAMEPLAY_TAG(Quest_ID_SecondQuest, "Quest.ID.SecondQuest");
-	UE_DEFINE_GAMEPLAY_TAG(Quest_ID_ThirdQuest, "Quest.ID.ThirdQuest");
+	UE_DEFINE_GAMEPLAY_TAG(Quest_ID_1FirstQuest, "Quest.ID.1_FirstQuest");
+	UE_DEFINE_GAMEPLAY_TAG(Quest_ID_2SecondQeust, "Quest.ID.2_SecondQuest");
+	UE_DEFINE_GAMEPLAY_TAG(Quest_ID_3ThirdQuest, "Quest.ID.3_ThirdQuest");
+	UE_DEFINE_GAMEPLAY_TAG(Quest_ID_4FirstQuestAfter, "Quest.ID.4_FirstQuestAfter");
+	UE_DEFINE_GAMEPLAY_TAG(Quest_ID_5SecondQuestAfter, "Quest.ID.5_SecondQuestAfter");
+	UE_DEFINE_GAMEPLAY_TAG(Quest_ID_6ThirdQuestAfter, "Quest.ID.6_ThirdQuestAfter");
 
 	/* Item Tags */
 	UE_DEFINE_GAMEPLAY_TAG(Item_ID_Apple, "Item.ID.Apple");
 	UE_DEFINE_GAMEPLAY_TAG(Item_ID_Banana, "Item.ID.Banana");
 	UE_DEFINE_GAMEPLAY_TAG(Item_ID_Orange, "Item.ID.Orange");
+
+	/* NPC Tag */
+	UE_DEFINE_GAMEPLAY_TAG(NPC_ID_AAA, "NPC.ID.AAA");
+	UE_DEFINE_GAMEPLAY_TAG(NPC_ID_BBB, "NPC.ID.BBB");
+	UE_DEFINE_GAMEPLAY_TAG(NPC_ID_CCC, "NPC.ID.CCC");
+	UE_DEFINE_GAMEPLAY_TAG(NPC_ID_DDD, "NPC.ID.DDD");
+	UE_DEFINE_GAMEPLAY_TAG(NPC_ID_EEE, "NPC.ID.EEE");
+	UE_DEFINE_GAMEPLAY_TAG(NPC_ID_FFF, "NPC.ID.FFF");
+
+	/* Location(Area) Tag */
+	UE_DEFINE_GAMEPLAY_TAG(Location_ID_Seoul, "Location.ID.Seoul");
+	UE_DEFINE_GAMEPLAY_TAG(Location_ID_Pusan, "Location.ID.Pusan");
+	UE_DEFINE_GAMEPLAY_TAG(Location_ID_Gwangju, "Location.ID.Gwangju");
 }

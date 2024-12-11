@@ -21,6 +21,8 @@ void UKerraQuestComponent::ToggleQuestWidget()
 	{
 		QuestWidget = CreateWidget<UKerraWidgetBase>(KerraPC, QuestWidgetClass);
 		QuestWidget->AddToViewport();
+		QuestWidget->SetVisibility(ESlateVisibility::Visible);
+		
 		KerraPC->SetShowMouseCursor(true);
 		KerraPC->SetInputMode(FInputModeGameAndUI());
 		bShowQuestWindow = true;
@@ -55,8 +57,14 @@ bool UKerraQuestComponent::AddQuest(FGameplayTag QuestIDTagToAdd)
 	
 	if(!AcceptedQuests.HasTagExact(QuestIDTagToAdd) && !CompletedQuests.HasTagExact(QuestIDTagToAdd))
 	{
+		// UE_LOG(LogTemp, Warning, TEXT("%s"), *QuestIDTagToAdd.ToString());
 		FKerraQuestInfo* QuestInfoToAdd = QuestDataTable->FindRow<FKerraQuestInfo>(QuestIDTagToAdd.GetTagName(), "");
 		check(QuestInfoToAdd)
+
+		/*
+		 * TODO: check exist previous quest and that is completed?
+		 */
+		
 		AcceptedQuests.AddTag(QuestIDTagToAdd);
 		AcceptedQuestsMap.Add(QuestIDTagToAdd, *QuestInfoToAdd);
 
@@ -68,40 +76,63 @@ bool UKerraQuestComponent::AddQuest(FGameplayTag QuestIDTagToAdd)
 	return false;
 }
 
-void UKerraQuestComponent::AddItemInQuestObjectives(const FGameplayTag ItemIDTag, const FGameplayTagContainer& UsedQuests)
+void UKerraQuestComponent::AddInQuestObjects(const FGameplayTag ObjectTag, const FGameplayTagContainer& UsedQuests)
 {
-	/* 아이템이 적용되는 quest 리스트에서 iter를 돌아 map에서 찾고 object list 추적 */
-	/* TODO: 여기에서 바로 퀘스트 완료 검사를 안 하고 퀘스트 완료 버튼 만들고 누를 때 검사하도록 변경하기 또는 인벤토리에 아이템 넣어질 때 검사
-	 * 누를 때
+	/* 아이템이 적용되는 quest 리스트에서 iter를 돌아 map에서 찾고 object list 추적
+	 * 여기서 말하는 object는 item, enemy, npc, area(location) 모두
+	 * TODO: 여기에서 바로 퀘스트 완료 검사를 안 하고 퀘스트 완료 버튼 만들고 누를 때 검사하도록 변경하기 또는 인벤토리에 아이템 넣어질 때 검사
+	 * 누를 때 검사?
 	*/
-	for(FGameplayTag QuestTag : UsedQuests.GetGameplayTagArray())
-	{
-		UE_LOG(LogTemp, Warning, TEXT("%s"), *QuestTag.ToString())
-		const FKerraQuestInfo* QuestInfo = AcceptedQuestsMap.Find(QuestTag);
 
-		if(QuestInfo && QuestInfo->RequireObjects.Contains(ItemIDTag))
+	if(ObjectTag.MatchesTag(FGameplayTag::RequestGameplayTag(FName("Item.ID"))))
+	{
+		// If object is item
+		UE_LOG(LogTemp, Warning, TEXT("%s"), *ObjectTag.ToString());
+		for(FGameplayTag QuestTag : UsedQuests.GetGameplayTagArray())
 		{
-			AcceptedQuestsMap[QuestTag].RequireObjects[ItemIDTag].CurrentAmount++;
-			OnObjectiveChanged.Broadcast(AcceptedQuestsMap[QuestTag]);
+			const FKerraQuestInfo* QuestInfo = AcceptedQuestsMap.Find(QuestTag);
+			if(QuestInfo && QuestInfo->RequireObjects.Contains(ObjectTag))
+			{
+				AcceptedQuestsMap[QuestTag].RequireObjects[ObjectTag].CurrentAmount++;
+				OnObjectiveChanged.Broadcast(AcceptedQuestsMap[QuestTag]);
+			}
 		}
 	}
-}
-
-void UKerraQuestComponent::CanCompleteQuest(const FKerraQuestInfo QuestInfo, const EQuestClearType ClearType)
-{
-	if(ClearType == EQuestClearType::CollectItem)
+	else if(ObjectTag.MatchesTag(FGameplayTag::RequestGameplayTag(FName("NPC.ID"))))
 	{
-		// if(QuestInfo.RequireObjects)
+		// If object is npc
+		UE_LOG(LogTemp, Warning, TEXT("%s"), *ObjectTag.ToString());
+		OnNotifyCompleteQuest.Broadcast(FKerraQuestInfo());
+		/* TODO
+		 * NPC 만나는 것은 1번이면 되므로 바로 클리어 되게끔
+		 */
 	}
-}
+	else if(ObjectTag.MatchesTag(FGameplayTag::RequestGameplayTag(FName("Location.ID"))))
+	{
+		// If object is location
+		UE_LOG(LogTemp, Warning, TEXT("%s"), *ObjectTag.ToString());
 
-void UKerraQuestComponent::AddItemToQuestObjective(EQuestItemName ItemName, ENpcName NpcName, EQuestArea Area)
-{
-	bool IsFound = false;
-	FGameplayTag QuestID;
-	int32 QuestIndex;
-	FKerraQuestInfo QuestInfo;
-	// FindQuestID(ItemName, NpcName, Area, IsFound, QuestID, QuestIndex, QuestInfo);
+		for(FGameplayTag QuestTag : UsedQuests.GetGameplayTagArray())
+		{
+			
+			// Check the is completed required previous quest.
+			/*if(!CompletedQuests.HasTagExact(QuestTag))
+			{
+				const FKerraQuestInfo* QuestInfo = AcceptedQuestsMap.Find(QuestTag);
+				if(QuestInfo && QuestInfo->RequireObjects.Contains(ObjectTag))
+				{
+					AcceptedQuestsMap[QuestTag].RequireObjects[ObjectTag].CurrentAmount++;
+					OnObjectiveChanged.Broadcast(AcceptedQuestsMap[QuestTag]);
+				}
+			}*/
+		}
+		
+		OnNotifyCompleteQuest.Broadcast(FKerraQuestInfo());
+		/* TODO
+		 * Location 도달하는 것은 1번이면 되므로 바로 클리어 되게끔
+		 */
+	}
+
 }
 
 void UKerraQuestComponent::AddQuestNotification(EQuestNotification Notification, FKerraQuestInfo& QuestInfo)

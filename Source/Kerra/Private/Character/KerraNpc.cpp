@@ -14,20 +14,25 @@ AKerraNpc::AKerraNpc()
 
 void AKerraNpc::InitForQuest()
 {
-	if(!bHasQuest)
+	if(QuestComponent == nullptr || OwnedQuestTags.IsEmpty())
 	{
+		UE_LOG(LogTemp, Warning, TEXT("This NPC does not have a quest or quest component."));
 		return;
 	}
-	
-	UDataTable* QuestDataTable = QuestComponent->GetQuestDataTable();
 
-	check(QuestDataTable)
-	for(const FName RowName : QuestDataTable->GetRowNames())
+	if(const UDataTable* QuestDataTable = QuestComponent->GetQuestDataTable())
 	{
-		FKerraQuestInfo* QuestInfo = QuestDataTable->FindRow<FKerraQuestInfo>(RowName, "");
-		if(NpcName == QuestInfo->QuestGiver)
+		for(FGameplayTag QuestTag : OwnedQuestTags.GetGameplayTagArray())
 		{
-			OwnedQuest.Add(*QuestInfo);
+			if(const FKerraQuestInfo* QuestInfoToAdd = QuestDataTable->FindRow<FKerraQuestInfo>(QuestTag.GetTagName(), ""))
+			{
+				OwnedQuests.Add(*QuestInfoToAdd);
+			}
+		}
+
+		if(!OwnedQuests.IsEmpty())
+		{
+			bHasQuest = true;
 		}
 	}
 }
@@ -36,7 +41,11 @@ void AKerraNpc::DoInteraction_Implementation(AActor* TargetActor)
 {
 	UE_LOG(LogTemp, Warning, TEXT("DoInteraction"));
 	// TODO: adding dialogue.
-	GiveQuestToPlayer(TargetActor);
+
+	if(bHasQuest)
+	{
+		GiveQuestToPlayer(TargetActor);	
+	}
 }
 
 
@@ -48,19 +57,18 @@ void AKerraNpc::BeginPlay()
 
 void AKerraNpc::GiveQuestToPlayer(AActor* TargetActor)
 {
+	// TODO: check whether player can get a quest or not
 	// IKerraQuestInterface::Execute_DoInteraction(this, TargetActor);
 	if(IKerraQuestInterface* QuestInterface = Cast<IKerraQuestInterface>(TargetActor))
 	{
 		UKerraQuestComponent* TargetQuestComponent = QuestInterface->GetQuestComponent();
 
-		for(FKerraQuestInfo& QuestInfo : OwnedQuest)
+		for(FKerraQuestInfo& QuestInfo : OwnedQuests)
 		{
-			bool bSuccessGiving = TargetQuestComponent->AddQuest(QuestInfo.QuestID);
-			if(bSuccessGiving)
+			if(TargetQuestComponent->AddQuest(QuestInfo.QuestID))
 			{
 				break;
 			}
 		}
 	}
-
 }

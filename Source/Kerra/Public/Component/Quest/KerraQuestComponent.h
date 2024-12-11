@@ -9,6 +9,7 @@
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnAddQuestDelegate, FKerraQuestInfo, AddedQuestInfo);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnObjectiveChanged, FKerraQuestInfo, TrackedQuest);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnNotifyCompleteQuest, FKerraQuestInfo, CompletedQuest);
 
 class UKerraWidgetBase;
 class AKerraPlayerController;
@@ -30,30 +31,9 @@ public:
 	bool AddQuest(FGameplayTag QuestIDTagToAdd);
 
 	UFUNCTION(BlueprintCallable)
-	void AddItemInQuestObjectives(const FGameplayTag ItemIDTag, const FGameplayTagContainer& UsedQuests);
-	
-
-	UFUNCTION(BlueprintCallable)
-	void AddItemToQuestObjective(EQuestItemName ItemName, ENpcName NpcName, EQuestArea Area);
-
-	UFUNCTION(BlueprintCallable)
-	void CanCompleteQuest(const FKerraQuestInfo QuestInfo, const EQuestClearType ClearType);
-
-	UFUNCTION(BlueprintCallable)
-	void FindQuestID(EQuestItemName ItemName, ENpcName NpcName, EQuestArea Area, bool& OutFound, FGameplayTag& OutQuestID, int32& OutQuestIndex, FKerraQuestInfo& OutQuestInfo);
-
-	UFUNCTION(BlueprintCallable)
-	bool GetCurrentObjective(FKerraQuestInfo QuestInfo, FQuestObjective& OutObjective, int32& OutObjectiveIndex);
-
-	UFUNCTION(BlueprintCallable)
-	FKerraQuestInfo GetQuestInfoFromQuestName(const FName QuestName, bool& OutIsFound);
+	void AddInQuestObjects(const FGameplayTag ObjectTag, const FGameplayTagContainer& UsedQuests);
 	
 	void AddQuestNotification(EQuestNotification Notification, FKerraQuestInfo& QuestInfo);
-
-	UFUNCTION(BlueprintCallable)
-	bool CanQuestCompleted(const FKerraQuestInfo& QuestToCheck, FKerraQuestInfo& OutCheckedQuest);
-
-	void CompleteQuest(FKerraQuestInfo QuestToComplete);
 
 	UFUNCTION(BlueprintCallable)
 	FGameplayTag TrackingQuest(FKerraQuestInfo QuestToTrack);
@@ -70,6 +50,9 @@ public:
 
 	UPROPERTY(BlueprintAssignable)
 	FOnObjectiveChanged OnObjectiveChanged;
+
+	UPROPERTY(BlueprintAssignable)
+	FOnNotifyCompleteQuest OnNotifyCompleteQuest;
 
 private:
 	TObjectPtr<AKerraPlayerController> KerraPC;

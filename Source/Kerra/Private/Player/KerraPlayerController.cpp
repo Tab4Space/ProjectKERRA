@@ -54,9 +54,6 @@ void AKerraPlayerController::SetupInputComponent()
 	// Quest pop-up
 	KerraInputComponent->BindNativeInputAction(InputConfigDataAsset, KerraGameplayTags::InputTag_Quest, ETriggerEvent::Started, this, &AKerraPlayerController::Input_Quest);
 
-	// Interaction
-	// KerraInputComponent->BindNativeInputAction(InputConfigDataAsset, KerraGameplayTags::InputTag_Interaction, ETriggerEvent::Started, this, &AKerraPlayerController::Input_Interaction);
-
 	// Ability
 	KerraInputComponent->BindAbilityInputAction(InputConfigDataAsset, this, &AKerraPlayerController::AbilityInputPressed, &AKerraPlayerController::AbilityInputReleased);
 	
@@ -118,12 +115,6 @@ void AKerraPlayerController::Input_Quest(const FInputActionValue& InputActionVal
 
 	QuestComponent->ToggleQuestWidget();
 }
-
-/*void AKerraPlayerController::Input_Interaction(const FInputActionValue& InputActionValue)
-{
-	UE_LOG(LogTemp, Warning, TEXT("Interaction Input"));
-}*/
-
 
 void AKerraPlayerController::AbilityInputPressed(FGameplayTag InInputTag)
 {

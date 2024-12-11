@@ -32,7 +32,7 @@ private:
 	bool bUseInQuest;
 
 	UPROPERTY(EditAnywhere, Category="Quest", meta=(AllowPrivateAccess="true", EditCondition="bUseInQuest", Categories="Quest.ID", EditConditionHides))
-	FGameplayTagContainer UsedInQuests;
+	FGameplayTagContainer AppliedQuests;
 	
 	UPROPERTY(EditAnywhere, Category="Quest", meta=(AllowPrivateAccess="true"))
 	EQuestItemName ItemName;

@@ -16,7 +16,16 @@ class KERRA_API ADestLocationBase : public AKerraAreaBase
 protected:
 	virtual void OnBoxCollisionBeginOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult) override;
 
-protected:
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Area")
-	EQuestArea AreaName;
+private:
+	UPROPERTY(EditAnywhere, meta=(AllowPrivateAccess="true", Categories="Location.ID"))
+	FGameplayTag LocationIDTag;
+
+	UPROPERTY(EditAnywhere, Category="Quest", meta=(AllowPrivateAccess="true"))
+	bool bUseInQuest;
+
+	UPROPERTY(EditAnywhere, Category="Quest", meta=(AllowPrivateAccess="true", EditCondition="bUseInQuest", Categories="Quest.ID", EditConditionHides))
+	FGameplayTagContainer AppliedQuests;
+
+	UPROPERTY(BlueprintReadOnly)
+	bool bHasQuest;
 };

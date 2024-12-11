@@ -72,20 +72,16 @@ enum class ENpcName : uint8
 	None,
 };
 
-
 USTRUCT(BlueprintType)
 struct FQuestObjective
 {
 	GENERATED_USTRUCT_BODY()
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	FName ObjectiveID;
+	FGameplayTag ObjectiveID;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	FText ObjectiveDescription;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	TArray<FText> ObjectiveTips;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	int32 CurrentAmount;
@@ -95,18 +91,6 @@ struct FQuestObjective
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	bool bHasMarker;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	bool bObjectiveCompleteAnotherQuest;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	FGameplayTagContainer QuestIDs;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	EQuestItemName ItemName;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	EQuestArea AreaLocation;
 };
 
 USTRUCT(BlueprintType)
@@ -133,36 +117,40 @@ struct FKerraQuestInfo : public FTableRowBase
 public:
 	FKerraQuestInfo();
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta=(Categories="Quest.ID"))
 	FGameplayTag QuestID;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)		// quest type (main or side)
 	EQuestCategory QuestType;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)		// kill, collect, go to, talking
 	EQuestClearType QuestClearType;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)		// quest name
 	FText QuestName;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)		// quest description
 	FText QuestDescription;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)		// is repeatable?
 	bool bRepeatable;
 	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta=(Categories="Item.ID"))
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	TMap<FGameplayTag, FQuestObjective> RequireObjects;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	EQuestGiver QuestGiver;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta=(Categories="NPC.ID") )
+	FGameplayTag QuestGiver;						// quest giver
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta=(Categories="Quest.ID"))
+	FGameplayTag PreviousQuestID;					// previous quest id (if previous quest isn't completed, not receive quest)
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta=(Categories="Quest.ID"))
+	FGameplayTag NextQuestID;						// next quest
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	FGameplayTag NextQuestID;
+	FQuestReward QuestReward;						
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	FQuestReward QuestReward;
-
+	// 이것도 tag로 바꿔야할듯?
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	EQuestArea QuestLocation;
 	

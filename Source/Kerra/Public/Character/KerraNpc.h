@@ -30,14 +30,17 @@ protected:
 
 private:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Quest", meta=(AllowPrivateAccess="true"))
-	TObjectPtr<UKerraQuestComponent> QuestComponent;
+	TObjectPtr<UKerraQuestComponent> QuestComponent = nullptr;
 	
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Quest", meta=(AllowPrivateAccess="true"))
 	bool bHasQuest = false;
 
-	UPROPERTY(VisibleAnywhere, Category="Quest")
-	TArray<FKerraQuestInfo> OwnedQuest;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Quest", meta=(AllowPrivateAccess="true", Categories="Quest.ID"))
+	FGameplayTagContainer OwnedQuestTags;
 
-	UPROPERTY(EditAnywhere, Category="Quest")
-	EQuestGiver NpcName = EQuestGiver::None;
+	UPROPERTY(VisibleAnywhere, Category="Quest")
+	TArray<FKerraQuestInfo> OwnedQuests;
+
+	UPROPERTY(EditAnywhere, meta=(Cateroies="NPC.ID"))
+	FGameplayTag NpcIDTag;
 };
