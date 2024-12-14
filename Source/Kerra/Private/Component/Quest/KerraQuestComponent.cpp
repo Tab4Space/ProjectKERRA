@@ -52,18 +52,23 @@ bool UKerraQuestComponent::AddQuest(FGameplayTag QuestIDTagToAdd)
 	/*
 	 * 1. check quest is possible accepted (already accepted, completed, repeatable)?
 	 * 2. Add to quest tracking widget
-	 * TODO: check repeatable quest
 	 */
-	
+
+	if(FKerraQuestInfo* QuestInfoToAdd = QuestDataTable->FindRow<FKerraQuestInfo>(QuestIDTagToAdd.GetTagName(), ""))
+	{
+		AcceptedQuests.AddTag(QuestIDTagToAdd);
+		AcceptedQuestsMap.Add(QuestIDTagToAdd, *QuestInfoToAdd);
+		ActiveQuest = *QuestInfoToAdd;
+		AddQuestNotification(EQuestNotification::NewQuest, *QuestInfoToAdd);
+		return true;
+	}
+	return false;
+	/*
 	if(!AcceptedQuests.HasTagExact(QuestIDTagToAdd) && !CompletedQuests.HasTagExact(QuestIDTagToAdd))
 	{
 		// UE_LOG(LogTemp, Warning, TEXT("%s"), *QuestIDTagToAdd.ToString());
 		FKerraQuestInfo* QuestInfoToAdd = QuestDataTable->FindRow<FKerraQuestInfo>(QuestIDTagToAdd.GetTagName(), "");
 		check(QuestInfoToAdd)
-
-		/*
-		 * TODO: check exist previous quest and that is completed?
-		 */
 		
 		AcceptedQuests.AddTag(QuestIDTagToAdd);
 		AcceptedQuestsMap.Add(QuestIDTagToAdd, *QuestInfoToAdd);
@@ -74,6 +79,7 @@ bool UKerraQuestComponent::AddQuest(FGameplayTag QuestIDTagToAdd)
 		return true;
 	}
 	return false;
+	*/
 }
 
 void UKerraQuestComponent::AddInQuestObjects(const FGameplayTag ObjectTag, const FGameplayTagContainer& UsedQuests)

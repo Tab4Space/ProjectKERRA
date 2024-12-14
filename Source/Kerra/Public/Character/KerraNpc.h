@@ -29,10 +29,14 @@ protected:
 	void GiveQuestToPlayer(AActor* TargetActor);
 
 private:
+	bool CanGivingQuest(FGameplayTag TagToGive, FGameplayTagContainer& TargetAcceptedQuests, FGameplayTagContainer& TargetCompletedQuest);
+	
+
+private:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Quest", meta=(AllowPrivateAccess="true"))
 	TObjectPtr<UKerraQuestComponent> QuestComponent = nullptr;
 	
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Quest", meta=(AllowPrivateAccess="true"))
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Quest", meta=(AllowPrivateAccess="true"))
 	bool bHasQuest = false;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Quest", meta=(AllowPrivateAccess="true", Categories="Quest.ID"))

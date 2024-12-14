@@ -40,6 +40,8 @@ public:
 	
 	/* Getter */
 	UDataTable* GetQuestDataTable() { return QuestDataTable; }
+	FGameplayTagContainer GetAcceptedQuestTags() { return AcceptedQuests; }
+	FGameplayTagContainer GetCompletedQuestTags() { return CompletedQuests; }
 
 	UFUNCTION()
 	void ObjectiveUpdate(FKerraQuestInfo TrackedQuest);

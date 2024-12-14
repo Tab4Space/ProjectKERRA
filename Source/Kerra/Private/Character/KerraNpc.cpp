@@ -40,12 +40,12 @@ void AKerraNpc::InitForQuest()
 void AKerraNpc::DoInteraction_Implementation(AActor* TargetActor)
 {
 	UE_LOG(LogTemp, Warning, TEXT("DoInteraction"));
-	// TODO: adding dialogue.
-
-	if(bHasQuest)
+	if(!bHasQuest)
 	{
-		GiveQuestToPlayer(TargetActor);	
+		UE_LOG(LogTemp, Warning, TEXT("This NPC don't has any quest"));
+		return;
 	}
+	GiveQuestToPlayer(TargetActor);	
 }
 
 
@@ -59,16 +59,47 @@ void AKerraNpc::GiveQuestToPlayer(AActor* TargetActor)
 {
 	// TODO: check whether player can get a quest or not
 	// IKerraQuestInterface::Execute_DoInteraction(this, TargetActor);
+	
 	if(IKerraQuestInterface* QuestInterface = Cast<IKerraQuestInterface>(TargetActor))
 	{
 		UKerraQuestComponent* TargetQuestComponent = QuestInterface->GetQuestComponent();
+		FGameplayTagContainer TargetAcceptedQuests = TargetQuestComponent->GetAcceptedQuestTags();
+		FGameplayTagContainer TargetCompletedQuests = TargetQuestComponent->GetCompletedQuestTags();
 
-		for(FKerraQuestInfo& QuestInfo : OwnedQuests)
+		bool bGiveQuest = false;
+		for(const FGameplayTag QuestTag : OwnedQuestTags)
 		{
-			if(TargetQuestComponent->AddQuest(QuestInfo.QuestID))
+			if(CanGivingQuest(QuestTag, TargetAcceptedQuests, TargetCompletedQuests))
 			{
+				bGiveQuest = TargetQuestComponent->AddQuest(QuestTag);
 				break;
 			}
 		}
+
+		if(bGiveQuest)
+		{
+			UE_LOG(LogTemp, Warning, TEXT("Success giving quest to player"));
+		}
 	}
+}
+
+bool AKerraNpc::CanGivingQuest(FGameplayTag TagToGive, FGameplayTagContainer& TargetAcceptedQuests, FGameplayTagContainer& TargetCompletedQuest)
+{
+	if(TargetAcceptedQuests.HasTagExact(TagToGive))
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Player character already has %s quest."), *TagToGive.ToString());
+		return false;
+	}
+
+	if(TargetCompletedQuest.HasTagExact(TagToGive))
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Player character already complete %s quest"), *TagToGive.ToString());
+		return false;
+	}
+
+	/*
+	 * TODO: check exist previous quest and that is completed?
+	 */
+	
+	return true;
 }

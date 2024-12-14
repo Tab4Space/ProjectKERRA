@@ -26,6 +26,6 @@ private:
 	UPROPERTY(EditAnywhere, Category="Quest", meta=(AllowPrivateAccess="true", EditCondition="bUseInQuest", Categories="Quest.ID", EditConditionHides))
 	FGameplayTagContainer AppliedQuests;
 
-	UPROPERTY(BlueprintReadOnly)
+	UPROPERTY(BlueprintReadOnly, meta=(AllowPrivateAccess="true"))
 	bool bHasQuest;
 };
