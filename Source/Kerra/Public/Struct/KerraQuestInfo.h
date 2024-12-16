@@ -24,16 +24,6 @@ enum class EQuestClearType : uint8
 };
 
 UENUM()
-enum class EQuestGiver : uint8
-{
-	None,
-	Jone,
-	Bob,
-	Matt,
-	Test
-};
-
-UENUM()
 enum class EQuestItemName : uint8
 {
 	None,
@@ -50,11 +40,9 @@ enum class EQuestArea : uint8
 UENUM(BlueprintType, Blueprintable)
 enum class EQuestFilter : uint8
 {
-	None,
-	MainQuest,
-	SubQuest,
-	CompletedQuest,
-	FailedQuest
+	All,
+	Ongoing,
+	Completed
 };
 
 UENUM()
@@ -64,12 +52,6 @@ enum class EQuestNotification : uint8
 	NewQuest,
 	CompletedQuest,
 	FailedQuest
-};
-
-UENUM()
-enum class ENpcName : uint8
-{
-	None,
 };
 
 USTRUCT(BlueprintType)

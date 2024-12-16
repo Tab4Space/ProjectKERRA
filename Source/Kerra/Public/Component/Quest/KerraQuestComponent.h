@@ -48,7 +48,7 @@ public:
 
 public:
 	UPROPERTY(BlueprintAssignable)
-	FOnAddQuestDelegate OnAddQuest;
+	FOnAddQuestDelegate OnAddQuest;				// WBP_NotifyNewQuest
 
 	UPROPERTY(BlueprintAssignable)
 	FOnObjectiveChanged OnObjectiveChanged;
