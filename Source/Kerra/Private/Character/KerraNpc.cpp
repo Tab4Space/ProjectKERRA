@@ -100,6 +100,14 @@ bool AKerraNpc::CanGivingQuest(FGameplayTag TagToGive, FGameplayTagContainer& Ta
 	/*
 	 * TODO: check exist previous quest and that is completed?
 	 */
-	
+	if(const UDataTable* QuestTable = QuestComponent->GetQuestDataTable())
+	{
+		const FKerraQuestInfo* GivingQuest = QuestTable->FindRow<FKerraQuestInfo>(TagToGive.GetTagName(), "");
+		if(GivingQuest->PreviousQuestID.IsValid() && !TargetCompletedQuest.HasTagExact(GivingQuest->PreviousQuestID))
+		{
+			UE_LOG(LogTemp, Warning, TEXT("Player must be clear %s quest"), *GivingQuest->PreviousQuestID.ToString());
+			return false;
+		}
+	}
 	return true;
 }
