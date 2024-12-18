@@ -35,6 +35,8 @@ public:
 	
 	void AddQuestNotification(EQuestNotification Notification, FKerraQuestInfo& QuestInfo);
 
+	void ClearQuest(FGameplayTag QuestTagToClear);
+
 	UFUNCTION(BlueprintCallable)
 	FGameplayTag TrackingQuest(FKerraQuestInfo QuestToTrack);
 	

@@ -164,6 +164,22 @@ void UKerraQuestComponent::AddQuestNotification(EQuestNotification Notification,
 	}
 }
 
+void UKerraQuestComponent::ClearQuest(FGameplayTag QuestTagToClear)
+{
+	if(AcceptedQuests.HasTagExact(QuestTagToClear))
+	{
+		AcceptedQuests.RemoveTag(QuestTagToClear);
+		AcceptedQuestsMap.Remove(QuestTagToClear);
+		CompletedQuests.AddTag(QuestTagToClear);
+		// CompletedQuestsMap.Append(TMap<FGameplayTag, FKerraQuestInfo>(QuestTagToClear, FKerraQuestInfo()))
+
+		UE_LOG(LogTemp, Warning, TEXT("Clear Quest %s"), *QuestTagToClear.ToString());
+		return;
+	}
+	
+	UE_LOG(LogTemp, Warning, TEXT("Player does not have %s quest"), *QuestTagToClear.ToString());
+}
+
 
 FGameplayTag UKerraQuestComponent::TrackingQuest(FKerraQuestInfo QuestToTrack)
 {
