@@ -166,6 +166,12 @@ void UKerraQuestComponent::AddQuestNotification(EQuestNotification Notification,
 
 void UKerraQuestComponent::ClearQuest(FGameplayTag QuestTagToClear)
 {
+	/*
+	 * TODO
+	 * receive reward, xp, etc...
+	 * notify to widget
+	 * 
+	 */
 	if(AcceptedQuests.HasTagExact(QuestTagToClear))
 	{
 		AcceptedQuests.RemoveTag(QuestTagToClear);

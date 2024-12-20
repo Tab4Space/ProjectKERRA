@@ -72,34 +72,35 @@ void AKerraNpc::GiveQuestToPlayer(AActor* TargetActor)
 			if(CanGivingQuest(QuestTag, TargetAcceptedQuests, TargetCompletedQuests))
 			{
 				bGiveQuest = TargetQuestComponent->AddQuest(QuestTag);
+				UE_LOG(LogTemp, Warning, TEXT("Success giving %s quest to player"), *QuestTag.ToString());
 				break;
 			}
 		}
 
-		if(bGiveQuest)
+		/*if(bGiveQuest)
 		{
 			UE_LOG(LogTemp, Warning, TEXT("Success giving quest to player"));
-		}
+		}*/
 	}
 }
 
 bool AKerraNpc::CanGivingQuest(FGameplayTag TagToGive, FGameplayTagContainer& TargetAcceptedQuests, FGameplayTagContainer& TargetCompletedQuest)
 {
+	// check already accept quest
 	if(TargetAcceptedQuests.HasTagExact(TagToGive))
 	{
 		UE_LOG(LogTemp, Warning, TEXT("Player character already has %s quest."), *TagToGive.ToString());
 		return false;
 	}
 
+	// check already clear quest
 	if(TargetCompletedQuest.HasTagExact(TagToGive))
 	{
 		UE_LOG(LogTemp, Warning, TEXT("Player character already complete %s quest"), *TagToGive.ToString());
 		return false;
 	}
 
-	/*
-	 * TODO: check exist previous quest and that is completed?
-	 */
+	// check - clear previous quest or not
 	if(const UDataTable* QuestTable = QuestComponent->GetQuestDataTable())
 	{
 		const FKerraQuestInfo* GivingQuest = QuestTable->FindRow<FKerraQuestInfo>(TagToGive.GetTagName(), "");

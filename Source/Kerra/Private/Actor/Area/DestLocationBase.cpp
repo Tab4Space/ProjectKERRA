@@ -6,6 +6,15 @@
 #include "Component/Quest/KerraQuestComponent.h"
 #include "Interface/KerraQuestInterface.h"
 
+ADestLocationBase::ADestLocationBase()
+{
+}
+
+void ADestLocationBase::DoInteraction_Implementation(AActor* TargetActor)
+{
+	
+}
+
 void ADestLocationBase::OnBoxCollisionBeginOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
 	UE_LOG(LogTemp, Warning, TEXT("On Overlap"));
@@ -18,8 +27,17 @@ void ADestLocationBase::OnBoxCollisionBeginOverlap(UPrimitiveComponent* Overlapp
 	
 	if(IKerraQuestInterface* QuestInterface = Cast<IKerraQuestInterface>(OtherActor))
 	{
-		UKerraQuestComponent* QuestComponent = QuestInterface->GetQuestComponent();
-		QuestComponent->AddInQuestObjects(LocationIDTag, AppliedQuests);
+		UKerraQuestComponent* TargetQuestComponent = QuestInterface->GetQuestComponent();
+		const FGameplayTagContainer TargetAcceptedQuests = TargetQuestComponent->GetAcceptedQuestTags();
+
+		for(FGameplayTag QuestTagToClear : TargetAcceptedQuests.GetGameplayTagArray())
+		{
+			if(AppliedQuests.HasTagExact(QuestTagToClear))
+			{
+				TargetQuestComponent->ClearQuest(QuestTagToClear);
+				break;
+			}
+		}
 	}
 	
 }

@@ -4,14 +4,20 @@
 
 #include "CoreMinimal.h"
 #include "Actor/Area/KerraAreaBase.h"
+#include "Interface/KerraQuestInterface.h"
 #include "Struct/KerraQuestInfo.h"
 #include "DestLocationBase.generated.h"
 
 
 UCLASS()
-class KERRA_API ADestLocationBase : public AKerraAreaBase
+class KERRA_API ADestLocationBase : public AKerraAreaBase, public IKerraQuestInterface
 {
 	GENERATED_BODY()
+
+public:
+	ADestLocationBase();
+
+	virtual void DoInteraction_Implementation(AActor* TargetActor) override;
 
 protected:
 	virtual void OnBoxCollisionBeginOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult) override;
