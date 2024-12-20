@@ -23,11 +23,6 @@ void AKerraCollectableBase::DoInteraction_Implementation(AActor* TargetActor)
 	{
 		UKerraQuestComponent* TargetQuestComponent = QuestInterface->GetQuestComponent();
 		TargetQuestComponent->AddInQuestObjects(ItemIDTag, AppliedQuests);
-		/*
-		 * TODO
-		 * 지금은 quest에 바로 추가하는데 inventory 만들면 inventory에 추가하고 inventory에서 widget에 알려주는 로직으로
-		 * 
-		 */
 	}
 	
 }

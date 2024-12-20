@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "Character/KerraCharacterBase.h"
 #include "AbilitySystemInterface.h"
+#include "Interface/KerraInventoryInterface.h"
 #include "KerraHero.generated.h"
 
 
@@ -13,9 +14,10 @@ class USpringArmComponent;
 class UCameraComponent;
 class UHeroCombatComponent;
 class UHeroUIComponent;
+class UKerraInventoryComponent;
 
 UCLASS()
-class KERRA_API AKerraHero : public AKerraCharacterBase
+class KERRA_API AKerraHero : public AKerraCharacterBase, public IKerraInventoryInterface
 {
 	GENERATED_BODY()
 
@@ -37,6 +39,9 @@ public:
 	/* Quest Interface */
 	virtual UKerraQuestComponent* GetQuestComponent() const override;
 
+	/* Inventory Interface */
+	virtual UKerraInventoryComponent* GetKerraInventoryComponent() const override;
+
 private:
 	virtual void InitAbilityActorInfo() override;
 	
@@ -55,5 +60,8 @@ private:
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Quest", meta=(AllowPrivateAccess="true"))
 	TObjectPtr<UKerraQuestComponent> QuestComponent;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Inventory", meta=(AllowPrivateAccess="true"))
+	TObjectPtr<UKerraInventoryComponent> InventoryComponent;
 
 };

@@ -12,6 +12,7 @@
 #include "GameFramework/SpringArmComponent.h"
 #include "Player/KerraPlayerState.h"
 #include "Component/Combat/HeroCombatComponent.h"
+#include "Component/Inventory/KerraInventoryComponent.h"
 #include "Component/Quest/KerraQuestComponent.h"
 #include "Component/UI/HeroUIComponent.h"
 
@@ -41,6 +42,7 @@ AKerraHero::AKerraHero()
 	PlayerCombatComponent = CreateDefaultSubobject<UHeroCombatComponent>("PlayerCombatComp");
 	UIComponent = CreateDefaultSubobject<UHeroUIComponent>("UIComponent");
 	QuestComponent = CreateDefaultSubobject<UKerraQuestComponent>("QuestComponent");
+	InventoryComponent = CreateDefaultSubobject<UKerraInventoryComponent>("InventoryComponent");
 }
 
 void AKerraHero::PossessedBy(AController* NewController)
@@ -83,6 +85,11 @@ UHeroUIComponent* AKerraHero::GetPlayerUIComponent() const
 UKerraQuestComponent* AKerraHero::GetQuestComponent() const
 {
 	return QuestComponent;
+}
+
+UKerraInventoryComponent* AKerraHero::GetKerraInventoryComponent() const
+{
+	return InventoryComponent;
 }
 
 void AKerraHero::InitAbilityActorInfo()

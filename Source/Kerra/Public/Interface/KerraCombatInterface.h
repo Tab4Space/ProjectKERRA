@@ -6,9 +6,7 @@
 #include "UObject/Interface.h"
 #include "KerraCombatInterface.generated.h"
 
-
 class UKerraCombatComponent;
-
 
 UINTERFACE(MinimalAPI)
 class UKerraCombatInterface : public UInterface
