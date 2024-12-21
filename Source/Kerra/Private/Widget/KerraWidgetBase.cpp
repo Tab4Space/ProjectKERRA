@@ -2,9 +2,10 @@
 
 
 #include "Widget/KerraWidgetBase.h"
-
+#include "Interface/KerraInventoryInterface.h"
 #include "Interface/KerraQuestInterface.h"
 #include "Interface/KerraWidgetInterface.h"
+
 
 void UKerraWidgetBase::InitEnemyCreatedWidget(AActor* OwningEnemyActor)
 {
@@ -34,6 +35,14 @@ void UKerraWidgetBase::NativeOnInitialized()
 		if(UKerraQuestComponent* QuestComponent = QuestInterface->GetQuestComponent())
 		{
 			BP_OnOwningPlayerQuestComponentIntialized(QuestComponent);
+		}
+	}
+
+	if(IKerraInventoryInterface* InventoryInterface = Cast<IKerraInventoryInterface>(GetOwningPlayer()))
+	{
+		if(UKerraInventoryComponent* InventoryComponent = InventoryInterface->GetKerraInventoryComponent())
+		{
+			BP_OnOwningInventoryComponentInitialized(InventoryComponent);
 		}
 	}
 }

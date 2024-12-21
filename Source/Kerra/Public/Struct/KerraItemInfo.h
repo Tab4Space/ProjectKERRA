@@ -5,8 +5,16 @@
 #include "KerraItemInfo.generated.h"
 
 
+UENUM(BlueprintType, Blueprintable)
+enum class EItemType : uint8
+{
+	Equipment,
+	Consumable,
+	Material
+};
+
 USTRUCT(BlueprintType)
-struct FKerraItemInfo
+struct FKerraItemInfo : public FTableRowBase
 {
 	GENERATED_USTRUCT_BODY()
 
@@ -19,5 +27,24 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	int32 ItemIDNumber;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	FName ItemName;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	EItemType ItemType;
 	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta=(EditCondition="ItemType!=EItemType::Equipment"))
+	bool bStackable;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta=(EditCondition="bStackable"))
+	int32 MaxCount = 0;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	int32 CurrentCount = 0;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	FText ItemDescription;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta=(Categories="Quest.ID"))
+	FGameplayTagContainer AppliedQuest;
 };

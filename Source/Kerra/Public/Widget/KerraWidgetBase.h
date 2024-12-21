@@ -6,10 +6,11 @@
 #include "Blueprint/UserWidget.h"
 #include "KerraWidgetBase.generated.h"
 
-
 class UEnemyUIComponent;
 class UHeroUIComponent;
 class UKerraQuestComponent;
+class UKerraInventoryComponent;
+
 
 UCLASS()
 class KERRA_API UKerraWidgetBase : public UUserWidget
@@ -36,4 +37,8 @@ protected:
 	// Get player's quest component
 	UFUNCTION(BlueprintImplementableEvent, meta=(DisplayName="OnOwningQuestComponentInitialized"))
 	void BP_OnOwningPlayerQuestComponentIntialized(UKerraQuestComponent* OwningPlayerQuestComponent);
+
+	// Get player's inventory component
+	UFUNCTION(BlueprintImplementableEvent, meta=(DisplayName="OnOwningInventoryComponentInitialized"))
+	void BP_OnOwningInventoryComponentInitialized(UKerraInventoryComponent* OwningKerraInventoryComponent);
 };

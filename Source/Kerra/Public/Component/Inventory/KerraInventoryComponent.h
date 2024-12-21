@@ -8,6 +8,8 @@
 #include "KerraInventoryComponent.generated.h"
 
 
+DECLARE_MULTICAST_DELEGATE_OneParam(FAddItemSigniture, FGameplayTag ItemTag);
+
 UCLASS()
 class KERRA_API UKerraInventoryComponent : public UKerraExtensionComponentBase
 {
@@ -19,7 +21,13 @@ public:
 	UFUNCTION(BlueprintCallable)
 	bool AddItem(FGameplayTag ItemID);
 
+public:
+	FAddItemSigniture OnAddItem;
+
 private:
+	UPROPERTY(EditDefaultsOnly, Category="Inventory")
+	TObjectPtr<UDataTable> ItemDataTable;
+	
 	UPROPERTY(VisibleAnywhere, Category="Inventory|Item", meta=(Categories="Item.ID"))
 	FGameplayTagContainer OwningItemTags;
 

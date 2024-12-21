@@ -63,23 +63,6 @@ bool UKerraQuestComponent::AddQuest(FGameplayTag QuestIDTagToAdd)
 		return true;
 	}
 	return false;
-	/*
-	if(!AcceptedQuests.HasTagExact(QuestIDTagToAdd) && !CompletedQuests.HasTagExact(QuestIDTagToAdd))
-	{
-		// UE_LOG(LogTemp, Warning, TEXT("%s"), *QuestIDTagToAdd.ToString());
-		FKerraQuestInfo* QuestInfoToAdd = QuestDataTable->FindRow<FKerraQuestInfo>(QuestIDTagToAdd.GetTagName(), "");
-		check(QuestInfoToAdd)
-		
-		AcceptedQuests.AddTag(QuestIDTagToAdd);
-		AcceptedQuestsMap.Add(QuestIDTagToAdd, *QuestInfoToAdd);
-
-		ActiveQuest = *QuestInfoToAdd;
-		AddQuestNotification(EQuestNotification::NewQuest, *QuestInfoToAdd);
-
-		return true;
-	}
-	return false;
-	*/
 }
 
 void UKerraQuestComponent::AddInQuestObjects(const FGameplayTag ObjectTag, const FGameplayTagContainer& UsedQuests)

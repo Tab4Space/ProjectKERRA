@@ -3,7 +3,8 @@
 
 #include "Actor/Item/Pickup/KerraCollectableBase.h"
 
-#include "Component/Quest/KerraQuestComponent.h"
+#include "Component/Inventory/KerraInventoryComponent.h"
+#include "Interface/KerraInventoryInterface.h"
 
 AKerraCollectableBase::AKerraCollectableBase()
 {
@@ -11,9 +12,17 @@ AKerraCollectableBase::AKerraCollectableBase()
 
 void AKerraCollectableBase::DoInteraction_Implementation(AActor* TargetActor)
 {
-	UE_LOG(LogTemp, Warning, TEXT("%s"), *TargetActor->GetActorNameOrLabel());
+	if(IKerraInventoryInterface* InventoryInterface = Cast<IKerraInventoryInterface>(TargetActor))
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Target actor name is %s"), *TargetActor->GetActorNameOrLabel());
+		UKerraInventoryComponent* TargetInventoryComp = InventoryInterface->GetKerraInventoryComponent();
 
-	if(!bUseInQuest || AppliedQuests.Num() == 0)
+		if(TargetInventoryComp && TargetInventoryComp->AddItem(ItemIDTag))
+		{
+			UE_LOG(LogTemp, Warning, TEXT("Add %s in inventory"), *ItemIDTag.ToString());
+		}
+	}
+	/*if(!bUseInQuest || AppliedQuests.Num() == 0)
 	{
 		UE_LOG(LogTemp, Warning, TEXT("This item is not for quest or not in used quest"));
 		return;
@@ -23,6 +32,6 @@ void AKerraCollectableBase::DoInteraction_Implementation(AActor* TargetActor)
 	{
 		UKerraQuestComponent* TargetQuestComponent = QuestInterface->GetQuestComponent();
 		TargetQuestComponent->AddInQuestObjects(ItemIDTag, AppliedQuests);
-	}
+	}*/
 	
 }
