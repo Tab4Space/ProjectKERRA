@@ -55,27 +55,6 @@ enum class EQuestNotification : uint8
 };
 
 USTRUCT(BlueprintType)
-struct FQuestObjective
-{
-	GENERATED_USTRUCT_BODY()
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	FGameplayTag ObjectiveID;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	FText ObjectiveDescription;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	int32 CurrentAmount;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	int32 RequireAmount;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	bool bHasMarker;
-};
-
-USTRUCT(BlueprintType)
 struct FQuestReward
 {
 	GENERATED_USTRUCT_BODY()
@@ -118,7 +97,7 @@ public:
 	bool bRepeatable;
 	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	TMap<FGameplayTag, FQuestObjective> RequireObjects;
+	TMap<FGameplayTag, int32> RequireObjects;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta=(Categories="NPC.ID") )
 	FGameplayTag QuestGiver;						// quest giver

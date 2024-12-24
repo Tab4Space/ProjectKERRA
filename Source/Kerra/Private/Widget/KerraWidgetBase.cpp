@@ -32,13 +32,13 @@ void UKerraWidgetBase::NativeOnInitialized()
 
 	if(IKerraQuestInterface* QuestInterface = Cast<IKerraQuestInterface>(GetOwningPlayerPawn()))
 	{
-		if(UKerraQuestComponent* QuestComponent = QuestInterface->GetQuestComponent())
+		if(UKerraQuestComponent* QuestComponent = QuestInterface->GetKerraQuestComponent())
 		{
 			BP_OnOwningPlayerQuestComponentIntialized(QuestComponent);
 		}
 	}
 
-	if(IKerraInventoryInterface* InventoryInterface = Cast<IKerraInventoryInterface>(GetOwningPlayer()))
+	if(IKerraInventoryInterface* InventoryInterface = Cast<IKerraInventoryInterface>(GetOwningPlayerPawn()))
 	{
 		if(UKerraInventoryComponent* InventoryComponent = InventoryInterface->GetKerraInventoryComponent())
 		{

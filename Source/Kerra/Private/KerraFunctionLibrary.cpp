@@ -7,6 +7,8 @@
 #include "Interface/KerraCombatInterface.h"
 #include "GenericTeamAgentInterface.h"
 #include "KerraGameplayTags.h"
+#include "Interface/KerraInventoryInterface.h"
+#include "Interface/KerraQuestInterface.h"
 #include "Kismet/KismetMathLibrary.h"
 #include "Struct/KerraCountDownAction.h"
 
@@ -73,6 +75,28 @@ UKerraCombatComponent* UKerraFunctionLibrary::BP_GetKerraCombatComponentFromActo
 	UKerraCombatComponent* CombatComponent = NativeGetKerraCombatComponentFromActor(InActor);
 	OutValidType = CombatComponent ? EKerraValidType::Valid : EKerraValidType::Invalid;
 	return CombatComponent;
+}
+
+UKerraQuestComponent* UKerraFunctionLibrary::NativeGetKerraQuestComponentFromActor(AActor* InActor)
+{
+	check(InActor);
+
+	if(IKerraQuestInterface* QuestInterface = Cast<IKerraQuestInterface>(InActor))
+	{
+		return QuestInterface->GetKerraQuestComponent();
+	}
+	return nullptr;
+}
+
+UKerraInventoryComponent* UKerraFunctionLibrary::NativeGetKerraInventoryComponentFromActor(AActor* InActor)
+{
+	check(InActor);
+
+	if(IKerraInventoryInterface* InventoryInterface = Cast<IKerraInventoryInterface>(InActor))
+	{
+		return InventoryInterface->GetKerraInventoryComponent();
+	}
+	return nullptr;
 }
 
 bool UKerraFunctionLibrary::IsTargetPawnHostile(APawn* QueryPawn, APawn* TargetPawn)

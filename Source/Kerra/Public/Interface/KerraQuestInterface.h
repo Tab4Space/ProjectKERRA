@@ -20,7 +20,7 @@ class KERRA_API IKerraQuestInterface
 	GENERATED_BODY()
 
 public:
-	virtual UKerraQuestComponent* GetQuestComponent() const;
+	virtual UKerraQuestComponent* GetKerraQuestComponent() const;
 
 	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
 	void DoInteraction(AActor* TargetActor);

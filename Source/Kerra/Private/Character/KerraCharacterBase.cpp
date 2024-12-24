@@ -31,7 +31,7 @@ UKerraUIComponent* AKerraCharacterBase::GetPawnUIComponent() const
 	return nullptr;
 }
 
-UKerraQuestComponent* AKerraCharacterBase::GetQuestComponent() const
+UKerraQuestComponent* AKerraCharacterBase::GetKerraQuestComponent() const
 {
 	return nullptr;
 }

@@ -4,7 +4,7 @@
 #include "Interface/KerraQuestInterface.h"
 
 // Add default functionality here for any IKerraQuestInterface functions that are not pure virtual.
-UKerraQuestComponent* IKerraQuestInterface::GetQuestComponent() const
+UKerraQuestComponent* IKerraQuestInterface::GetKerraQuestComponent() const
 {
 	return nullptr;
 }

@@ -7,12 +7,21 @@
 #include "Blueprint/UserWidget.h"
 #include "Player/KerraPlayerController.h"
 #include "Widget/KerraWidgetBase.h"
+#include "Component/Inventory/KerraInventoryComponent.h"
+#include "KerraFunctionLibrary.h"
 
 void UKerraQuestComponent::BeginPlay()
 {
 	Super::BeginPlay();
 	KerraPC = GetOwningController<AKerraPlayerController>();
-	OnObjectiveChanged.AddDynamic(this, &UKerraQuestComponent::ObjectiveUpdate);
+
+	
+	/*if(UKerraInventoryComponent* InventoryComp = UKerraFunctionLibrary::NativeGetKerraInventoryComponentFromActor(GetOwner()))
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Bind OnChangedItemCount"));
+		//InventoryComp->OnChangeItemCount.AddDynamic(this, )
+	}*/
+	
 }
 
 void UKerraQuestComponent::ToggleQuestWidget()
@@ -65,65 +74,6 @@ bool UKerraQuestComponent::AddQuest(FGameplayTag QuestIDTagToAdd)
 	return false;
 }
 
-void UKerraQuestComponent::AddInQuestObjects(const FGameplayTag ObjectTag, const FGameplayTagContainer& UsedQuests)
-{
-	/* 아이템이 적용되는 quest 리스트에서 iter를 돌아 map에서 찾고 object list 추적
-	 * 여기서 말하는 object는 item, enemy, npc, area(location) 모두
-	 * TODO: 여기에서 바로 퀘스트 완료 검사를 안 하고 퀘스트 완료 버튼 만들고 누를 때 검사하도록 변경하기 또는 인벤토리에 아이템 넣어질 때 검사
-	 * 누를 때 검사?
-	*/
-
-	if(ObjectTag.MatchesTag(FGameplayTag::RequestGameplayTag(FName("Item.ID"))))
-	{
-		// If object is item
-		UE_LOG(LogTemp, Warning, TEXT("%s"), *ObjectTag.ToString());
-		for(FGameplayTag QuestTag : UsedQuests.GetGameplayTagArray())
-		{
-			const FKerraQuestInfo* QuestInfo = AcceptedQuestsMap.Find(QuestTag);
-			if(QuestInfo && QuestInfo->RequireObjects.Contains(ObjectTag))
-			{
-				AcceptedQuestsMap[QuestTag].RequireObjects[ObjectTag].CurrentAmount++;
-				OnObjectiveChanged.Broadcast(AcceptedQuestsMap[QuestTag]);
-			}
-		}
-	}
-	else if(ObjectTag.MatchesTag(FGameplayTag::RequestGameplayTag(FName("NPC.ID"))))
-	{
-		// If object is npc
-		UE_LOG(LogTemp, Warning, TEXT("%s"), *ObjectTag.ToString());
-		OnNotifyCompleteQuest.Broadcast(FKerraQuestInfo());
-		/* TODO
-		 * NPC 만나는 것은 1번이면 되므로 바로 클리어 되게끔
-		 */
-	}
-	else if(ObjectTag.MatchesTag(FGameplayTag::RequestGameplayTag(FName("Location.ID"))))
-	{
-		// If object is location
-		UE_LOG(LogTemp, Warning, TEXT("%s"), *ObjectTag.ToString());
-
-		for(FGameplayTag QuestTag : UsedQuests.GetGameplayTagArray())
-		{
-			
-			// Check the is completed required previous quest.
-			/*if(!CompletedQuests.HasTagExact(QuestTag))
-			{
-				const FKerraQuestInfo* QuestInfo = AcceptedQuestsMap.Find(QuestTag);
-				if(QuestInfo && QuestInfo->RequireObjects.Contains(ObjectTag))
-				{
-					AcceptedQuestsMap[QuestTag].RequireObjects[ObjectTag].CurrentAmount++;
-					OnObjectiveChanged.Broadcast(AcceptedQuestsMap[QuestTag]);
-				}
-			}*/
-		}
-		
-		OnNotifyCompleteQuest.Broadcast(FKerraQuestInfo());
-		/* TODO
-		 * Location 도달하는 것은 1번이면 되므로 바로 클리어 되게끔
-		 */
-	}
-
-}
-
 void UKerraQuestComponent::AddQuestNotification(EQuestNotification Notification, FKerraQuestInfo& QuestInfo)
 {
 	/* if add quest, notify to widget using delegate broadcast */
@@ -153,7 +103,6 @@ void UKerraQuestComponent::ClearQuest(FGameplayTag QuestTagToClear)
 	 * TODO
 	 * receive reward, xp, etc...
 	 * notify to widget
-	 * 
 	 */
 	if(AcceptedQuests.HasTagExact(QuestTagToClear))
 	{
@@ -165,8 +114,29 @@ void UKerraQuestComponent::ClearQuest(FGameplayTag QuestTagToClear)
 		UE_LOG(LogTemp, Warning, TEXT("Clear Quest %s"), *QuestTagToClear.ToString());
 		return;
 	}
-	
 	UE_LOG(LogTemp, Warning, TEXT("Player does not have %s quest"), *QuestTagToClear.ToString());
+}
+
+bool UKerraQuestComponent::CheckClearCondition(FGameplayTag TagToCheck)
+{
+	UKerraInventoryComponent* InventoryComp = UKerraFunctionLibrary::NativeGetKerraInventoryComponentFromActor(GetOwner());
+	checkf(InventoryComp, TEXT("Not valid inventory component"));
+
+	if(!AcceptedQuests.HasTagExact(TagToCheck))
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Not in accepted quest (%s)"), *TagToCheck.ToString());
+		return false;
+	}
+	
+	FKerraQuestInfo TargetQuest = AcceptedQuestsMap[TagToCheck];
+	for(const auto Pair : TargetQuest.RequireObjects)
+	{
+		if(InventoryComp->GetCurrentItemCount(Pair.Key) < Pair.Value)
+		{
+			return false;
+		}
+	}
+	return true;
 }
 
 

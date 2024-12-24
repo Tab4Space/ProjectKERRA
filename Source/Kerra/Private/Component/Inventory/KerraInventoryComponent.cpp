@@ -22,12 +22,23 @@ bool UKerraInventoryComponent::AddItem(FGameplayTag ItemID)
 			OwningItemMaps.Add(ItemID, *ItemToAdd);
 		}
 		OwningItemMaps[ItemID].CurrentCount++;
+		OnAddItem.Broadcast(ItemID);
 
-		if(OnAddItem.IsBound())
+		if(!ItemToAdd->AppliedQuest.IsEmpty())
 		{
-			OnAddItem.Broadcast(ItemID);
+			// Broadcast to WBP_TrackingQuest, WBP_TrackingQuestText, WBP_QuestWindow 
+			OnChangeItemCount.Broadcast(ItemID, OwningItemMaps[ItemID].CurrentCount);	
 		}
 		return true;
 	}
 	return false;
+}
+
+int32 UKerraInventoryComponent::GetCurrentItemCount(FGameplayTag ItemIDTag)
+{
+	if(OwningItemMaps.Find(ItemIDTag))
+	{
+		return OwningItemMaps[ItemIDTag].CurrentCount;
+	}
+	return 0;
 }

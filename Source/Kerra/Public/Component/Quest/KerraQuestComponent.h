@@ -8,7 +8,6 @@
 #include "KerraQuestComponent.generated.h"
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnAddQuestDelegate, FKerraQuestInfo, AddedQuestInfo);
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnObjectiveChanged, FKerraQuestInfo, TrackedQuest);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnNotifyCompleteQuest, FKerraQuestInfo, CompletedQuest);
 
 class UKerraWidgetBase;
@@ -29,13 +28,14 @@ public:
 
 	UFUNCTION(BlueprintCallable)
 	bool AddQuest(FGameplayTag QuestIDTagToAdd);
-
-	UFUNCTION(BlueprintCallable)
-	void AddInQuestObjects(const FGameplayTag ObjectTag, const FGameplayTagContainer& UsedQuests);
 	
 	void AddQuestNotification(EQuestNotification Notification, FKerraQuestInfo& QuestInfo);
 
+	UFUNCTION(BlueprintCallable)
 	void ClearQuest(FGameplayTag QuestTagToClear);
+
+	UFUNCTION(BlueprintCallable, BlueprintPure)
+	bool CheckClearCondition(FGameplayTag TagToCheck);
 
 	UFUNCTION(BlueprintCallable)
 	FGameplayTag TrackingQuest(FKerraQuestInfo QuestToTrack);
@@ -44,6 +44,7 @@ public:
 	UDataTable* GetQuestDataTable() { return QuestDataTable; }
 	FGameplayTagContainer GetAcceptedQuestTags() { return AcceptedQuests; }
 	FGameplayTagContainer GetCompletedQuestTags() { return CompletedQuests; }
+	// int32 GetRequire
 
 	UFUNCTION()
 	void ObjectiveUpdate(FKerraQuestInfo TrackedQuest);
@@ -51,9 +52,6 @@ public:
 public:
 	UPROPERTY(BlueprintAssignable)
 	FOnAddQuestDelegate OnAddQuest;				// WBP_NotifyNewQuest
-
-	UPROPERTY(BlueprintAssignable)
-	FOnObjectiveChanged OnObjectiveChanged;
 
 	UPROPERTY(BlueprintAssignable)
 	FOnNotifyCompleteQuest OnNotifyCompleteQuest;

@@ -111,7 +111,7 @@ void AKerraPlayerController::Input_PickUpStarted(const FInputActionValue& InputA
 void AKerraPlayerController::Input_Quest(const FInputActionValue& InputActionValue)
 {
 	AKerraHero* ControlledPawn = Cast<AKerraHero>(GetPawn());
-	UKerraQuestComponent* QuestComponent = ControlledPawn->GetQuestComponent();
+	UKerraQuestComponent* QuestComponent = ControlledPawn->GetKerraQuestComponent();
 
 	QuestComponent->ToggleQuestWidget();
 }

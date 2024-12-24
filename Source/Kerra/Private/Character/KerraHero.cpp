@@ -82,7 +82,7 @@ UHeroUIComponent* AKerraHero::GetPlayerUIComponent() const
 	return UIComponent;
 }
 
-UKerraQuestComponent* AKerraHero::GetQuestComponent() const
+UKerraQuestComponent* AKerraHero::GetKerraQuestComponent() const
 {
 	return QuestComponent;
 }

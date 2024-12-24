@@ -37,7 +37,7 @@ public:
 	virtual UHeroUIComponent* GetPlayerUIComponent() const override;
 
 	/* Quest Interface */
-	virtual UKerraQuestComponent* GetQuestComponent() const override;
+	virtual UKerraQuestComponent* GetKerraQuestComponent() const override;
 
 	/* Inventory Interface */
 	virtual UKerraInventoryComponent* GetKerraInventoryComponent() const override;

@@ -8,7 +8,8 @@
 #include "KerraInventoryComponent.generated.h"
 
 
-DECLARE_MULTICAST_DELEGATE_OneParam(FAddItemSigniture, FGameplayTag ItemTag);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FAddItemSigniture, FGameplayTag, ItemTag);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FChangeItemCountSigniture, FGameplayTag, ItemTag, int32, CurrentCount);
 
 UCLASS()
 class KERRA_API UKerraInventoryComponent : public UKerraExtensionComponentBase
@@ -21,8 +22,15 @@ public:
 	UFUNCTION(BlueprintCallable)
 	bool AddItem(FGameplayTag ItemID);
 
+	UFUNCTION(BlueprintCallable, BlueprintPure)
+	int32 GetCurrentItemCount(FGameplayTag ItemIDTag);
+
 public:
+	UPROPERTY(BlueprintAssignable)
 	FAddItemSigniture OnAddItem;
+	
+	UPROPERTY(BlueprintAssignable)
+	FChangeItemCountSigniture OnChangeItemCount;
 
 private:
 	UPROPERTY(EditDefaultsOnly, Category="Inventory")

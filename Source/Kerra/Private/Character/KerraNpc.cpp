@@ -62,7 +62,7 @@ void AKerraNpc::GiveQuestToPlayer(AActor* TargetActor)
 	
 	if(IKerraQuestInterface* QuestInterface = Cast<IKerraQuestInterface>(TargetActor))
 	{
-		UKerraQuestComponent* TargetQuestComponent = QuestInterface->GetQuestComponent();
+		UKerraQuestComponent* TargetQuestComponent = QuestInterface->GetKerraQuestComponent();
 		FGameplayTagContainer TargetAcceptedQuests = TargetQuestComponent->GetAcceptedQuestTags();
 		FGameplayTagContainer TargetCompletedQuests = TargetQuestComponent->GetCompletedQuestTags();
 

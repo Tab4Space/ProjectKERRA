@@ -35,7 +35,7 @@ public:
 	virtual UKerraUIComponent* GetPawnUIComponent() const override;
 
 	/* Quest Interface */
-	virtual UKerraQuestComponent* GetQuestComponent() const override;
+	virtual UKerraQuestComponent* GetKerraQuestComponent() const override;
 
 	UMotionWarpingComponent* GetMotionWarpingComponent() { return MotionWarpingComponent; }
 

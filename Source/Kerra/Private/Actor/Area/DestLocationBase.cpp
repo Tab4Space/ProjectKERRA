@@ -27,7 +27,7 @@ void ADestLocationBase::OnBoxCollisionBeginOverlap(UPrimitiveComponent* Overlapp
 	
 	if(IKerraQuestInterface* QuestInterface = Cast<IKerraQuestInterface>(OtherActor))
 	{
-		UKerraQuestComponent* TargetQuestComponent = QuestInterface->GetQuestComponent();
+		UKerraQuestComponent* TargetQuestComponent = QuestInterface->GetKerraQuestComponent();
 		const FGameplayTagContainer TargetAcceptedQuests = TargetQuestComponent->GetAcceptedQuestTags();
 
 		for(FGameplayTag QuestTagToClear : TargetAcceptedQuests.GetGameplayTagArray())

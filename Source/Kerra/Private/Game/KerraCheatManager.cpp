@@ -12,7 +12,7 @@ void UKerraCheatManager::Console_ClearQuest(FString QuestTag)
 	if(AKerraPlayerController* KerraPC = Cast<AKerraPlayerController>(GetPlayerController()))
 	{
 		IKerraQuestInterface* QuestInterface = Cast<IKerraQuestInterface>(KerraPC->GetPawn());
-		UKerraQuestComponent* TargetQuestComp = QuestInterface->GetQuestComponent();
+		UKerraQuestComponent* TargetQuestComp = QuestInterface->GetKerraQuestComponent();
 
 		TargetQuestComp->ClearQuest(FGameplayTag::RequestGameplayTag(FName(QuestTag)));
 		
