@@ -53,6 +53,7 @@ void UKerraQuestComponent::ToggleQuestWidget()
 			bShowQuestWindow = true;
 		}
 	}
+	OnToggleWidget.Broadcast(bShowQuestWindow);
 }
 
 bool UKerraQuestComponent::AddQuest(FGameplayTag QuestIDTagToAdd)
@@ -112,6 +113,7 @@ void UKerraQuestComponent::ClearQuest(FGameplayTag QuestTagToClear)
 		// CompletedQuestsMap.Append(TMap<FGameplayTag, FKerraQuestInfo>(QuestTagToClear, FKerraQuestInfo()))
 
 		UE_LOG(LogTemp, Warning, TEXT("Clear Quest %s"), *QuestTagToClear.ToString());
+		// OnNotifyCompleteQuest.Broadcast(QuestTagToClear);
 		return;
 	}
 	UE_LOG(LogTemp, Warning, TEXT("Player does not have %s quest"), *QuestTagToClear.ToString());
@@ -145,7 +147,3 @@ FGameplayTag UKerraQuestComponent::TrackingQuest(FKerraQuestInfo QuestToTrack)
 	return QuestToTrack.QuestID;
 }
 
-void UKerraQuestComponent::ObjectiveUpdate(FKerraQuestInfo TrackedQuest)
-{
-	UE_LOG(LogTemp, Warning, TEXT("Objective Update Delegate Function"));
-}

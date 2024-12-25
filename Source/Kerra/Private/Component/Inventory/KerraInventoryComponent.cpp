@@ -8,7 +8,7 @@ void UKerraInventoryComponent::BeginPlay()
 	Super::BeginPlay();
 }
 
-bool UKerraInventoryComponent::AddItem(FGameplayTag ItemID)
+bool UKerraInventoryComponent::AddItem(FGameplayTag ItemID, int32 AddCount)
 {
 	UE_LOG(LogTemp, Warning, TEXT("%s"), *ItemID.GetTagName().ToString());
 	checkf(ItemDataTable, TEXT("Not valid Item Data Table in inventory"));
@@ -21,13 +21,17 @@ bool UKerraInventoryComponent::AddItem(FGameplayTag ItemID)
 		{
 			OwningItemMaps.Add(ItemID, *ItemToAdd);
 		}
-		OwningItemMaps[ItemID].CurrentCount++;
-		OnAddItem.Broadcast(ItemID);
+		
+		int32 PreviousItemCount = OwningItemMaps[ItemID].CurrentCount; 
+		OwningItemMaps[ItemID].CurrentCount += AddCount;
+		int32 DeltaItemCount = OwningItemMaps[ItemID].CurrentCount - PreviousItemCount;
+		
+		// OnAddItem.Broadcast(ItemID); // current not used
 
 		if(!ItemToAdd->AppliedQuest.IsEmpty())
 		{
 			// Broadcast to WBP_TrackingQuest, WBP_TrackingQuestText, WBP_QuestWindow 
-			OnChangeItemCount.Broadcast(ItemID, OwningItemMaps[ItemID].CurrentCount);	
+			OnChangeItemCount.Broadcast(ItemID, OwningItemMaps[ItemID].CurrentCount, DeltaItemCount);	
 		}
 		return true;
 	}

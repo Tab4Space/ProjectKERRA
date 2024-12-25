@@ -7,6 +7,7 @@
 #include "Struct/KerraQuestInfo.h"
 #include "KerraQuestComponent.generated.h"
 
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FToggoleQuestWidget, bool, bShowing);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnAddQuestDelegate, FKerraQuestInfo, AddedQuestInfo);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnNotifyCompleteQuest, FKerraQuestInfo, CompletedQuest);
 
@@ -44,12 +45,11 @@ public:
 	UDataTable* GetQuestDataTable() { return QuestDataTable; }
 	FGameplayTagContainer GetAcceptedQuestTags() { return AcceptedQuests; }
 	FGameplayTagContainer GetCompletedQuestTags() { return CompletedQuests; }
-	// int32 GetRequire
-
-	UFUNCTION()
-	void ObjectiveUpdate(FKerraQuestInfo TrackedQuest);
 
 public:
+	UPROPERTY(BlueprintAssignable)
+	FToggoleQuestWidget OnToggleWidget;
+	
 	UPROPERTY(BlueprintAssignable)
 	FOnAddQuestDelegate OnAddQuest;				// WBP_NotifyNewQuest
 

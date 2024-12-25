@@ -16,4 +16,7 @@ class KERRA_API UKerraCheatManager : public UCheatManager
 
 	UFUNCTION(Exec)
 	void Console_ClearQuest(FString QuestTag);
+
+	UFUNCTION(Exec)
+	void Console_AddItem(FString ItemTag, int32 AddCount = 1);
 };
