@@ -21,17 +21,14 @@ bool UKerraInventoryComponent::AddItem(FGameplayTag ItemID, int32 AddCount)
 		{
 			OwningItemMaps.Add(ItemID, *ItemToAdd);
 		}
-		
-		int32 PreviousItemCount = OwningItemMaps[ItemID].CurrentCount; 
 		OwningItemMaps[ItemID].CurrentCount += AddCount;
-		int32 DeltaItemCount = OwningItemMaps[ItemID].CurrentCount - PreviousItemCount;
 		
 		// OnAddItem.Broadcast(ItemID); // current not used
 
 		if(!ItemToAdd->AppliedQuest.IsEmpty())
 		{
 			// Broadcast to WBP_TrackingQuest, WBP_TrackingQuestText, WBP_QuestWindow 
-			OnChangeItemCount.Broadcast(ItemID, OwningItemMaps[ItemID].CurrentCount, DeltaItemCount);	
+			OnChangeItemCount.Broadcast(ItemID, OwningItemMaps[ItemID].CurrentCount);	
 		}
 		return true;
 	}

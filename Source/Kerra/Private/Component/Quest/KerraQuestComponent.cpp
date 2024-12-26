@@ -9,6 +9,7 @@
 #include "Widget/KerraWidgetBase.h"
 #include "Component/Inventory/KerraInventoryComponent.h"
 #include "KerraFunctionLibrary.h"
+#include "Interface/KerraInventoryInterface.h"
 
 void UKerraQuestComponent::BeginPlay()
 {
@@ -139,6 +140,36 @@ bool UKerraQuestComponent::CheckClearCondition(FGameplayTag TagToCheck)
 		}
 	}
 	return true;
+}
+
+float UKerraQuestComponent::CheckQuestProgress(FGameplayTag QuestTagToCheck, FGameplayTag ObjectTag)
+{
+	if(!AcceptedQuests.HasTagExact(QuestTagToCheck))
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Do not check %s quest"), *QuestTagToCheck.ToString());
+		return -1.f;
+	}
+
+	if(!AcceptedQuestsMap[QuestTagToCheck].RequireObjects.Contains(ObjectTag))
+	{
+		UE_LOG(LogTemp, Warning, TEXT("%s item not require in %s quest"), *ObjectTag.ToString(), *QuestTagToCheck.ToString());
+		return -1.f;
+	}
+
+	float QuestProgressRatio = 0.f;
+	float RequireObjectsNum = static_cast<float>(AcceptedQuestsMap[QuestTagToCheck].RequireObjects.Num());
+
+	IKerraInventoryInterface* InventoryInterface = Cast<IKerraInventoryInterface>(GetOwner());
+	UKerraInventoryComponent* InventoryComponent = InventoryInterface->GetKerraInventoryComponent();
+
+	for(auto Pair : AcceptedQuestsMap[QuestTagToCheck].RequireObjects)
+	{
+		float CurrentObjectAmount = static_cast<float>(FMath::Clamp(InventoryComponent->GetCurrentItemCount(Pair.Key), 0, Pair.Value));
+		float CurrentRatio = CurrentObjectAmount < static_cast<float>(Pair.Value) ? (CurrentObjectAmount / static_cast<float>(Pair.Value)) : 1.f;
+		CurrentRatio /= RequireObjectsNum;
+		QuestProgressRatio += CurrentRatio;
+	}
+	return QuestProgressRatio;
 }
 
 

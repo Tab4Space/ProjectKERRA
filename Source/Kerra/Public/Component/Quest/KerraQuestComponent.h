@@ -38,6 +38,9 @@ public:
 	UFUNCTION(BlueprintCallable, BlueprintPure)
 	bool CheckClearCondition(FGameplayTag TagToCheck);
 
+	UFUNCTION(BlueprintCallable, BlueprintPure)
+	float CheckQuestProgress(FGameplayTag QuestTagToCheck, FGameplayTag ObjectTag);
+
 	UFUNCTION(BlueprintCallable)
 	FGameplayTag TrackingQuest(FKerraQuestInfo QuestToTrack);
 	

@@ -111,9 +111,10 @@ namespace KerraGameplayTags
 	UE_DEFINE_GAMEPLAY_TAG(Quest_ID_6ThirdQuestAfter, "Quest.ID.6_ThirdQuestAfter");
 
 	/* Item Tags */
-	UE_DEFINE_GAMEPLAY_TAG(Item_ID_Apple, "Item.ID.Apple");
-	UE_DEFINE_GAMEPLAY_TAG(Item_ID_Banana, "Item.ID.Banana");
-	UE_DEFINE_GAMEPLAY_TAG(Item_ID_Orange, "Item.ID.Orange");
+	UE_DEFINE_GAMEPLAY_TAG(Item_ID_0None, "Item.ID.0_None");
+	UE_DEFINE_GAMEPLAY_TAG(Item_ID_1Apple, "Item.ID.1_Apple");
+	UE_DEFINE_GAMEPLAY_TAG(Item_ID_2Banana, "Item.ID.2_Banana");
+	UE_DEFINE_GAMEPLAY_TAG(Item_ID_3Orange, "Item.ID.3_Orange");
 
 	/* NPC Tag */
 	UE_DEFINE_GAMEPLAY_TAG(NPC_ID_AAA, "NPC.ID.AAA");

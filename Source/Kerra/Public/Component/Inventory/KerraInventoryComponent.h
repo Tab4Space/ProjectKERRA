@@ -9,7 +9,7 @@
 
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FAddItemSigniture, FGameplayTag, ItemTag);
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_ThreeParams(FChangeItemCountSigniture, FGameplayTag, ItemTag, int32, CurrentCount, int32, DeltaCount);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FChangeItemCountSigniture, FGameplayTag, ItemTag, int32, CurrentCount);
 
 UCLASS()
 class KERRA_API UKerraInventoryComponent : public UKerraExtensionComponentBase
