@@ -106,15 +106,16 @@ void UKerraQuestComponent::ClearQuest(FGameplayTag QuestTagToClear)
 	 * receive reward, xp, etc...
 	 * notify to widget
 	 */
-	if(AcceptedQuests.HasTagExact(QuestTagToClear))
+	if(AcceptedQuests.HasTagExact(QuestTagToClear) && AcceptedQuestsMap.Contains(QuestTagToClear))
 	{
+		CompletedQuests.AddTag(QuestTagToClear);
+		CompletedQuestsMap.Add(QuestTagToClear, AcceptedQuestsMap[QuestTagToClear]);
+		
 		AcceptedQuests.RemoveTag(QuestTagToClear);
 		AcceptedQuestsMap.Remove(QuestTagToClear);
-		CompletedQuests.AddTag(QuestTagToClear);
-		// CompletedQuestsMap.Append(TMap<FGameplayTag, FKerraQuestInfo>(QuestTagToClear, FKerraQuestInfo()))
 
 		UE_LOG(LogTemp, Warning, TEXT("Clear Quest %s"), *QuestTagToClear.ToString());
-		// OnNotifyCompleteQuest.Broadcast(QuestTagToClear);
+		OnNotifyCompleteQuest.Broadcast(CompletedQuestsMap[QuestTagToClear]);
 		return;
 	}
 	UE_LOG(LogTemp, Warning, TEXT("Player does not have %s quest"), *QuestTagToClear.ToString());
@@ -162,7 +163,7 @@ float UKerraQuestComponent::CheckQuestProgress(FGameplayTag QuestTagToCheck, FGa
 	IKerraInventoryInterface* InventoryInterface = Cast<IKerraInventoryInterface>(GetOwner());
 	UKerraInventoryComponent* InventoryComponent = InventoryInterface->GetKerraInventoryComponent();
 
-	for(auto Pair : AcceptedQuestsMap[QuestTagToCheck].RequireObjects)
+	for(const auto Pair : AcceptedQuestsMap[QuestTagToCheck].RequireObjects)
 	{
 		float CurrentObjectAmount = static_cast<float>(FMath::Clamp(InventoryComponent->GetCurrentItemCount(Pair.Key), 0, Pair.Value));
 		float CurrentRatio = CurrentObjectAmount < static_cast<float>(Pair.Value) ? (CurrentObjectAmount / static_cast<float>(Pair.Value)) : 1.f;
@@ -171,10 +172,3 @@ float UKerraQuestComponent::CheckQuestProgress(FGameplayTag QuestTagToCheck, FGa
 	}
 	return QuestProgressRatio;
 }
-
-
-FGameplayTag UKerraQuestComponent::TrackingQuest(FKerraQuestInfo QuestToTrack)
-{
-	return QuestToTrack.QuestID;
-}
-

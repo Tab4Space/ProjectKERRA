@@ -40,9 +40,6 @@ public:
 
 	UFUNCTION(BlueprintCallable, BlueprintPure)
 	float CheckQuestProgress(FGameplayTag QuestTagToCheck, FGameplayTag ObjectTag);
-
-	UFUNCTION(BlueprintCallable)
-	FGameplayTag TrackingQuest(FKerraQuestInfo QuestToTrack);
 	
 	/* Getter */
 	UDataTable* GetQuestDataTable() { return QuestDataTable; }

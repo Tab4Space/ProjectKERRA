@@ -24,7 +24,6 @@ bool UKerraInventoryComponent::AddItem(FGameplayTag ItemID, int32 AddCount)
 		OwningItemMaps[ItemID].CurrentCount += AddCount;
 		
 		// OnAddItem.Broadcast(ItemID); // current not used
-
 		if(!ItemToAdd->AppliedQuest.IsEmpty())
 		{
 			// Broadcast to WBP_TrackingQuest, WBP_TrackingQuestText, WBP_QuestWindow 

@@ -23,20 +23,6 @@ enum class EQuestClearType : uint8
 	TalkToNpc
 };
 
-UENUM()
-enum class EQuestItemName : uint8
-{
-	None,
-	Apple
-};
-
-UENUM()
-enum class EQuestArea : uint8
-{
-	None,
-	FirstLocation
-};
-
 UENUM(BlueprintType, Blueprintable)
 enum class EQuestFilter : uint8
 {
@@ -65,8 +51,8 @@ struct FQuestReward
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	int32 Gold;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	TMap<EQuestItemName, int32> Item;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta=(Categories="Quest.ID"))
+	TMap<FGameplayTag, int32> Item;
 };
 
 
@@ -112,8 +98,8 @@ public:
 	FQuestReward QuestReward;						
 
 	// 이것도 tag로 바꿔야할듯?
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	EQuestArea QuestLocation;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta=(Categories="Location.ID"))
+	FGameplayTag QuestLocation;
 	
 	bool IsValid() const;
 

@@ -28,7 +28,7 @@
   * Handle Damage
   * Drop the Item (Recovery hero character health or rage)
   
-## Part 2. Natural Locomotion (Playlist #31 ~ , WIP)
+## Part 2. Natural Locomotion (Playlist #31 ~ #35, Interrupted for a moment)
 * **Apply Root Motion Animations**
 
 
@@ -56,13 +56,34 @@
   * Test Applying Motion Matching System
 
 
+## Part 3. Gameplay Sub System (Playlist #36 ~ , WIP)
+* **Quest System with Dialog and Inventory System**
 
+* Quest System
+  * Implements Actor Component & Interface & Delegate
+  * Implements struct, data table
+  * Quest Pop-up Window
+  * Display quest progress
+  * Display simple information in small pop-up
+  * Filter the quest (All, Ongoing, Complete)
+  * Receive from NPC
+  * Four kinds of quest (collect item, kill enemy, go to specific location, talk to npc)
+  * Receive rewards when complete the quest
+
+
+* Dialog
+
+
+* Inventory
+  * Implements Actor Component & Interface & Delegate
+  * Implements struct, data table
+  
 
 ## TODO List
 ###### **The parts below will be implemented (regardless of the order listed)**
 * ~~Part 1. Basic Combat Logic~~
-* Part 2. Advanced Locomotion
-* Part 3. Quest System with Dialogue
+* ~~Part 2. Advanced Locomotion~~ (Interrupted for a moment)
+* Part 3. Quest System with Dialogue and Inventory (WIP)
 * Part 4. SFX and VFX
 * Part 5. Map Design
 * Part 6. Cinematic Movie
