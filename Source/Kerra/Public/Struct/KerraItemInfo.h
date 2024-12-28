@@ -40,7 +40,7 @@ public:
 	int32 MaxCount = 0;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	int32 CurrentCount = 0;
+	int32 CurrentAmount = 0;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	FText ItemDescription;

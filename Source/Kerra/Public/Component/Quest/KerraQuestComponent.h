@@ -7,9 +7,9 @@
 #include "Struct/KerraQuestInfo.h"
 #include "KerraQuestComponent.generated.h"
 
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FToggoleQuestWidget, bool, bShowing);
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnAddQuestDelegate, FKerraQuestInfo, AddedQuestInfo);
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnNotifyCompleteQuest, FKerraQuestInfo, CompletedQuest);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnToggoleQuestWidgetSignature, bool, bShowing);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnAddQuestSignature, FKerraQuestInfo, AddedQuestInfo);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnCompleteQuestSignature, FKerraQuestInfo, CompletedQuest);
 
 class UKerraWidgetBase;
 class AKerraPlayerController;
@@ -48,13 +48,13 @@ public:
 
 public:
 	UPROPERTY(BlueprintAssignable)
-	FToggoleQuestWidget OnToggleWidget;
+	FOnToggoleQuestWidgetSignature OnToggleWidget;
 	
 	UPROPERTY(BlueprintAssignable)
-	FOnAddQuestDelegate OnAddQuest;				// WBP_NotifyNewQuest
+	FOnAddQuestSignature OnAddQuest;				// WBP_NotifyNewQuest
 
 	UPROPERTY(BlueprintAssignable)
-	FOnNotifyCompleteQuest OnNotifyCompleteQuest;
+	FOnCompleteQuestSignature OnCompleteQuest;		// WBP_QuestWindow, WBP_TrackingQuest
 
 private:
 	TObjectPtr<AKerraPlayerController> KerraPC;

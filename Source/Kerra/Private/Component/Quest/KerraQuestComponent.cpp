@@ -115,7 +115,18 @@ void UKerraQuestComponent::ClearQuest(FGameplayTag QuestTagToClear)
 		AcceptedQuestsMap.Remove(QuestTagToClear);
 
 		UE_LOG(LogTemp, Warning, TEXT("Clear Quest %s"), *QuestTagToClear.ToString());
-		OnNotifyCompleteQuest.Broadcast(CompletedQuestsMap[QuestTagToClear]);
+		OnCompleteQuest.Broadcast(CompletedQuestsMap[QuestTagToClear]);
+
+		// when clear the quest, require item is subtracted in inventory
+		if(UKerraInventoryComponent* TargetInventoryComp = UKerraFunctionLibrary::NativeGetKerraInventoryComponentFromActor(GetOwner()))
+		{
+			for(const auto Pair : CompletedQuestsMap[QuestTagToClear].RequireObjects)
+			{
+				TargetInventoryComp->AddItem(Pair.Key, -Pair.Value);	
+			}
+		}
+
+		// TODO: Give rewards
 		return;
 	}
 	UE_LOG(LogTemp, Warning, TEXT("Player does not have %s quest"), *QuestTagToClear.ToString());

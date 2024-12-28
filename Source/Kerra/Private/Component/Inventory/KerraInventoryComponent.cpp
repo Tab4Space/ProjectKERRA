@@ -8,26 +8,48 @@ void UKerraInventoryComponent::BeginPlay()
 	Super::BeginPlay();
 }
 
-bool UKerraInventoryComponent::AddItem(FGameplayTag ItemID, int32 AddCount)
+bool UKerraInventoryComponent::AddItem(FGameplayTag ItemIDTag, int32 AddCount)
 {
-	UE_LOG(LogTemp, Warning, TEXT("%s"), *ItemID.GetTagName().ToString());
 	checkf(ItemDataTable, TEXT("Not valid Item Data Table in inventory"));
 	
-	if (FKerraItemInfo* ItemToAdd = ItemDataTable->FindRow<FKerraItemInfo>(ItemID.GetTagName(), ""))
+	if(OwningItemTags.HasTagExact(ItemIDTag))
 	{
-		OwningItemTags.AddTag(ItemID);
-
-		if(!OwningItemMaps.Contains(ItemID))
+		/* already has item in inventory */
+		if(OwningItemMaps[ItemIDTag].bStackable)
 		{
-			OwningItemMaps.Add(ItemID, *ItemToAdd);
+			OwningItemMaps[ItemIDTag].CurrentAmount += AddCount;
+			if(OwningItemMaps[ItemIDTag].CurrentAmount <= 0)
+			{
+				OwningItemTags.RemoveTag(ItemIDTag);
+				OwningItemMaps.Remove(ItemIDTag);
+				UE_LOG(LogTemp, Warning, TEXT("%s is deleted because less than 1EA"), *ItemIDTag.ToString());
+			}
 		}
-		OwningItemMaps[ItemID].CurrentCount += AddCount;
+		else
+		{
+			OwningItemMaps[ItemIDTag].CurrentAmount = 1;
+			UE_LOG(LogTemp, Warning, TEXT("%s is owned only 1EA"), *ItemIDTag.ToString());
+		}
+
+		if(OwningItemMaps.Contains(ItemIDTag))
+		{
+			OnChangeItemAmount.Broadcast(ItemIDTag, OwningItemMaps[ItemIDTag].CurrentAmount);	
+		}
+		return true;
+	}
+
+	/* add new item in inventory */
+	if (FKerraItemInfo* ItemToAdd = ItemDataTable->FindRow<FKerraItemInfo>(ItemIDTag.GetTagName(), ""))
+	{
+		OwningItemTags.AddTag(ItemIDTag);
+		OwningItemMaps.Add(ItemIDTag, *ItemToAdd);
+		OwningItemMaps[ItemIDTag].CurrentAmount += AddCount;
 		
 		// OnAddItem.Broadcast(ItemID); // current not used
 		if(!ItemToAdd->AppliedQuest.IsEmpty())
 		{
 			// Broadcast to WBP_TrackingQuest, WBP_TrackingQuestText, WBP_QuestWindow 
-			OnChangeItemCount.Broadcast(ItemID, OwningItemMaps[ItemID].CurrentCount);	
+			OnChangeItemAmount.Broadcast(ItemIDTag, OwningItemMaps[ItemIDTag].CurrentAmount);	
 		}
 		return true;
 	}
@@ -38,7 +60,7 @@ int32 UKerraInventoryComponent::GetCurrentItemCount(FGameplayTag ItemIDTag)
 {
 	if(OwningItemMaps.Find(ItemIDTag))
 	{
-		return OwningItemMaps[ItemIDTag].CurrentCount;
+		return OwningItemMaps[ItemIDTag].CurrentAmount;
 	}
 	return 0;
 }
