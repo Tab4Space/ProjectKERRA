@@ -8,7 +8,7 @@ void UKerraInventoryComponent::BeginPlay()
 	Super::BeginPlay();
 }
 
-bool UKerraInventoryComponent::AddItem(FGameplayTag ItemIDTag, int32 AddCount)
+bool UKerraInventoryComponent::AddItem(FGameplayTag ItemIDTag, int32 AddAmount)
 {
 	checkf(ItemDataTable, TEXT("Not valid Item Data Table in inventory"));
 	
@@ -17,7 +17,7 @@ bool UKerraInventoryComponent::AddItem(FGameplayTag ItemIDTag, int32 AddCount)
 		/* already has item in inventory */
 		if(OwningItemMaps[ItemIDTag].bStackable)
 		{
-			OwningItemMaps[ItemIDTag].CurrentAmount += AddCount;
+			OwningItemMaps[ItemIDTag].CurrentAmount += AddAmount;
 			if(OwningItemMaps[ItemIDTag].CurrentAmount <= 0)
 			{
 				OwningItemTags.RemoveTag(ItemIDTag);
@@ -43,7 +43,7 @@ bool UKerraInventoryComponent::AddItem(FGameplayTag ItemIDTag, int32 AddCount)
 	{
 		OwningItemTags.AddTag(ItemIDTag);
 		OwningItemMaps.Add(ItemIDTag, *ItemToAdd);
-		OwningItemMaps[ItemIDTag].CurrentAmount += AddCount;
+		OwningItemMaps[ItemIDTag].CurrentAmount += AddAmount;
 		
 		// OnAddItem.Broadcast(ItemID); // current not used
 		if(!ItemToAdd->AppliedQuest.IsEmpty())
@@ -56,6 +56,12 @@ bool UKerraInventoryComponent::AddItem(FGameplayTag ItemIDTag, int32 AddCount)
 	return false;
 }
 
+void UKerraInventoryComponent::AddGold(int32 AddAmount)
+{
+	Golds = FMath::Clamp(Golds, 0, Golds+=AddAmount);
+	UE_LOG(LogTemp, Warning, TEXT("Current Gold: %d"), Golds);
+}
+
 int32 UKerraInventoryComponent::GetCurrentItemCount(FGameplayTag ItemIDTag)
 {
 	if(OwningItemMaps.Find(ItemIDTag))
@@ -63,4 +69,9 @@ int32 UKerraInventoryComponent::GetCurrentItemCount(FGameplayTag ItemIDTag)
 		return OwningItemMaps[ItemIDTag].CurrentAmount;
 	}
 	return 0;
+}
+
+int32 UKerraInventoryComponent::GetCurrentGold()
+{
+	return FMath::Clamp(Golds, 0, Golds);
 }

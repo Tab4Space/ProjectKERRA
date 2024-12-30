@@ -183,3 +183,33 @@ float UKerraQuestComponent::CheckQuestProgress(FGameplayTag QuestTagToCheck, FGa
 	}
 	return QuestProgressRatio;
 }
+
+bool UKerraQuestComponent::GiveRewards(FGameplayTag QuestTag)
+{
+	if(FKerraQuestInfo* QuestInfo = QuestDataTable->FindRow<FKerraQuestInfo>(QuestTag.GetTagName(), ""))
+	{
+		UKerraInventoryComponent* InventoryComponent = UKerraFunctionLibrary::NativeGetKerraInventoryComponentFromActor(GetOwner());
+		checkf(InventoryComponent, TEXT("Not Value Inventory Component"));
+		
+		if(QuestInfo->QuestReward.GiveXP > 0)
+		{
+			// Give XP
+		}
+
+		if(QuestInfo->QuestReward.GiveGold > 0)
+		{
+			// Give Gold
+			InventoryComponent->AddGold(QuestInfo->QuestReward.GiveGold);
+		}
+
+		if(QuestInfo->QuestReward.GiveItem.Num() != 0)
+		{
+			for(const auto Pair: QuestInfo->QuestReward.GiveItem)
+			{
+				InventoryComponent->AddItem(Pair.Key, Pair.Value);
+			}
+		}
+		return true;
+	}
+	return false;
+}

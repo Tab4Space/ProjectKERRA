@@ -46,13 +46,13 @@ struct FQuestReward
 	GENERATED_USTRUCT_BODY()
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	int32 XP;
+	int32 GiveXP;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	int32 Gold;
+	int32 GiveGold;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta=(Categories="Quest.ID"))
-	TMap<FGameplayTag, int32> Item;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta=(Categories="Item.ID"))
+	TMap<FGameplayTag, int32> GiveItem;
 };
 
 

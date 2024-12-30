@@ -20,10 +20,17 @@ public:
 	virtual void BeginPlay() override;
 
 	UFUNCTION(BlueprintCallable)
-	bool AddItem(FGameplayTag ItemIDTag, int32 AddCount = 1);
+	bool AddItem(FGameplayTag ItemIDTag, int32 AddAmount = 1);
 
+	UFUNCTION(BlueprintCallable)
+	void AddGold(int32 AddAmount);
+	
+	/* Getter */
 	UFUNCTION(BlueprintCallable, BlueprintPure)
 	int32 GetCurrentItemCount(FGameplayTag ItemIDTag);
+
+	UFUNCTION(BlueprintCallable, BlueprintPure)
+	int32 GetCurrentGold();
 
 public:
 	UPROPERTY(BlueprintAssignable)
@@ -41,5 +48,10 @@ private:
 
 	UPROPERTY(VisibleAnywhere, Category="Inventory|Item", meta=(Categories="Item.ID"))
 	TMap<FGameplayTag, FKerraItemInfo> OwningItemMaps;
+
+	UPROPERTY(VisibleAnywhere, Category="Inventory|Gold", meta=(AllowPrivateAccess))
+	int32 Golds;
+
+	
 	
 };
