@@ -6,7 +6,7 @@
 #include "KerraGameplayTags.h"
 #include "Blueprint/UserWidget.h"
 #include "Player/KerraPlayerController.h"
-#include "Widget/KerraWidgetBase.h"
+#include "UI/Widget/KerraWidgetBase.h"
 #include "Component/Inventory/KerraInventoryComponent.h"
 #include "KerraFunctionLibrary.h"
 #include "Interface/KerraInventoryInterface.h"

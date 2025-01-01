@@ -2,7 +2,7 @@
 
 
 #include "Component/UI/EnemyUIComponent.h"
-#include "Widget/KerraWidgetBase.h"
+#include "UI/Widget/KerraWidgetBase.h"
 
 void UEnemyUIComponent::RegisterEnemyDrawnWidget(UKerraWidgetBase* InWidgetToResister)
 {
