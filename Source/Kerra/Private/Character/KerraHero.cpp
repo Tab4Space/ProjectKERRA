@@ -64,7 +64,6 @@ void AKerraHero::OnRep_PlayerState()
 {
 	Super::OnRep_PlayerState();
 	InitAbilityActorInfo();					// Set owner and avatar in client side
-	
 }
 
 UKerraCombatComponent* AKerraHero::GetKerraCombatComponent() const

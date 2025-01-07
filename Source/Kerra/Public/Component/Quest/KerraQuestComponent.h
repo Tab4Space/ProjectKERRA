@@ -11,6 +11,7 @@ DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnToggoleQuestWidgetSignature, bool
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnAddQuestSignature, FKerraQuestInfo, AddedQuestInfo);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnCompleteQuestSignature, FKerraQuestInfo, CompletedQuest);
 
+
 class UKerraWidgetBase;
 class AKerraPlayerController;
 
