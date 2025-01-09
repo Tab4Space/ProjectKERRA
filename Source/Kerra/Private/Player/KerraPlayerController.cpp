@@ -11,6 +11,8 @@
 #include "AbilitySystemBlueprintLibrary.h"
 #include "Character/KerraHero.h"
 #include "Component/Quest/KerraQuestComponent.h"
+#include "UI/HUD/KerraHUD.h"
+#include "UI/Widget/KerraQuestWidget.h"
 
 
 AKerraPlayerController::AKerraPlayerController()
@@ -110,10 +112,16 @@ void AKerraPlayerController::Input_PickUpStarted(const FInputActionValue& InputA
 
 void AKerraPlayerController::Input_Quest(const FInputActionValue& InputActionValue)
 {
-	AKerraHero* ControlledPawn = Cast<AKerraHero>(GetPawn());
-	UKerraQuestComponent* QuestComponent = ControlledPawn->GetKerraQuestComponent();
-
-	QuestComponent->ToggleQuestWidget();
+	AKerraHUD* KerraHUD = Cast<AKerraHUD>(GetHUD());
+	if(!KerraHUD->GetQuestWidget())
+	{
+		KerraHUD->CreateQuestWidget();
+	}
+	else
+	{
+		KerraHUD->GetQuestWidget()->ToggleWindow();
+		OnToggleQuestWidget.Broadcast();
+	}
 }
 
 void AKerraPlayerController::AbilityInputPressed(FGameplayTag InInputTag)

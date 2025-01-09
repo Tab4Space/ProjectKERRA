@@ -6,8 +6,9 @@
 #include "GameFramework/HUD.h"
 #include "KerraHUD.generated.h"
 
+class UKerraOverlayWidget;
 class UKerraQuestWidget;
-class UKerraWidgetBase;
+
 
 UCLASS()
 class KERRA_API AKerraHUD : public AHUD
@@ -18,21 +19,29 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void InitMainOverlayWidget();
 
-	/* Getter */
+	UFUNCTION()
+	void CreateQuestWidget();
 	
+
+	/* Getter */
+	UFUNCTION(BlueprintCallable)
+	UKerraOverlayWidget* GetOverlayWidget() { return MainOverlayWidget; }
+
+	UFUNCTION(BlueprintCallable)
+	UKerraQuestWidget* GetQuestWidget() { return QuestWidget; }
 
 private:
 	UPROPERTY()
-	TObjectPtr<UKerraWidgetBase> MainOverlayWidget;
+	TObjectPtr<UKerraOverlayWidget> MainOverlayWidget = nullptr;
 
 	UPROPERTY(EditAnywhere, Category="WidgetClass")
-	TSubclassOf<UKerraWidgetBase> MainOverlayWidgetClass;
+	TSubclassOf<UKerraOverlayWidget> MainOverlayWidgetClass;
 
 	UPROPERTY()
-	TObjectPtr<UKerraQuestWidget> QuestWindowWidget;
+	TObjectPtr<UKerraQuestWidget> QuestWidget = nullptr;
 
 	UPROPERTY(EditAnywhere, Category="WidgetClass|Quest")
-	TSubclassOf<UKerraQuestWidget> QuestWindowWidgetClass;
+	TSubclassOf<UKerraQuestWidget> QuestWidgetClass;
 	
 	
 };

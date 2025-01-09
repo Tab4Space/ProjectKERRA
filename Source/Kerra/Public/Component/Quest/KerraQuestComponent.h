@@ -7,7 +7,6 @@
 #include "Struct/KerraQuestInfo.h"
 #include "KerraQuestComponent.generated.h"
 
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnToggoleQuestWidgetSignature, bool, bShowing);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnAddQuestSignature, FKerraQuestInfo, AddedQuestInfo);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnCompleteQuestSignature, FKerraQuestInfo, CompletedQuest);
 
@@ -24,10 +23,7 @@ class KERRA_API UKerraQuestComponent : public UKerraExtensionComponentBase
 public:
 	/* Override */
 	virtual void BeginPlay() override;
-
-	UFUNCTION(BlueprintCallable)
-	void ToggleQuestWidget();
-
+	
 	UFUNCTION(BlueprintCallable)
 	bool AddQuest(FGameplayTag QuestIDTagToAdd);
 	
@@ -52,9 +48,6 @@ public:
 
 public:
 	UPROPERTY(BlueprintAssignable)
-	FOnToggoleQuestWidgetSignature OnToggleWidget;
-	
-	UPROPERTY(BlueprintAssignable)
 	FOnAddQuestSignature OnAddQuest;				// WBP_NotifyNewQuest
 
 	UPROPERTY(BlueprintAssignable)
@@ -62,11 +55,7 @@ public:
 
 private:
 	TObjectPtr<AKerraPlayerController> KerraPC;
-
-	UPROPERTY(EditDefaultsOnly, Category="Widget")
-	TSubclassOf<UKerraWidgetBase> QuestWidgetClass;
-	TObjectPtr<UKerraWidgetBase> QuestWidget = nullptr;
-
+	
 	UPROPERTY(EditDefaultsOnly, Category="Widget")
 	TSubclassOf<UKerraWidgetBase> QuestNotificationWidgetClass;
 	TObjectPtr<UKerraWidgetBase> QuestNotificationWidget = nullptr;

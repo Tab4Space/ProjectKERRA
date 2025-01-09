@@ -9,6 +9,7 @@
 #include "GenericTeamAgentInterface.h"
 #include "KerraPlayerController.generated.h"
 
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnToggoleQuestWidgetSignature);
 
 class UInputMappingContext;
 class UInputAction;
@@ -47,6 +48,10 @@ private:
 	void AbilityInputReleased(FGameplayTag InInputTag);
 
 	UKerraAbilitySystemComponent* GetASC();
+
+public:
+	UPROPERTY(BlueprintAssignable)
+	FOnToggoleQuestWidgetSignature OnToggleQuestWidget; 
 
 private:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="CharacterData", meta=(AllowPrivateAccess="true"))

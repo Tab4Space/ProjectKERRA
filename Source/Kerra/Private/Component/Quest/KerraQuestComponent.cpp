@@ -15,46 +15,12 @@ void UKerraQuestComponent::BeginPlay()
 {
 	Super::BeginPlay();
 	KerraPC = GetOwningController<AKerraPlayerController>();
-
 	
 	/*if(UKerraInventoryComponent* InventoryComp = UKerraFunctionLibrary::NativeGetKerraInventoryComponentFromActor(GetOwner()))
 	{
 		UE_LOG(LogTemp, Warning, TEXT("Bind OnChangedItemCount"));
 		//InventoryComp->OnChangeItemCount.AddDynamic(this, )
 	}*/
-	
-}
-
-void UKerraQuestComponent::ToggleQuestWidget()
-{
-	if(!IsValid(QuestWidget))
-	{
-		QuestWidget = CreateWidget<UKerraWidgetBase>(KerraPC, QuestWidgetClass);
-		QuestWidget->AddToViewport();
-		QuestWidget->SetVisibility(ESlateVisibility::Visible);
-		
-		KerraPC->SetShowMouseCursor(true);
-		KerraPC->SetInputMode(FInputModeGameAndUI());
-		bShowQuestWindow = true;
-	}
-	else
-	{
-		if(bShowQuestWindow)
-		{
-			QuestWidget->SetVisibility(ESlateVisibility::Hidden);
-			KerraPC->SetShowMouseCursor(false);
-			KerraPC->SetInputMode(FInputModeGameOnly());
-			bShowQuestWindow = false;
-		}
-		else
-		{
-			QuestWidget->SetVisibility(ESlateVisibility::Visible);
-			KerraPC->SetShowMouseCursor(true);
-			KerraPC->SetInputMode(FInputModeGameAndUI());
-			bShowQuestWindow = true;
-		}
-	}
-	OnToggleWidget.Broadcast(bShowQuestWindow);
 }
 
 bool UKerraQuestComponent::AddQuest(FGameplayTag QuestIDTagToAdd)
