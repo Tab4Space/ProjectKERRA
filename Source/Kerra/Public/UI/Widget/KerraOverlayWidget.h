@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "Struct/KerraQuestInfo.h"
 #include "UI/Widget/KerraWidgetBase.h"
 #include "KerraOverlayWidget.generated.h"
 
@@ -15,11 +16,10 @@ class KERRA_API UKerraOverlayWidget : public UKerraWidgetBase
 	GENERATED_BODY()
 
 public:
+	/* Quest */
 	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable)
-	void ToggleQuestWindow();
+	void AddQuestTrackingWindow(FKerraQuestInfo QuestInfo);
 
 	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable)
-	void ToggleInventoryWindow();
-
-	
+	void RemoveQuestTrackingWindow(FKerraQuestInfo QuestInfo);
 };

@@ -4,6 +4,7 @@
 #include "UI/HUD/KerraHUD.h"
 
 #include "Blueprint/UserWidget.h"
+#include "Kerra/Kerra.h"
 #include "Player/KerraPlayerController.h"
 #include "UI/Widget/KerraOverlayWidget.h"
 #include "UI/Widget/KerraQuestWidget.h"
