@@ -6,6 +6,7 @@
 #include "GameFramework/HUD.h"
 #include "KerraHUD.generated.h"
 
+class UKerraDialogueWidget;
 class UKerraOverlayWidget;
 class UKerraQuestWidget;
 
@@ -42,6 +43,12 @@ private:
 
 	UPROPERTY(EditAnywhere, Category="WidgetClass|Quest")
 	TSubclassOf<UKerraQuestWidget> QuestWidgetClass;
+
+	UPROPERTY()
+	TObjectPtr<UKerraDialogueWidget> DialogueWidget = nullptr;
+
+	UPROPERTY(EditAnywhere, Category="WidgetClass|Dialogue")
+	TSubclassOf<UKerraDialogueWidget> DialogueWidgetClass;
 	
 	
 };
