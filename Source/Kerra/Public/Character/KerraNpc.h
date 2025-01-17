@@ -26,7 +26,11 @@ protected:
 	virtual void BeginPlay() override;
 
 	UFUNCTION(BlueprintCallable)
+	void TalkDialogue(AActor* TargetActor);
+
+	UFUNCTION(BlueprintCallable)
 	void GiveQuestToPlayer(AActor* TargetActor);
+
 
 private:
 	bool CanGivingQuest(FGameplayTag TagToGive, FGameplayTagContainer& TargetAcceptedQuests, FGameplayTagContainer& TargetCompletedQuest);

@@ -22,4 +22,9 @@ public:
 
 	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable)
 	void RemoveQuestTrackingWindow(FKerraQuestInfo QuestInfo);
+
+	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable)
+	void AddDialogueWindow();
+
+	
 };

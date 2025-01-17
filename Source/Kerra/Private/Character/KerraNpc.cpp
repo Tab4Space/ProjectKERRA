@@ -4,7 +4,12 @@
 #include "Character/KerraNpc.h"
 
 #include "KerraGameplayTags.h"
+#include "Character/KerraHero.h"
 #include "Component/Quest/KerraQuestComponent.h"
+#include "Kismet/GameplayStatics.h"
+#include "Player/KerraPlayerController.h"
+#include "UI/HUD/KerraHUD.h"
+#include "UI/Widget/KerraOverlayWidget.h"
 
 
 AKerraNpc::AKerraNpc()
@@ -45,6 +50,7 @@ void AKerraNpc::DoInteraction_Implementation(AActor* TargetActor)
 		UE_LOG(LogTemp, Warning, TEXT("This NPC don't has any quest"));
 		return;
 	}
+	TalkDialogue(TargetActor);
 	GiveQuestToPlayer(TargetActor);	
 }
 
@@ -53,6 +59,17 @@ void AKerraNpc::BeginPlay()
 {
 	Super::BeginPlay();
 	InitForQuest();
+}
+
+void AKerraNpc::TalkDialogue(AActor* TargetActor)
+{
+	if(AKerraPlayerController* KerraPC = Cast<AKerraPlayerController>(UGameplayStatics::GetPlayerController(TargetActor, 0)))
+	{
+		if(AKerraHUD* KerraHUD = Cast<AKerraHUD>(KerraPC->GetHUD()))
+		{
+			KerraHUD->GetOverlayWidget()->AddDialogueWindow();
+		}
+	}
 }
 
 void AKerraNpc::GiveQuestToPlayer(AActor* TargetActor)
@@ -76,11 +93,6 @@ void AKerraNpc::GiveQuestToPlayer(AActor* TargetActor)
 				break;
 			}
 		}
-
-		/*if(bGiveQuest)
-		{
-			UE_LOG(LogTemp, Warning, TEXT("Success giving quest to player"));
-		}*/
 	}
 }
 
