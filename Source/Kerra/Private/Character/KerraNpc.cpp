@@ -51,7 +51,7 @@ void AKerraNpc::DoInteraction_Implementation(AActor* TargetActor)
 		return;
 	}
 	TalkDialogue(TargetActor);
-	GiveQuestToPlayer(TargetActor);	
+	//GiveQuestToPlayer(TargetActor);	
 }
 
 
@@ -67,9 +67,28 @@ void AKerraNpc::TalkDialogue(AActor* TargetActor)
 	{
 		if(AKerraHUD* KerraHUD = Cast<AKerraHUD>(KerraPC->GetHUD()))
 		{
-			KerraHUD->GetOverlayWidget()->AddDialogueWindow();
+			KerraHUD->GetOverlayWidget()->AddDialogueWindow(this, Cast<AKerraHero>(TargetActor));
 		}
 	}
+}
+
+FGameplayTag AKerraNpc::ChooseQuestTagToGive(AActor* TargetActor)
+{
+	if(IKerraQuestInterface* QuestInterface = Cast<IKerraQuestInterface>(TargetActor))
+	{
+		UKerraQuestComponent* TargetQuestComponent = QuestInterface->GetKerraQuestComponent();
+		FGameplayTagContainer TargetAcceptedQuests = TargetQuestComponent->GetAcceptedQuestTags();
+		FGameplayTagContainer TargetCompletedQuests = TargetQuestComponent->GetCompletedQuestTags();
+
+		for(const FGameplayTag QuestTag : OwnedQuestTags)
+		{
+			if(CanGivingQuest(QuestTag, TargetAcceptedQuests, TargetCompletedQuests))
+			{
+				return QuestTag;
+			}
+		}
+	}
+	return FGameplayTag();
 }
 
 void AKerraNpc::GiveQuestToPlayer(AActor* TargetActor)

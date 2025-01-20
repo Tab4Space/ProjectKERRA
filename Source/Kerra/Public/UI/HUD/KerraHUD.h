@@ -22,6 +22,9 @@ public:
 
 	UFUNCTION()
 	void CreateQuestWidget();
+
+	UFUNCTION()
+	void CreateDialogueWidget();
 	
 
 	/* Getter */
@@ -30,6 +33,9 @@ public:
 
 	UFUNCTION(BlueprintCallable)
 	UKerraQuestWidget* GetQuestWidget() { return QuestWidget; }
+
+	UFUNCTION(BlueprintCallable)
+	UKerraDialogueWidget* GetDialogueWidget() { return DialogueWidget; }
 
 private:
 	UPROPERTY()

@@ -4,10 +4,10 @@
 #include "UI/HUD/KerraHUD.h"
 
 #include "Blueprint/UserWidget.h"
-#include "Kerra/Kerra.h"
 #include "Player/KerraPlayerController.h"
 #include "UI/Widget/KerraOverlayWidget.h"
 #include "UI/Widget/KerraQuestWidget.h"
+#include "UI/Widget/KerraDialogueWidget.h"
 
 void AKerraHUD::InitMainOverlayWidget()
 {
@@ -27,4 +27,11 @@ void AKerraHUD::CreateQuestWidget()
 	AKerraPlayerController* KerraPC = Cast<AKerraPlayerController>(GetOwningPlayerController());
 	KerraPC->SetShowMouseCursor(true);
 	KerraPC->SetInputMode(FInputModeGameAndUI());
+}
+
+void AKerraHUD::CreateDialogueWidget()
+{
+	checkf(QuestWidgetClass, TEXT("Dialogue Widget Class Uninitialized, please fill out BP_KerraHUD"));
+	UUserWidget* Widget = CreateWidget<UUserWidget>(GetWorld(), DialogueWidgetClass);
+	DialogueWidget = Cast<UKerraDialogueWidget>(Widget);
 }

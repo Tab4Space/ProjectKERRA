@@ -29,8 +29,10 @@ protected:
 	void TalkDialogue(AActor* TargetActor);
 
 	UFUNCTION(BlueprintCallable)
-	void GiveQuestToPlayer(AActor* TargetActor);
+	FGameplayTag ChooseQuestTagToGive(AActor* TargetActor);
 
+	UFUNCTION(BlueprintCallable)
+	void GiveQuestToPlayer(AActor* TargetActor);
 
 private:
 	bool CanGivingQuest(FGameplayTag TagToGive, FGameplayTagContainer& TargetAcceptedQuests, FGameplayTagContainer& TargetCompletedQuest);

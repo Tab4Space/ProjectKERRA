@@ -6,6 +6,7 @@
 #include "Blueprint/UserWidget.h"
 #include "KerraWidgetBase.generated.h"
 
+class AKerraHUD;
 class UEnemyUIComponent;
 class UHeroUIComponent;
 class UKerraQuestComponent;
@@ -20,6 +21,10 @@ class KERRA_API UKerraWidgetBase : public UUserWidget
 public:
 	UFUNCTION(BlueprintCallable)
 	void InitEnemyCreatedWidget(AActor* OwningEnemyActor);
+
+	/* Getter */
+	UFUNCTION(BlueprintCallable, BlueprintPure)
+	AKerraHUD* GetKerraHUD();
 	
 
 protected:

@@ -5,6 +5,7 @@
 #include "Interface/KerraInventoryInterface.h"
 #include "Interface/KerraQuestInterface.h"
 #include "Interface/KerraWidgetInterface.h"
+#include "UI/HUD/KerraHUD.h"
 
 
 void UKerraWidgetBase::InitEnemyCreatedWidget(AActor* OwningEnemyActor)
@@ -16,6 +17,11 @@ void UKerraWidgetBase::InitEnemyCreatedWidget(AActor* OwningEnemyActor)
 
 		BP_OnOwningEnemyUIComponentInitialized(EnemyUIComponent);
 	}
+}
+
+AKerraHUD* UKerraWidgetBase::GetKerraHUD()
+{
+	return Cast<AKerraHUD>(GetOwningPlayer()->GetHUD());
 }
 
 void UKerraWidgetBase::NativeOnInitialized()

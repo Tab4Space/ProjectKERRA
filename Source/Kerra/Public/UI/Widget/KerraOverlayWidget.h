@@ -7,6 +7,8 @@
 #include "UI/Widget/KerraWidgetBase.h"
 #include "KerraOverlayWidget.generated.h"
 
+class AKerraHero;
+class AKerraNpc;
 /**
  * 
  */
@@ -24,7 +26,7 @@ public:
 	void RemoveQuestTrackingWindow(FKerraQuestInfo QuestInfo);
 
 	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable)
-	void AddDialogueWindow();
+	void AddDialogueWindow(AKerraNpc* CallNpc, AKerraHero* Target);
 
 	
 };
