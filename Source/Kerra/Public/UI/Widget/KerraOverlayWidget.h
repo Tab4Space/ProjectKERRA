@@ -26,7 +26,5 @@ public:
 	void RemoveQuestTrackingWindow(FKerraQuestInfo QuestInfo);
 
 	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable)
-	void AddDialogueWindow(AKerraNpc* CallNpc, AKerraHero* Target);
-
-	
+	void AddDialogueWindow();
 };

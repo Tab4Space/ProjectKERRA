@@ -26,13 +26,13 @@ protected:
 	virtual void BeginPlay() override;
 
 	UFUNCTION(BlueprintCallable)
-	void TalkDialogue(AActor* TargetActor);
+	void TalkDialogue(AActor* TargetActor, FKerraQuestInfo QuestInfo);
 
 	UFUNCTION(BlueprintCallable)
 	FGameplayTag ChooseQuestTagToGive(AActor* TargetActor);
 
 	UFUNCTION(BlueprintCallable)
-	void GiveQuestToPlayer(AActor* TargetActor);
+	void GiveQuestToPlayer(AActor* TargetActor, FGameplayTag QuestTag);
 
 private:
 	bool CanGivingQuest(FGameplayTag TagToGive, FGameplayTagContainer& TargetAcceptedQuests, FGameplayTagContainer& TargetCompletedQuest);

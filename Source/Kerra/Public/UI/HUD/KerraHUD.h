@@ -20,21 +20,21 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void InitMainOverlayWidget();
 
-	UFUNCTION()
+	UFUNCTION(BlueprintCallable)
 	void CreateQuestWidget();
 
-	UFUNCTION()
+	UFUNCTION(BlueprintCallable)
 	void CreateDialogueWidget();
 	
 
 	/* Getter */
-	UFUNCTION(BlueprintCallable)
+	UFUNCTION(BlueprintCallable, BlueprintPure)
 	UKerraOverlayWidget* GetOverlayWidget() { return MainOverlayWidget; }
 
-	UFUNCTION(BlueprintCallable)
+	UFUNCTION(BlueprintCallable, BlueprintPure)
 	UKerraQuestWidget* GetQuestWidget() { return QuestWidget; }
 
-	UFUNCTION(BlueprintCallable)
+	UFUNCTION(BlueprintCallable, BlueprintPure)
 	UKerraDialogueWidget* GetDialogueWidget() { return DialogueWidget; }
 
 private:

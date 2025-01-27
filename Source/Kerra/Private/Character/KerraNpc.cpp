@@ -9,6 +9,7 @@
 #include "Kismet/GameplayStatics.h"
 #include "Player/KerraPlayerController.h"
 #include "UI/HUD/KerraHUD.h"
+#include "UI/Widget/KerraDialogueWidget.h"
 #include "UI/Widget/KerraOverlayWidget.h"
 
 
@@ -50,7 +51,14 @@ void AKerraNpc::DoInteraction_Implementation(AActor* TargetActor)
 		UE_LOG(LogTemp, Warning, TEXT("This NPC don't has any quest"));
 		return;
 	}
-	TalkDialogue(TargetActor);
+	FGameplayTag QuestTag = ChooseQuestTagToGive(TargetActor);
+
+	if(const UDataTable* QuestTable = QuestComponent->GetQuestDataTable())
+	{
+		const FKerraQuestInfo* GivingQuest = QuestTable->FindRow<FKerraQuestInfo>(QuestTag.GetTagName(), "");
+		TalkDialogue(TargetActor, *GivingQuest);
+	}
+	
 	//GiveQuestToPlayer(TargetActor);	
 }
 
@@ -61,13 +69,14 @@ void AKerraNpc::BeginPlay()
 	InitForQuest();
 }
 
-void AKerraNpc::TalkDialogue(AActor* TargetActor)
+void AKerraNpc::TalkDialogue(AActor* TargetActor, FKerraQuestInfo QuestInfo)
 {
 	if(AKerraPlayerController* KerraPC = Cast<AKerraPlayerController>(UGameplayStatics::GetPlayerController(TargetActor, 0)))
 	{
 		if(AKerraHUD* KerraHUD = Cast<AKerraHUD>(KerraPC->GetHUD()))
 		{
-			KerraHUD->GetOverlayWidget()->AddDialogueWindow(this, Cast<AKerraHero>(TargetActor));
+			KerraHUD->GetDialogueWidget()->SetQuestInfo(this, TargetActor, QuestInfo);
+			KerraHUD->GetOverlayWidget()->AddDialogueWindow();
 		}
 	}
 }
@@ -91,12 +100,12 @@ FGameplayTag AKerraNpc::ChooseQuestTagToGive(AActor* TargetActor)
 	return FGameplayTag();
 }
 
-void AKerraNpc::GiveQuestToPlayer(AActor* TargetActor)
+void AKerraNpc::GiveQuestToPlayer(AActor* TargetActor, FGameplayTag QuestTag)
 {
 	// TODO: check whether player can get a quest or not
 	// IKerraQuestInterface::Execute_DoInteraction(this, TargetActor);
 	
-	if(IKerraQuestInterface* QuestInterface = Cast<IKerraQuestInterface>(TargetActor))
+	/*if(IKerraQuestInterface* QuestInterface = Cast<IKerraQuestInterface>(TargetActor))
 	{
 		UKerraQuestComponent* TargetQuestComponent = QuestInterface->GetKerraQuestComponent();
 		FGameplayTagContainer TargetAcceptedQuests = TargetQuestComponent->GetAcceptedQuestTags();
@@ -112,7 +121,18 @@ void AKerraNpc::GiveQuestToPlayer(AActor* TargetActor)
 				break;
 			}
 		}
+	}*/
+
+	if(IKerraQuestInterface* QuestInterface = Cast<IKerraQuestInterface>(TargetActor))
+	{
+		UKerraQuestComponent* TargetQuestComponent = QuestInterface->GetKerraQuestComponent();
+		checkf(TargetQuestComponent, TEXT("Invalid %s's quest component"), *TargetActor->GetName());
+
+		TargetQuestComponent->AddQuest(QuestTag);
+		UE_LOG(LogTemp, Warning, TEXT("Success giving %s quest to player"), *QuestTag.ToString());
 	}
+	
+	
 }
 
 bool AKerraNpc::CanGivingQuest(FGameplayTag TagToGive, FGameplayTagContainer& TargetAcceptedQuests, FGameplayTagContainer& TargetCompletedQuest)
