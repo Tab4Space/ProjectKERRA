@@ -46,4 +46,8 @@ protected:
 	// Get player's inventory component
 	UFUNCTION(BlueprintImplementableEvent, meta=(DisplayName="OnOwningInventoryComponentInitialized"))
 	void BP_OnOwningInventoryComponentInitialized(UKerraInventoryComponent* OwningKerraInventoryComponent);
+
+	UFUNCTION(BlueprintCallable)
+	void SetUIMode(bool IsShowing);
+	
 };

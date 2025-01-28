@@ -31,7 +31,7 @@ enum class EQuestFilter : uint8
 	Completed
 };
 
-UENUM()
+UENUM(BlueprintType, Blueprintable)
 enum class EQuestNotification : uint8
 {
 	None,
@@ -79,6 +79,9 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)		// quest description
 	FText QuestDescription;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	TArray<FString> DialogueText;					// dialogue text
+
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)		// is repeatable?
 	bool bRepeatable;
 	
@@ -95,7 +98,8 @@ public:
 	FGameplayTag NextQuestID;						// next quest
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	FQuestReward QuestReward;						
+	FQuestReward QuestReward;
+	
 
 	// 이것도 tag로 바꿔야할듯?
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta=(Categories="Location.ID"))

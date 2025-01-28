@@ -27,4 +27,7 @@ public:
 
 	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable)
 	void AddDialogueWindow();
+
+	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable)
+	void AddQuestNotifyWindow(EQuestNotification NotifyType);
 };

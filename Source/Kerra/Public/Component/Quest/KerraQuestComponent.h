@@ -24,21 +24,22 @@ public:
 	/* Override */
 	virtual void BeginPlay() override;
 	
-	UFUNCTION(BlueprintCallable)
+	UFUNCTION(BlueprintCallable, Category="Quest|Player")
 	bool AddQuest(FGameplayTag QuestIDTagToAdd);
-	
+
+	UFUNCTION(BlueprintCallable, Category="Quest|Player")
 	void AddQuestNotification(EQuestNotification Notification, FKerraQuestInfo& QuestInfo);
 
-	UFUNCTION(BlueprintCallable)
+	UFUNCTION(BlueprintCallable, Category="Quest|Player")
 	void ClearQuest(FGameplayTag QuestTagToClear);
 
-	UFUNCTION(BlueprintCallable, BlueprintPure)
+	UFUNCTION(BlueprintCallable, BlueprintPure, Category="Quest|Npc")
 	bool CheckClearCondition(FGameplayTag TagToCheck);
 
-	UFUNCTION(BlueprintCallable, BlueprintPure)
+	UFUNCTION(BlueprintCallable, BlueprintPure, Category="Quest|Npc")
 	float CheckQuestProgress(FGameplayTag QuestTagToCheck, FGameplayTag ObjectTag);
 
-	UFUNCTION(BlueprintCallable)
+	UFUNCTION(BlueprintCallable, Category="Quest|Npc")
 	bool GiveRewards(FGameplayTag QuestTag);
 	
 	/* Getter */

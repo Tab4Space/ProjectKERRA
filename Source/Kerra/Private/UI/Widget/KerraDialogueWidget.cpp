@@ -11,4 +11,6 @@ void UKerraDialogueWidget::SetQuestInfo(AActor* InNpcActor, AActor* InPlayerActo
 	NpcActor = Cast<AKerraNpc>(InNpcActor);
 	PlayerActor = Cast<AKerraHero>(InPlayerActor);
 	QuestInfo = InQuestInfo;
+
+	
 }

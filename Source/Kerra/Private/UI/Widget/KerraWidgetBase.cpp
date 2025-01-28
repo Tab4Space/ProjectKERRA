@@ -52,3 +52,17 @@ void UKerraWidgetBase::NativeOnInitialized()
 		}
 	}
 }
+
+void UKerraWidgetBase::SetUIMode(bool IsShowing)
+{
+	if(IsShowing)
+	{
+		GetOwningPlayer()->SetShowMouseCursor(IsShowing);
+		GetOwningPlayer()->SetInputMode(FInputModeGameAndUI());
+	}
+	else
+	{
+		GetOwningPlayer()->SetShowMouseCursor(IsShowing);
+		GetOwningPlayer()->SetInputMode(FInputModeGameOnly());
+	}
+}

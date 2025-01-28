@@ -29,7 +29,7 @@ protected:
 	void TalkDialogue(AActor* TargetActor, FKerraQuestInfo QuestInfo);
 
 	UFUNCTION(BlueprintCallable)
-	FGameplayTag ChooseQuestTagToGive(AActor* TargetActor);
+	FGameplayTag FindQuestTagToGive(AActor* TargetActor);
 
 	UFUNCTION(BlueprintCallable)
 	void GiveQuestToPlayer(AActor* TargetActor, FGameplayTag QuestTag);

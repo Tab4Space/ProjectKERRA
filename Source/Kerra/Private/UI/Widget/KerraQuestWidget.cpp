@@ -11,13 +11,15 @@ void UKerraQuestWidget::ToggleWindow()
 	if(GetVisibility() != ESlateVisibility::Hidden)
 	{
 		SetVisibility(ESlateVisibility::Hidden);
-		KerraPC->SetShowMouseCursor(false);
-		KerraPC->SetInputMode(FInputModeGameOnly());
+		SetUIMode(false);
+		/*KerraPC->SetShowMouseCursor(false);
+		KerraPC->SetInputMode(FInputModeGameOnly());*/
 	}
 	else
 	{
 		SetVisibility(ESlateVisibility::Visible);
-		KerraPC->SetShowMouseCursor(true);
-		KerraPC->SetInputMode(FInputModeGameAndUI());
+		SetUIMode(true);
+		/*KerraPC->SetShowMouseCursor(true);
+		KerraPC->SetInputMode(FInputModeGameAndUI());*/
 	}
 }

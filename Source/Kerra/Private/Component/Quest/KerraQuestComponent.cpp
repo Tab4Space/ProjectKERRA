@@ -10,6 +10,9 @@
 #include "Component/Inventory/KerraInventoryComponent.h"
 #include "KerraFunctionLibrary.h"
 #include "Interface/KerraInventoryInterface.h"
+#include "Kismet/GameplayStatics.h"
+#include "UI/HUD/KerraHUD.h"
+#include "UI/Widget/KerraOverlayWidget.h"
 
 void UKerraQuestComponent::BeginPlay()
 {
@@ -45,7 +48,13 @@ bool UKerraQuestComponent::AddQuest(FGameplayTag QuestIDTagToAdd)
 void UKerraQuestComponent::AddQuestNotification(EQuestNotification Notification, FKerraQuestInfo& QuestInfo)
 {
 	/* if add quest, notify to widget using delegate broadcast */
-	if(Notification == EQuestNotification::NewQuest)
+	AKerraHUD* KerraHUD = UKerraFunctionLibrary::NativeGetKerraHUD(KerraPC);
+	checkf(KerraHUD, TEXT("Invalid KerraHUD"));
+
+	KerraHUD->GetOverlayWidget()->AddQuestNotifyWindow(Notification);
+	OnAddQuest.Broadcast(QuestInfo);
+	
+	/*if(Notification == EQuestNotification::NewQuest)
 	{
 		QuestNotificationWidget = CreateWidget<UKerraWidgetBase>(KerraPC, QuestNotificationWidgetClass);
 		if(OnAddQuest.IsBound())
@@ -53,6 +62,8 @@ void UKerraQuestComponent::AddQuestNotification(EQuestNotification Notification,
 			OnAddQuest.Broadcast(QuestInfo);
 			QuestNotificationWidget->AddToViewport();
 		}
+		KerraHUD->GetOverlayWidget()->AddQuestNotifyWindow();
+		OnAddQuest.Broadcast(QuestInfo);
 	}
 	else if(Notification == EQuestNotification::CompletedQuest)
 	{
@@ -62,7 +73,7 @@ void UKerraQuestComponent::AddQuestNotification(EQuestNotification Notification,
 			OnAddQuest.Broadcast(QuestInfo);
 			QuestCompleteNotifyWidget->AddToViewport();
 		}
-	}
+	}*/
 }
 
 void UKerraQuestComponent::ClearQuest(FGameplayTag QuestTagToClear)

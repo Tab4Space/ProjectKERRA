@@ -45,21 +45,29 @@ void AKerraNpc::InitForQuest()
 
 void AKerraNpc::DoInteraction_Implementation(AActor* TargetActor)
 {
+	/* TODO: 
+	 * Separate npc type (give quest, sell item and etc...)
+	 * Add sequence animation
+	 */
 	UE_LOG(LogTemp, Warning, TEXT("DoInteraction"));
 	if(!bHasQuest)
 	{
 		UE_LOG(LogTemp, Warning, TEXT("This NPC don't has any quest"));
 		return;
 	}
-	FGameplayTag QuestTag = ChooseQuestTagToGive(TargetActor);
 
-	if(const UDataTable* QuestTable = QuestComponent->GetQuestDataTable())
+	FGameplayTag FoundQuestTag = FindQuestTagToGive(TargetActor);
+	if(!FoundQuestTag.IsValid())
 	{
-		const FKerraQuestInfo* GivingQuest = QuestTable->FindRow<FKerraQuestInfo>(QuestTag.GetTagName(), "");
-		TalkDialogue(TargetActor, *GivingQuest);
+		return;
 	}
 	
-	//GiveQuestToPlayer(TargetActor);	
+	if(const UDataTable* QuestTable = QuestComponent->GetQuestDataTable())
+	{
+		const FKerraQuestInfo* GivingQuest = QuestTable->FindRow<FKerraQuestInfo>(FoundQuestTag.GetTagName(), "");
+		TalkDialogue(TargetActor, *GivingQuest);
+	}
+	//GiveQuestToPlayer(TargetActor);
 }
 
 
@@ -81,7 +89,7 @@ void AKerraNpc::TalkDialogue(AActor* TargetActor, FKerraQuestInfo QuestInfo)
 	}
 }
 
-FGameplayTag AKerraNpc::ChooseQuestTagToGive(AActor* TargetActor)
+FGameplayTag AKerraNpc::FindQuestTagToGive(AActor* TargetActor)
 {
 	if(IKerraQuestInterface* QuestInterface = Cast<IKerraQuestInterface>(TargetActor))
 	{

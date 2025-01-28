@@ -11,6 +11,7 @@
 #include "Interface/KerraQuestInterface.h"
 #include "Kismet/KismetMathLibrary.h"
 #include "Struct/KerraCountDownAction.h"
+#include "UI/HUD/KerraHUD.h"
 
 UKerraAbilitySystemComponent* UKerraFunctionLibrary::NativeGetKerraASCFromActor(AActor* InActor)
 {
@@ -208,4 +209,14 @@ void UKerraFunctionLibrary::CountDown(const UObject* WorldContextObject, float T
 			FoundAction->CancelAction();
 		}
 	}
+}
+
+AKerraHUD* UKerraFunctionLibrary::NativeGetKerraHUD(APlayerController* PC)
+{
+	return Cast<AKerraHUD>(PC->GetHUD());
+}
+
+AKerraHUD* UKerraFunctionLibrary::BP_GetKerraHUD(APlayerController* PC)
+{
+	return NativeGetKerraHUD(PC);
 }

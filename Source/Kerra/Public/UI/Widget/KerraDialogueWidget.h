@@ -9,9 +9,7 @@
 
 class AKerraHero;
 class AKerraNpc;
-/**
- * 
- */
+
 UCLASS()
 class KERRA_API UKerraDialogueWidget : public UKerraWidgetBase
 {
@@ -20,6 +18,10 @@ class KERRA_API UKerraDialogueWidget : public UKerraWidgetBase
 public:
 	UFUNCTION(BlueprintCallable)
 	void SetQuestInfo(AActor* InNpcActor, AActor* InPlayerActor, FKerraQuestInfo InQuestInfo);
+
+protected:
+	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable)
+	void SetFirstDialogueText();
 
 protected:
 	UPROPERTY(BlueprintReadOnly, Category="QuestInfo")
