@@ -6,7 +6,6 @@
 #include "KerraGameplayTags.h"
 #include "Blueprint/UserWidget.h"
 #include "Player/KerraPlayerController.h"
-#include "UI/Widget/KerraWidgetBase.h"
 #include "Component/Inventory/KerraInventoryComponent.h"
 #include "KerraFunctionLibrary.h"
 #include "Interface/KerraInventoryInterface.h"
@@ -53,27 +52,6 @@ void UKerraQuestComponent::AddQuestNotification(EQuestNotification Notification,
 
 	KerraHUD->GetOverlayWidget()->AddQuestNotifyWindow(Notification);
 	OnAddQuest.Broadcast(QuestInfo);
-	
-	/*if(Notification == EQuestNotification::NewQuest)
-	{
-		QuestNotificationWidget = CreateWidget<UKerraWidgetBase>(KerraPC, QuestNotificationWidgetClass);
-		if(OnAddQuest.IsBound())
-		{
-			OnAddQuest.Broadcast(QuestInfo);
-			QuestNotificationWidget->AddToViewport();
-		}
-		KerraHUD->GetOverlayWidget()->AddQuestNotifyWindow();
-		OnAddQuest.Broadcast(QuestInfo);
-	}
-	else if(Notification == EQuestNotification::CompletedQuest)
-	{
-		QuestCompleteNotifyWidget = CreateWidget<UKerraWidgetBase>(KerraPC, QuestCompleteNotifyWidgetClass);
-		if(OnAddQuest.IsBound())
-		{
-			OnAddQuest.Broadcast(QuestInfo);
-			QuestCompleteNotifyWidget->AddToViewport();
-		}
-	}*/
 }
 
 void UKerraQuestComponent::ClearQuest(FGameplayTag QuestTagToClear)

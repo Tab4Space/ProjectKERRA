@@ -112,24 +112,6 @@ void AKerraNpc::GiveQuestToPlayer(AActor* TargetActor, FGameplayTag QuestTag)
 {
 	// TODO: check whether player can get a quest or not
 	// IKerraQuestInterface::Execute_DoInteraction(this, TargetActor);
-	
-	/*if(IKerraQuestInterface* QuestInterface = Cast<IKerraQuestInterface>(TargetActor))
-	{
-		UKerraQuestComponent* TargetQuestComponent = QuestInterface->GetKerraQuestComponent();
-		FGameplayTagContainer TargetAcceptedQuests = TargetQuestComponent->GetAcceptedQuestTags();
-		FGameplayTagContainer TargetCompletedQuests = TargetQuestComponent->GetCompletedQuestTags();
-
-		bool bGiveQuest = false;
-		for(const FGameplayTag QuestTag : OwnedQuestTags)
-		{
-			if(CanGivingQuest(QuestTag, TargetAcceptedQuests, TargetCompletedQuests))
-			{
-				bGiveQuest = TargetQuestComponent->AddQuest(QuestTag);
-				UE_LOG(LogTemp, Warning, TEXT("Success giving %s quest to player"), *QuestTag.ToString());
-				break;
-			}
-		}
-	}*/
 
 	if(IKerraQuestInterface* QuestInterface = Cast<IKerraQuestInterface>(TargetActor))
 	{
@@ -139,7 +121,6 @@ void AKerraNpc::GiveQuestToPlayer(AActor* TargetActor, FGameplayTag QuestTag)
 		TargetQuestComponent->AddQuest(QuestTag);
 		UE_LOG(LogTemp, Warning, TEXT("Success giving %s quest to player"), *QuestTag.ToString());
 	}
-	
 	
 }
 
