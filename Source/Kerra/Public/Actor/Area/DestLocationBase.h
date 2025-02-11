@@ -4,13 +4,13 @@
 
 #include "CoreMinimal.h"
 #include "Actor/Area/KerraAreaBase.h"
-#include "Interface/KerraQuestInterface.h"
+#include "Interface/KerraInteractInterface.h"
 #include "Struct/KerraQuestInfo.h"
 #include "DestLocationBase.generated.h"
 
 
 UCLASS()
-class KERRA_API ADestLocationBase : public AKerraAreaBase, public IKerraQuestInterface
+class KERRA_API ADestLocationBase : public AKerraAreaBase, public IKerraInteractInterface
 {
 	GENERATED_BODY()
 

@@ -8,6 +8,7 @@
 #include "Interface/KerraCombatInterface.h"
 #include "Interface/KerraQuestInterface.h"
 #include "Interface/KerraWidgetInterface.h"
+#include "Interface/KerraInteractInterface.h"
 #include "KerraCharacterBase.generated.h"
 
 
@@ -17,7 +18,8 @@ class UAttributeSet;
 class UMotionWarpingComponent;
 
 UCLASS()
-class KERRA_API AKerraCharacterBase : public ACharacter, public IAbilitySystemInterface, public IKerraCombatInterface, public IKerraWidgetInterface, public IKerraQuestInterface
+class KERRA_API AKerraCharacterBase : public ACharacter, public IAbilitySystemInterface, public IKerraCombatInterface, public IKerraWidgetInterface,
+	public IKerraQuestInterface, public IKerraInteractInterface
 {
 	GENERATED_BODY()
 

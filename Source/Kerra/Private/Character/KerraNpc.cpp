@@ -56,6 +56,9 @@ void AKerraNpc::DoInteraction_Implementation(AActor* TargetActor)
 		return;
 	}
 
+	//UKerraQuestComponent* TargetQuestComponent = TargetActor->GetComponentByClass<UKerraQuestComponent>();
+	
+
 	FGameplayTag FoundQuestTag = FindQuestTagToGive(TargetActor);
 	if(!FoundQuestTag.IsValid())
 	{

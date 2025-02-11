@@ -4,7 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "Actor/Item/Pickup/KerraPickUpBase.h"
-#include "Interface/KerraQuestInterface.h"
+#include "Interface/KerraInteractInterface.h"
 #include "Struct/KerraQuestInfo.h"
 #include "KerraCollectableBase.generated.h"
 
@@ -12,7 +12,7 @@
  * 
  */
 UCLASS()
-class KERRA_API AKerraCollectableBase : public AKerraPickUpBase, public IKerraQuestInterface
+class KERRA_API AKerraCollectableBase : public AKerraPickUpBase, public IKerraInteractInterface
 {
 	GENERATED_BODY()
 
