@@ -3,25 +3,23 @@
 
 #include "Actor/Prop/StorageBase.h"
 
-// Sets default values
+#include "Kerra/Kerra.h"
+
 AStorageBase::AStorageBase()
 {
- 	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
-	PrimaryActorTick.bCanEverTick = true;
+	PrimaryActorTick.bCanEverTick = false;
 
+	Mesh = CreateDefaultSubobject<UStaticMeshComponent>("Mesh");
 }
 
-// Called when the game starts or when spawned
+void AStorageBase::DoInteraction_Implementation(AActor* TargetActor)
+{
+	KERRALOG(Warning, TEXT("Do interaction"));
+}
+
 void AStorageBase::BeginPlay()
 {
 	Super::BeginPlay();
 	
-}
-
-// Called every frame
-void AStorageBase::Tick(float DeltaTime)
-{
-	Super::Tick(DeltaTime);
-
 }
 

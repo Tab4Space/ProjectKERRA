@@ -56,9 +56,6 @@ void AKerraNpc::DoInteraction_Implementation(AActor* TargetActor)
 		return;
 	}
 
-	//UKerraQuestComponent* TargetQuestComponent = TargetActor->GetComponentByClass<UKerraQuestComponent>();
-	
-
 	FGameplayTag FoundQuestTag = FindQuestTagToGive(TargetActor);
 	if(!FoundQuestTag.IsValid())
 	{
@@ -70,7 +67,6 @@ void AKerraNpc::DoInteraction_Implementation(AActor* TargetActor)
 		const FKerraQuestInfo* GivingQuest = QuestTable->FindRow<FKerraQuestInfo>(FoundQuestTag.GetTagName(), "");
 		TalkDialogue(TargetActor, *GivingQuest);
 	}
-	//GiveQuestToPlayer(TargetActor);
 }
 
 

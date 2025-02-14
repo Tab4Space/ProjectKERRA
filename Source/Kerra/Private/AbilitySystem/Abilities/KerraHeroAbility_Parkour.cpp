@@ -2,7 +2,6 @@
 
 
 #include "AbilitySystem/Abilities/KerraHeroAbility_Parkour.h"
-
 #include "MotionWarpingComponent.h"
 #include "Character/KerraHero.h"
 #include "Components/CapsuleComponent.h"
@@ -25,15 +24,18 @@ void UKerraHeroAbility_Parkour::EndAbility(const FGameplayAbilitySpecHandle Hand
 void UKerraHeroAbility_Parkour::CalcEssentialValues()
 {
 	TArray<AActor*> IgnoreToActors;
+	IgnoreToActors.Add(GetAvatarActorFromActorInfo());
+
+	ETraceTypeQuery ParkourTraceType = UEngineTypes::ConvertToTraceType(ECC_Parkour);
 
 	// step 1. Check whether exist obstacle or not.
 	FVector StartLocation = GetAvatarActorFromActorInfo()->GetActorLocation();
 	FVector EndLocation = StartLocation + GetAvatarActorFromActorInfo()->GetActorForwardVector() * TraceForwardDistance;
 	FHitResult OutHit_CheckForwardObstacle;
-	
+
 	bHasObstacle = UKismetSystemLibrary::LineTraceSingle(
 		GetAvatarActorFromActorInfo(), StartLocation, EndLocation,
-		static_cast<ETraceTypeQuery>(ECC_Parkour), false, IgnoreToActors,
+		ParkourTraceType, false, IgnoreToActors,
 		bDrawDebug ? EDrawDebugTrace::ForDuration : EDrawDebugTrace::None, OutHit_CheckForwardObstacle, true
 	);
 	if(!bHasObstacle)
@@ -53,6 +55,7 @@ void UKerraHeroAbility_Parkour::CalcEssentialValues()
 		static_cast<ETraceTypeQuery>(ECC_Parkour), false, IgnoreToActors,
 		bDrawDebug ? EDrawDebugTrace::ForDuration : EDrawDebugTrace::None, OutHit_ForObstacleHeight, true
 	);
+	UE_LOG(LogTemp, Warning, TEXT("%s"), *OutHit_ForObstacleHeight.GetActor()->GetActorNameOrLabel());
 	ObstacleHeight = OutHit_ForObstacleHeight.ImpactPoint.Z - (GetAvatarActorFromActorInfo()->GetActorLocation().Z - GetKerraPlayerFromActorInfo()->GetCapsuleComponent()->GetScaledCapsuleHalfHeight());
 	if(ObstacleHeight > ObstacleHeightThreshold)
 	{

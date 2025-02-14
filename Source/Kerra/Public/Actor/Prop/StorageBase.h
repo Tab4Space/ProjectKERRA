@@ -4,20 +4,24 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
+#include "Interface/KerraInteractInterface.h"
 #include "StorageBase.generated.h"
 
 UCLASS()
-class KERRA_API AStorageBase : public AActor
+class KERRA_API AStorageBase : public AActor, public IKerraInteractInterface
 {
 	GENERATED_BODY()
 	
 public:	
 	AStorageBase();
+	void DoInteraction_Implementation(AActor* TargetActor) override;
 
 protected:
 	virtual void BeginPlay() override;
 
-public:	
-	virtual void Tick(float DeltaTime) override;
-
+protected:
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
+	TObjectPtr<UStaticMeshComponent> Mesh;
+	
+	
 };
