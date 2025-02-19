@@ -3,6 +3,7 @@
 
 #include "Character/KerraNpc.h"
 
+#include "KerraFunctionLibrary.h"
 #include "KerraGameplayTags.h"
 #include "Character/KerraHero.h"
 #include "Component/Quest/KerraQuestComponent.h"
@@ -61,6 +62,9 @@ void AKerraNpc::DoInteraction_Implementation(AActor* TargetActor)
 	{
 		return;
 	}
+
+	AKerraHUD* KerraHUD = UKerraFunctionLibrary::NativeGetKerraHUD(Cast<AKerraHero>(TargetActor)->GetKerraPC());
+	KerraHUD->CreateDialogueWidget();
 	
 	if(const UDataTable* QuestTable = QuestComponent->GetQuestDataTable())
 	{
@@ -90,7 +94,7 @@ void AKerraNpc::TalkDialogue(AActor* TargetActor, FKerraQuestInfo QuestInfo)
 
 FGameplayTag AKerraNpc::FindQuestTagToGive(AActor* TargetActor)
 {
-	if(IKerraQuestInterface* QuestInterface = Cast<IKerraQuestInterface>(TargetActor))
+	if(const IKerraQuestInterface* QuestInterface = Cast<IKerraQuestInterface>(TargetActor))
 	{
 		UKerraQuestComponent* TargetQuestComponent = QuestInterface->GetKerraQuestComponent();
 		FGameplayTagContainer TargetAcceptedQuests = TargetQuestComponent->GetAcceptedQuestTags();
@@ -112,7 +116,7 @@ void AKerraNpc::GiveQuestToPlayer(AActor* TargetActor, FGameplayTag QuestTag)
 	// TODO: check whether player can get a quest or not
 	// IKerraQuestInterface::Execute_DoInteraction(this, TargetActor);
 
-	if(IKerraQuestInterface* QuestInterface = Cast<IKerraQuestInterface>(TargetActor))
+	if(const IKerraQuestInterface* QuestInterface = Cast<IKerraQuestInterface>(TargetActor))
 	{
 		UKerraQuestComponent* TargetQuestComponent = QuestInterface->GetKerraQuestComponent();
 		checkf(TargetQuestComponent, TEXT("Invalid %s's quest component"), *TargetActor->GetName());

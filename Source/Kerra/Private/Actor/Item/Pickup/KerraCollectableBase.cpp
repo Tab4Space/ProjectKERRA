@@ -22,16 +22,4 @@ void AKerraCollectableBase::DoInteraction_Implementation(AActor* TargetActor)
 			UE_LOG(LogTemp, Warning, TEXT("Add %s in inventory"), *ItemIDTag.ToString());
 		}
 	}
-	/*if(!bUseInQuest || AppliedQuests.Num() == 0)
-	{
-		UE_LOG(LogTemp, Warning, TEXT("This item is not for quest or not in used quest"));
-		return;
-	}
-	
-	if(IKerraQuestInterface* QuestInterface = Cast<IKerraQuestInterface>(TargetActor))
-	{
-		UKerraQuestComponent* TargetQuestComponent = QuestInterface->GetQuestComponent();
-		TargetQuestComponent->AddInQuestObjects(ItemIDTag, AppliedQuests);
-	}*/
-	
 }

@@ -15,6 +15,7 @@
 #include "Component/Inventory/KerraInventoryComponent.h"
 #include "Component/Quest/KerraQuestComponent.h"
 #include "Component/UI/HeroUIComponent.h"
+#include "Player/KerraPlayerController.h"
 
 AKerraHero::AKerraHero()
 {
@@ -58,6 +59,8 @@ void AKerraHero::PossessedBy(AController* NewController)
 			LoadedData->GiveToAbilitySystemComponent(Cast<UKerraAbilitySystemComponent>(AbilitySystemComponent));
 		}
 	}
+
+	KerraPC = CastChecked<AKerraPlayerController>(NewController);
 }
 
 void AKerraHero::OnRep_PlayerState()

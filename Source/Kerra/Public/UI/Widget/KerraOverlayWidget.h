@@ -9,9 +9,7 @@
 
 class AKerraHero;
 class AKerraNpc;
-/**
- * 
- */
+
 UCLASS()
 class KERRA_API UKerraOverlayWidget : public UKerraWidgetBase
 {
@@ -30,4 +28,8 @@ public:
 
 	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable)
 	void AddQuestNotifyWindow(EQuestNotification NotifyType);
+
+	/* Inventory */
+	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable)
+	void AddInventoryWindow();
 };

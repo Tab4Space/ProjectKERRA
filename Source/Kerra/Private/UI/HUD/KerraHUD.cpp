@@ -8,6 +8,7 @@
 #include "UI/Widget/KerraOverlayWidget.h"
 #include "UI/Widget/KerraQuestWidget.h"
 #include "UI/Widget/KerraDialogueWidget.h"
+#include "UI/Widget/KerraInventoryWidget.h"
 
 void AKerraHUD::InitMainOverlayWidget()
 {
@@ -34,4 +35,11 @@ void AKerraHUD::CreateDialogueWidget()
 	checkf(QuestWidgetClass, TEXT("Dialogue Widget Class Uninitialized, please fill out BP_KerraHUD"));
 	UUserWidget* Widget = CreateWidget<UUserWidget>(GetWorld(), DialogueWidgetClass);
 	DialogueWidget = Cast<UKerraDialogueWidget>(Widget);
+}
+
+void AKerraHUD::CreateInventoryWidget()
+{
+	checkf(InventoryWidgetClass, TEXT("Dialogue Widget Class Uninitialized, please fill out BP_KerraHUD"));
+	UUserWidget* Widget = CreateWidget<UUserWidget>(GetWorld(), InventoryWidgetClass);
+	InventoryWidget = Cast<UKerraInventoryWidget>(Widget);
 }

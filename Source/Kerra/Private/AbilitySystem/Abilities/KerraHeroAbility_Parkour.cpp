@@ -52,7 +52,7 @@ void UKerraHeroAbility_Parkour::CalcEssentialValues()
 	
 	UKismetSystemLibrary::SphereTraceSingle(
 		GetAvatarActorFromActorInfo(), StartLocation_2, EndLocation_2, SphereTraceRadius,
-		static_cast<ETraceTypeQuery>(ECC_Parkour), false, IgnoreToActors,
+		ParkourTraceType, false, IgnoreToActors,
 		bDrawDebug ? EDrawDebugTrace::ForDuration : EDrawDebugTrace::None, OutHit_ForObstacleHeight, true
 	);
 	UE_LOG(LogTemp, Warning, TEXT("%s"), *OutHit_ForObstacleHeight.GetActor()->GetActorNameOrLabel());
@@ -74,7 +74,7 @@ void UKerraHeroAbility_Parkour::CalcEssentialValues()
 	
 	bHasAnotherObstacle = UKismetSystemLibrary::CapsuleTraceSingle(
 		GetAvatarActorFromActorInfo(), StartLocation_3, EndLocation_3, CapsuleTraceRadius, CapsuleTraceHalfHeight,
-		static_cast<ETraceTypeQuery>(ECC_Parkour), false, IgnoreToActors,
+		ParkourTraceType, false, IgnoreToActors,
 		bDrawDebug ? EDrawDebugTrace::ForDuration : EDrawDebugTrace::None, OutHit_ForObstacleUpside, true 
 	);
 
@@ -95,7 +95,7 @@ void UKerraHeroAbility_Parkour::CalcEssentialValues()
 	
 	UKismetSystemLibrary::LineTraceSingle(
 		GetAvatarActorFromActorInfo(), StartLocation_4_Forward, EndLocation_4_Forward,
-		static_cast<ETraceTypeQuery>(ECC_Parkour), false, IgnoreToActors,
+		ParkourTraceType, false, IgnoreToActors,
 		bDrawDebug ? EDrawDebugTrace::ForDuration : EDrawDebugTrace::None, OutHit_ForObstacleDepth_Forward, true
 	);
 
@@ -105,7 +105,7 @@ void UKerraHeroAbility_Parkour::CalcEssentialValues()
 	
 	UKismetSystemLibrary::LineTraceSingle(
 		GetAvatarActorFromActorInfo(), StartLocation_4_Backward, EndLocation_4_Backward,
-		static_cast<ETraceTypeQuery>(ECC_Parkour), false, IgnoreToActors,
+		ParkourTraceType, false, IgnoreToActors,
 		bDrawDebug ? EDrawDebugTrace::ForDuration : EDrawDebugTrace::None, OutHit_ForObstacleDepth_Backward, true
 	);
 	ObstacleDepth =  FMath::Abs((OutHit_ForObstacleDepth_Forward.Location - OutHit_ForObstacleDepth_Backward.Location).Length());
@@ -117,7 +117,7 @@ void UKerraHeroAbility_Parkour::CalcEssentialValues()
 
 	bool Step5_Result = UKismetSystemLibrary::SphereTraceSingle(
 		GetAvatarActorFromActorInfo(), StartLocation_5, EndLocation_5, SphereTraceRadius,
-		static_cast<ETraceTypeQuery>(ECC_Parkour), false, IgnoreToActors,
+		ParkourTraceType, false, IgnoreToActors,
 		bDrawDebug ? EDrawDebugTrace::ForDuration : EDrawDebugTrace::None, OutHit_ForObstacleBackLedge, true
 	);
 
@@ -135,7 +135,7 @@ void UKerraHeroAbility_Parkour::CalcEssentialValues()
 	
 	bHasBackFloor = UKismetSystemLibrary::CapsuleTraceSingle(
 		GetAvatarActorFromActorInfo(), StartLocation_6, EndLocation_6, CapsuleTraceRadius, CapsuleTraceHalfHeight,
-		static_cast<ETraceTypeQuery>(ECC_Parkour), false, IgnoreToActors,
+		ParkourTraceType, false, IgnoreToActors,
 		bDrawDebug ? EDrawDebugTrace::ForDuration : EDrawDebugTrace::None, OutHit_ForObstacleBackSide, true 
 	);
 	

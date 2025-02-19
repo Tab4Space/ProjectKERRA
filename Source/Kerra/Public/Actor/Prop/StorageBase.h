@@ -14,13 +14,13 @@ class KERRA_API AStorageBase : public AActor, public IKerraInteractInterface
 	
 public:	
 	AStorageBase();
-	void DoInteraction_Implementation(AActor* TargetActor) override;
+	virtual void DoInteraction_Implementation(AActor* TargetActor) override;
 
 protected:
 	virtual void BeginPlay() override;
 
 protected:
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
 	TObjectPtr<UStaticMeshComponent> Mesh;
 	
 	

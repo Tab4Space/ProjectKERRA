@@ -9,6 +9,7 @@
 #include "KerraHero.generated.h"
 
 
+class AKerraPlayerController;
 class UKerraQuestComponent;
 class USpringArmComponent;
 class UCameraComponent;
@@ -27,8 +28,6 @@ public:
 	virtual void PossessedBy(AController* NewController) override;
 	virtual void OnRep_PlayerState() override;
 
-	FORCEINLINE UHeroCombatComponent* GetKerraPlayerCombatComponent() const { return PlayerCombatComponent; }
-
 	/* Combat Interface */
 	virtual UKerraCombatComponent* GetKerraCombatComponent() const override;
 
@@ -41,6 +40,9 @@ public:
 
 	/* Inventory Interface */
 	virtual UKerraInventoryComponent* GetKerraInventoryComponent() const override;
+
+	FORCEINLINE UHeroCombatComponent* GetKerraPlayerCombatComponent() const { return PlayerCombatComponent; }
+	FORCEINLINE AKerraPlayerController* GetKerraPC() const { return KerraPC; }
 
 private:
 	virtual void InitAbilityActorInfo() override;
@@ -64,4 +66,5 @@ private:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Inventory", meta=(AllowPrivateAccess="true"))
 	TObjectPtr<UKerraInventoryComponent> InventoryComponent;
 
+	TObjectPtr<AKerraPlayerController> KerraPC;
 };

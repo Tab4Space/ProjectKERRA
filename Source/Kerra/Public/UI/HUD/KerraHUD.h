@@ -9,7 +9,7 @@
 class UKerraDialogueWidget;
 class UKerraOverlayWidget;
 class UKerraQuestWidget;
-
+class UKerraInventoryWidget;
 
 UCLASS()
 class KERRA_API AKerraHUD : public AHUD
@@ -25,6 +25,9 @@ public:
 
 	UFUNCTION(BlueprintCallable)
 	void CreateDialogueWidget();
+
+	UFUNCTION(BlueprintCallable)
+	void CreateInventoryWidget();
 	
 
 	/* Getter */
@@ -36,6 +39,9 @@ public:
 
 	UFUNCTION(BlueprintCallable, BlueprintPure)
 	UKerraDialogueWidget* GetDialogueWidget() { return DialogueWidget; }
+
+	UFUNCTION(BlueprintCallable, BlueprintPure)
+	UKerraInventoryWidget* GetInventoryWidget() { return InventoryWidget; }
 
 private:
 	UPROPERTY()
@@ -55,6 +61,11 @@ private:
 
 	UPROPERTY(EditAnywhere, Category="WidgetClass|Dialogue")
 	TSubclassOf<UKerraDialogueWidget> DialogueWidgetClass;
+
+	UPROPERTY()
+	TObjectPtr<UKerraInventoryWidget> InventoryWidget = nullptr;
 	
+	UPROPERTY(EditAnywhere, Category="WidgetClass|Inventory")
+	TSubclassOf<UKerraInventoryWidget> InventoryWidgetClass;
 	
 };
