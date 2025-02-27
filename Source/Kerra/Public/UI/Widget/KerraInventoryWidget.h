@@ -14,5 +14,7 @@ class KERRA_API UKerraInventoryWidget : public UKerraWidgetBase
 {
 	GENERATED_BODY()
 
-	
+public:
+	UFUNCTION(BlueprintCallable)
+	void ToggleWidget();
 };

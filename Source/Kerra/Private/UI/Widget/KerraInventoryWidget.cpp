@@ -3,3 +3,6 @@
 
 #include "UI/Widget/KerraInventoryWidget.h"
 
+void UKerraInventoryWidget::ToggleWidget()
+{
+}
