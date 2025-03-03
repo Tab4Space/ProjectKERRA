@@ -24,6 +24,9 @@ public:
 	void RemoveQuestTrackingWindow(FKerraQuestInfo QuestInfo);
 
 	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable)
+	void AddQuestWindow();
+
+	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable)
 	void AddDialogueWindow();
 
 	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable)

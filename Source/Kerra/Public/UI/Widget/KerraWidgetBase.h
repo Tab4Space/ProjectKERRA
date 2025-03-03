@@ -22,10 +22,13 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void InitEnemyCreatedWidget(AActor* OwningEnemyActor);
 
+	/* Widget Utility*/
+	UFUNCTION(BlueprintCallable)
+	void ToggleShowingWindow();
+
 	/* Getter */
 	UFUNCTION(BlueprintCallable, BlueprintPure)
 	AKerraHUD* GetKerraHUD();
-	
 
 protected:
 	// 위젯이 생성된 후 한 번만 호출되는 함수

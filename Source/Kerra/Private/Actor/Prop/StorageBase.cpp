@@ -17,6 +17,7 @@ AStorageBase::AStorageBase()
 
 	Mesh = CreateDefaultSubobject<UStaticMeshComponent>("Mesh");
 	Mesh->SetupAttachment(GetRootComponent());
+	
 }
 
 void AStorageBase::DoInteraction_Implementation(AActor* TargetActor)

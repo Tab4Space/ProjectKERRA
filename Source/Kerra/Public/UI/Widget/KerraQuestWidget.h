@@ -15,6 +15,5 @@ class KERRA_API UKerraQuestWidget : public UKerraWidgetBase
 	GENERATED_BODY()
 
 public:
-	UFUNCTION(BlueprintCallable)
-	void ToggleWindow();
+	void ToggleShowingWindow();
 };

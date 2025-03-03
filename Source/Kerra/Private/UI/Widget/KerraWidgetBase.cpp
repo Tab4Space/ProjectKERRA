@@ -19,6 +19,10 @@ void UKerraWidgetBase::InitEnemyCreatedWidget(AActor* OwningEnemyActor)
 	}
 }
 
+void UKerraWidgetBase::ToggleShowingWindow()
+{
+}
+
 AKerraHUD* UKerraWidgetBase::GetKerraHUD()
 {
 	return Cast<AKerraHUD>(GetOwningPlayer()->GetHUD());

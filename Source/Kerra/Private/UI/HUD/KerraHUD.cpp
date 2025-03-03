@@ -4,16 +4,18 @@
 #include "UI/HUD/KerraHUD.h"
 
 #include "Blueprint/UserWidget.h"
+#include "Kismet/GameplayStatics.h"
 #include "Player/KerraPlayerController.h"
 #include "UI/Widget/KerraOverlayWidget.h"
 #include "UI/Widget/KerraQuestWidget.h"
 #include "UI/Widget/KerraDialogueWidget.h"
 #include "UI/Widget/KerraInventoryWidget.h"
 
+
 void AKerraHUD::InitMainOverlayWidget()
 {
 	checkf(MainOverlayWidgetClass, TEXT("Main Overlay Widget Class Uninitialized, please fill out BP_KerraHUD"));
-	UUserWidget* Widget = CreateWidget<UUserWidget>(GetWorld(), MainOverlayWidgetClass);
+	UUserWidget* Widget = CreateWidget<UUserWidget>(UGameplayStatics::GetPlayerController(GetWorld(), 0), MainOverlayWidgetClass);
 	MainOverlayWidget = Cast<UKerraOverlayWidget>(Widget);
 	Widget->AddToViewport();
 }
@@ -21,25 +23,25 @@ void AKerraHUD::InitMainOverlayWidget()
 void AKerraHUD::CreateQuestWidget()
 {
 	checkf(QuestWidgetClass, TEXT("Quest Widget Class Uninitialized, please fill out BP_KerraHUD"));
-	UUserWidget* Widget = CreateWidget<UUserWidget>(GetWorld(), QuestWidgetClass);
+	UUserWidget* Widget = CreateWidget<UUserWidget>(UGameplayStatics::GetPlayerController(GetWorld(), 0), QuestWidgetClass);
 	QuestWidget = Cast<UKerraQuestWidget>(Widget);
-	Widget->AddToViewport();
-	
-	AKerraPlayerController* KerraPC = Cast<AKerraPlayerController>(GetOwningPlayerController());
+
+	// Widget->AddToViewport();
+	/*AKerraPlayerController* KerraPC = Cast<AKerraPlayerController>(GetOwningPlayerController());
 	KerraPC->SetShowMouseCursor(true);
-	KerraPC->SetInputMode(FInputModeGameAndUI());
+	KerraPC->SetInputMode(FInputModeGameAndUI());*/
 }
 
 void AKerraHUD::CreateDialogueWidget()
 {
 	checkf(QuestWidgetClass, TEXT("Dialogue Widget Class Uninitialized, please fill out BP_KerraHUD"));
-	UUserWidget* Widget = CreateWidget<UUserWidget>(GetWorld(), DialogueWidgetClass);
+	UUserWidget* Widget = CreateWidget<UUserWidget>(UGameplayStatics::GetPlayerController(GetWorld(), 0), DialogueWidgetClass);
 	DialogueWidget = Cast<UKerraDialogueWidget>(Widget);
 }
 
 void AKerraHUD::CreateInventoryWidget()
 {
 	checkf(InventoryWidgetClass, TEXT("Dialogue Widget Class Uninitialized, please fill out BP_KerraHUD"));
-	UUserWidget* Widget = CreateWidget<UUserWidget>(GetWorld(), InventoryWidgetClass);
+	UUserWidget* Widget = CreateWidget<UUserWidget>(UGameplayStatics::GetPlayerController(GetWorld(), 0), InventoryWidgetClass);
 	InventoryWidget = Cast<UKerraInventoryWidget>(Widget);
 }

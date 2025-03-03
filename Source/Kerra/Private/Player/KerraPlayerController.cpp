@@ -119,7 +119,7 @@ void AKerraPlayerController::Input_Quest(const FInputActionValue& InputActionVal
 	}
 	else
 	{
-		KerraHUD->GetQuestWidget()->ToggleWindow();
+		KerraHUD->GetQuestWidget()->ToggleShowingWindow();
 		OnToggleQuestWidget.Broadcast();
 	}
 }
