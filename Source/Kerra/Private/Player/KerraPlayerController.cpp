@@ -12,6 +12,7 @@
 #include "Character/KerraHero.h"
 #include "Component/Quest/KerraQuestComponent.h"
 #include "UI/HUD/KerraHUD.h"
+#include "UI/Widget/KerraOverlayWidget.h"
 #include "UI/Widget/KerraQuestWidget.h"
 
 
@@ -113,15 +114,20 @@ void AKerraPlayerController::Input_PickUpStarted(const FInputActionValue& InputA
 void AKerraPlayerController::Input_Quest(const FInputActionValue& InputActionValue)
 {
 	AKerraHUD* KerraHUD = Cast<AKerraHUD>(GetHUD());
+	checkf(KerraHUD, TEXT("Not valid KerraHUD"));
+	
 	if(!KerraHUD->GetQuestWidget())
 	{
 		KerraHUD->CreateQuestWidget();
+		KerraHUD->GetOverlayWidget()->AddQuestWindow();
+		KerraHUD->GetQuestWidget()->ToggleShowingWindow();
 	}
 	else
 	{
+		KerraHUD->GetOverlayWidget()->AddQuestWindow();
 		KerraHUD->GetQuestWidget()->ToggleShowingWindow();
-		OnToggleQuestWidget.Broadcast();
 	}
+	OnToggleQuestWidget.Broadcast();
 }
 
 void AKerraPlayerController::AbilityInputPressed(FGameplayTag InInputTag)

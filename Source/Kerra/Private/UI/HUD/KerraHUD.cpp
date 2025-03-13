@@ -45,3 +45,4 @@ void AKerraHUD::CreateInventoryWidget()
 	UUserWidget* Widget = CreateWidget<UUserWidget>(UGameplayStatics::GetPlayerController(GetWorld(), 0), InventoryWidgetClass);
 	InventoryWidget = Cast<UKerraInventoryWidget>(Widget);
 }
+

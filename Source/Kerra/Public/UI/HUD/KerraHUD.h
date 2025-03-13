@@ -4,6 +4,8 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/HUD.h"
+#include "UI/Widget/KerraDialogueWidget.h"
+#include "UI/Widget/KerraInventoryWidget.h"
 #include "KerraHUD.generated.h"
 
 class UKerraDialogueWidget;

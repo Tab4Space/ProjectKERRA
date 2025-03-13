@@ -32,8 +32,6 @@ void UKerraWidgetBase::NativeOnInitialized()
 {
 	Super::NativeOnInitialized();
 
-	UE_LOG(LogTemp, Warning, TEXT("%s"), *GetOwningPlayerPawn()->GetActorNameOrLabel());
-
 	if(IKerraWidgetInterface* UIInterface = Cast<IKerraWidgetInterface>(GetOwningPlayerPawn()))
 	{
 		if(UHeroUIComponent* PlayerUIComponent = UIInterface->GetPlayerUIComponent())
