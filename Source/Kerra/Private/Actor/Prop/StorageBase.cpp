@@ -25,9 +25,12 @@ void AStorageBase::DoInteraction_Implementation(AActor* TargetActor)
 	KERRALOG(Warning, TEXT("Do interaction"));
 
 	AKerraHUD* KerraHUD = UKerraFunctionLibrary::NativeGetKerraHUD(Cast<AKerraHero>(TargetActor)->GetKerraPC());
-	KerraHUD->CreateInventoryWidget();
-
-	if(KerraHUD->GetInventoryWidget())
+	if(!KerraHUD->GetInventoryWidget())
+	{
+		KerraHUD->CreateInventoryWidget();
+		KerraHUD->GetOverlayWidget()->AddInventoryWindow();
+	}
+	else
 	{
 		KerraHUD->GetOverlayWidget()->AddInventoryWindow();
 	}

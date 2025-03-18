@@ -23,7 +23,7 @@ public:
 	void InitEnemyCreatedWidget(AActor* OwningEnemyActor);
 
 	/* Widget Utility*/
-	void ToggleShowingWindow();
+	virtual void ToggleShowingWindow();
 
 	/* Getter */
 	UFUNCTION(BlueprintCallable, BlueprintPure)

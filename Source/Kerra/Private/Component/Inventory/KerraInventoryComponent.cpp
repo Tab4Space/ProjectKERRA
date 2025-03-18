@@ -62,6 +62,12 @@ void UKerraInventoryComponent::AddGold(int32 AddAmount)
 	UE_LOG(LogTemp, Warning, TEXT("Current Gold: %d"), Golds);
 }
 
+FGameplayTagContainer UKerraInventoryComponent::GetOwningItemTags()
+{
+	// Return owning all item tags
+	return OwningItemTags;
+}
+
 int32 UKerraInventoryComponent::GetCurrentItemCount(FGameplayTag ItemIDTag)
 {
 	if(OwningItemMaps.Find(ItemIDTag))

@@ -27,6 +27,9 @@ public:
 	
 	/* Getter */
 	UFUNCTION(BlueprintCallable, BlueprintPure)
+	FGameplayTagContainer GetOwningItemTags();
+	
+	UFUNCTION(BlueprintCallable, BlueprintPure)
 	int32 GetCurrentItemCount(FGameplayTag ItemIDTag);
 
 	UFUNCTION(BlueprintCallable, BlueprintPure)

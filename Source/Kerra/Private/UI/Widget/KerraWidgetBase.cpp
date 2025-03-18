@@ -54,6 +54,7 @@ void UKerraWidgetBase::NativeOnInitialized()
 		{
 			BP_OnOwningInventoryComponentInitialized(InventoryComponent);
 		}
+		
 	}
 }
 

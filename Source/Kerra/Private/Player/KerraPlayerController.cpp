@@ -120,12 +120,12 @@ void AKerraPlayerController::Input_Quest(const FInputActionValue& InputActionVal
 	{
 		KerraHUD->CreateQuestWidget();
 		KerraHUD->GetOverlayWidget()->AddQuestWindow();
-		KerraHUD->GetQuestWidget()->ToggleShowingWindow();
+		//KerraHUD->GetQuestWidget()->ToggleShowingWindow();
 	}
 	else
 	{
 		KerraHUD->GetOverlayWidget()->AddQuestWindow();
-		KerraHUD->GetQuestWidget()->ToggleShowingWindow();
+		//KerraHUD->GetQuestWidget()->ToggleShowingWindow();
 	}
 	OnToggleQuestWidget.Broadcast();
 }
