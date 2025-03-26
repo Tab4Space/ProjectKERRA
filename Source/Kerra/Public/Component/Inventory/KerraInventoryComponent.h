@@ -17,6 +17,8 @@ class KERRA_API UKerraInventoryComponent : public UKerraExtensionComponentBase
 	GENERATED_BODY()
 
 public:
+	UKerraInventoryComponent();
+	
 	virtual void BeginPlay() override;
 
 	UFUNCTION(BlueprintCallable)

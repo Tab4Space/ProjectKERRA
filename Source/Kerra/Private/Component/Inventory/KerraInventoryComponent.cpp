@@ -3,9 +3,19 @@
 
 #include "Component/Inventory/KerraInventoryComponent.h"
 
+#include "KerraGameplayTags.h"
+
+UKerraInventoryComponent::UKerraInventoryComponent()
+{
+	/*OwningItemTags.AddTag(KerraGameplayTags::Item_ID_1Apple);
+	OwningItemMaps.Add(KerraGameplayTags::Item_ID_1Apple, FKerraItemInfo());
+	OwningItemMaps[KerraGameplayTags::Item_ID_1Apple].CurrentAmount = 100;*/
+}
+
 void UKerraInventoryComponent::BeginPlay()
 {
 	Super::BeginPlay();
+	/* TODO: Init inventory list from save file and set init flag. ex) IsInitialized */
 }
 
 bool UKerraInventoryComponent::AddItem(FGameplayTag ItemIDTag, int32 AddAmount)
