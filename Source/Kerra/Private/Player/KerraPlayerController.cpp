@@ -54,12 +54,14 @@ void AKerraPlayerController::SetupInputComponent()
 	// Item Pick up
 	KerraInputComponent->BindNativeInputAction(InputConfigDataAsset, KerraGameplayTags::InputTag_PickUp, ETriggerEvent::Started, this, &AKerraPlayerController::Input_PickUpStarted);
 
-	// Quest pop-up
+	// Open quest window
 	KerraInputComponent->BindNativeInputAction(InputConfigDataAsset, KerraGameplayTags::InputTag_Quest, ETriggerEvent::Started, this, &AKerraPlayerController::Input_Quest);
+
+	// Open inventory window
+	KerraInputComponent->BindNativeInputAction(InputConfigDataAsset, KerraGameplayTags::InputTag_Inventory, ETriggerEvent::Started, this, &AKerraPlayerController::Input_Inventory);
 
 	// Ability
 	KerraInputComponent->BindAbilityInputAction(InputConfigDataAsset, this, &AKerraPlayerController::AbilityInputPressed, &AKerraPlayerController::AbilityInputReleased);
-	
 }
 
 void AKerraPlayerController::Move(const FInputActionValue& InputActionValue)
@@ -124,6 +126,23 @@ void AKerraPlayerController::Input_Quest(const FInputActionValue& InputActionVal
 	else
 	{
 		KerraHUD->GetOverlayWidget()->AddQuestWindow();
+	}
+	OnToggleQuestWidget.Broadcast();
+}
+
+void AKerraPlayerController::Input_Inventory(const FInputActionValue& InputActionValue)
+{
+	AKerraHUD* KerraHUD = Cast<AKerraHUD>(GetHUD());
+	checkf(KerraHUD, TEXT("Not valid KerraHUD"));
+
+	if(!KerraHUD->GetInventoryWidget())
+	{
+		KerraHUD->CreateInventoryWidget();
+		KerraHUD->GetOverlayWidget()->AddInventoryWindow();
+	}
+	else
+	{
+		KerraHUD->GetOverlayWidget()->AddInventoryWindow();
 	}
 	OnToggleQuestWidget.Broadcast();
 }
