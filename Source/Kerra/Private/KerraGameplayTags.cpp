@@ -29,7 +29,8 @@ namespace KerraGameplayTags
 	UE_DEFINE_GAMEPLAY_TAG(InputTag_Toggleable_TargetLock, "InputTag.Toggleable.TargetLock");
 	UE_DEFINE_GAMEPLAY_TAG(InputTag_Toggleable_Rage, "InputTag.Toggleable.Rage");
 
-	/* Player Tags */
+	/****** Player Tag ******/
+	/* Player Ability Tags */
 	UE_DEFINE_GAMEPLAY_TAG(Player_Ability_Equip_Sword, "Player.Ability.Equip.Sword");
 	UE_DEFINE_GAMEPLAY_TAG(Player_Ability_Unequip_Sword, "Player.Ability.Unequip.Sword");
 	UE_DEFINE_GAMEPLAY_TAG(Player_Ability_Attack_Light_Sword, "Player.Ability.Attack.Light.Sword");
@@ -44,11 +45,14 @@ namespace KerraGameplayTags
 	UE_DEFINE_GAMEPLAY_TAG(Player_Ability_SpecialWeaponAbility_Heavy, "Player.Ability.SpecialWeaponAbility.Heavy");
 	UE_DEFINE_GAMEPLAY_TAG(Player_Ability_PickUp_Stones, "Player.Ability.PickUp.Stones");
 
+	/* Player Cooldown Tags */
 	UE_DEFINE_GAMEPLAY_TAG(Player_Cooldown_SpecialWeaponAbility_Light, "Player.Cooldown.SpecialWeaponAbility.Light");
 	UE_DEFINE_GAMEPLAY_TAG(Player_Cooldown_SpecialWeaponAbility_Heavy, "Player.Cooldown.SpecialWeaponAbility.Heavy");
-	
+
+	/* Player Weapon Tags */
 	UE_DEFINE_GAMEPLAY_TAG(Player_Weapon_Sword, "Player.Weapon.Sword");
-	
+
+	/* Player Combat Status Tags */
 	UE_DEFINE_GAMEPLAY_TAG(Player_Status_JumpToFinisher, "Player.Status.JumpToFinisher");
 	UE_DEFINE_GAMEPLAY_TAG(Player_Status_Rolling, "Player.Status.Rolling");
 	UE_DEFINE_GAMEPLAY_TAG(Player_Status_Blocking, "Player.Status.Blocking");
@@ -57,7 +61,16 @@ namespace KerraGameplayTags
 	UE_DEFINE_GAMEPLAY_TAG(Player_Status_Rage_Active, "Player.Status.Rage.Active");
 	UE_DEFINE_GAMEPLAY_TAG(Player_Status_Rage_Full, "Player.Status.Rage.Full");
 	UE_DEFINE_GAMEPLAY_TAG(Player_Status_Rage_None, "Player.Status.Rage.None");
-	
+
+	/* Player Interaction Tags */
+	UE_DEFINE_GAMEPLAY_TAG(Player_Status_Interaction_None, "Player.Status.Interaction.None");
+	UE_DEFINE_GAMEPLAY_TAG(Player_Status_Interaction_Quest, "Player.Status.Interaction.Quest");
+	UE_DEFINE_GAMEPLAY_TAG(Player_Status_Interaction_Inventory, "Player.Status.Interaction.Inventory");
+	UE_DEFINE_GAMEPLAY_TAG(Player_Status_Interaction_Dialogue, "Player.Status.Interaction.Dialogue");
+	UE_DEFINE_GAMEPLAY_TAG(Player_Status_Interaction_Storage, "Player.Status.Interaction.Storage");
+	UE_DEFINE_GAMEPLAY_TAG(Player_Status_Interaction_PlayCutScene, "Player.Status.Interaction.PlayCutScene");
+
+	/* Player SetByCaller Tags */
 	UE_DEFINE_GAMEPLAY_TAG(Player_SetByCaller_AttackType_Light, "Player.SetByCaller.AttackType.Light");
 	UE_DEFINE_GAMEPLAY_TAG(Player_SetByCaller_AttackType_Heavy, "Player.SetByCaller.AttackType.Heavy");
 

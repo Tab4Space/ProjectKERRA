@@ -36,8 +36,10 @@ void UKerraStartUpDataAssetBase::GrantAbilities(const TArray<TSubclassOf<UKerraG
 	for(const TSubclassOf<UKerraGameplayAbility>& Ability: InAbilitiesToGive)
 	{
 		if(!Ability)
+		{
 			continue;
-
+		}
+		
 		FGameplayAbilitySpec AbilitySpec(Ability);
 		AbilitySpec.SourceObject = InASC->GetAvatarActor();
 		AbilitySpec.Level = InApplyLevel;

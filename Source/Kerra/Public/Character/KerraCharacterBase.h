@@ -26,7 +26,7 @@ class KERRA_API AKerraCharacterBase : public ACharacter, public IAbilitySystemIn
 public:
 	AKerraCharacterBase();
 
-	/* Ability System */
+	/* Ability System Interface */
 	virtual UAbilitySystemComponent* GetAbilitySystemComponent() const override;
 	UAttributeSet* GetAttributeSet() const { return AttributeSet; }
 

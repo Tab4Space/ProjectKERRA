@@ -31,7 +31,8 @@ namespace KerraGameplayTags
 	KERRA_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(InputTag_Toggleable_Rage);
 	
 
-	/* Player Tag */
+	/****** Player Tag ******/
+	/* Player Ability Tags */
 	KERRA_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Player_Ability_Equip_Sword);
 	KERRA_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Player_Ability_Unequip_Sword);
 	KERRA_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Player_Ability_Attack_Light_Sword);
@@ -46,11 +47,14 @@ namespace KerraGameplayTags
 	KERRA_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Player_Ability_SpecialWeaponAbility_Heavy);
 	KERRA_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Player_Ability_PickUp_Stones);
 
+	/* Player Cooldown Tags */
 	KERRA_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Player_Cooldown_SpecialWeaponAbility_Light);
 	KERRA_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Player_Cooldown_SpecialWeaponAbility_Heavy);
-	
+
+	/* Player Weapon Tags */
 	KERRA_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Player_Weapon_Sword);
 
+	/* Player Combat Status Tags */
 	KERRA_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Player_Status_JumpToFinisher);
 	KERRA_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Player_Status_Rolling);
 	KERRA_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Player_Status_Blocking);
@@ -59,7 +63,16 @@ namespace KerraGameplayTags
 	KERRA_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Player_Status_Rage_Active);
 	KERRA_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Player_Status_Rage_Full);
 	KERRA_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Player_Status_Rage_None);
-	
+
+	/* Player Interaction Tags */
+	KERRA_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Player_Status_Interaction_None);
+	KERRA_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Player_Status_Interaction_Quest);
+	KERRA_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Player_Status_Interaction_Inventory);
+	KERRA_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Player_Status_Interaction_Dialogue);
+	KERRA_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Player_Status_Interaction_Storage);
+	KERRA_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Player_Status_Interaction_PlayCutScene);
+
+	/* Player SetByCaller Tags */
 	KERRA_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Player_SetByCaller_AttackType_Light);
 	KERRA_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Player_SetByCaller_AttackType_Heavy);
 
@@ -104,6 +117,8 @@ namespace KerraGameplayTags
 	KERRA_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Shared_Status_HitReact_Right);
 	KERRA_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Shared_Status_HitReact_Back);
 	KERRA_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Shared_Status_Invincible);
+	
+	
 
 	/* Quest Tags */
 	KERRA_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Quest_ID_1FirstQuest);

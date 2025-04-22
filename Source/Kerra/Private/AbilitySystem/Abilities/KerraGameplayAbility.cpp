@@ -13,6 +13,7 @@ void UKerraGameplayAbility::OnGiveAbility(const FGameplayAbilityActorInfo* Actor
 {
 	Super::OnGiveAbility(ActorInfo, Spec);
 
+	/* If activation policy is OnGiven then TryActivateAbility */
 	if(AbilityActivationPolicy == EKerraAbilityActivationPolicy::OnGiven)
 	{
 		if(ActorInfo && !Spec.IsActive())

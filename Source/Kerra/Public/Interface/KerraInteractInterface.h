@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "UObject/Interface.h"
+#include "GameplayTagContainer.h"
 #include "KerraInteractInterface.generated.h"
 
 
@@ -22,4 +23,6 @@ public:
 	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
 	void DoInteraction(AActor* TargetActor);
 
+	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
+	FGameplayTag GetInteractionTargetTag();
 };

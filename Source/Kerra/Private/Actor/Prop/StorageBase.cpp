@@ -36,6 +36,12 @@ void AStorageBase::DoInteraction_Implementation(AActor* TargetActor)
 	}
 }
 
+FGameplayTag AStorageBase::GetInteractionTargetTag_Implementation()
+{
+	KERRALOG(Warning, TEXT("%s"), *TypeTag.ToString());
+	return TypeTag;
+}
+
 void AStorageBase::BeginPlay()
 {
 	Super::BeginPlay();

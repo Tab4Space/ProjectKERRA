@@ -10,7 +10,8 @@ void UHeroStartupDataAsset::GiveToAbilitySystemComponent(UKerraAbilitySystemComp
 {
 	Super::GiveToAbilitySystemComponent(InASC, InApplyLevel);
 
-	for(const FKerraPlayerAbilitySet& AbilitySet : KerraPlayerStartupAbilitySets)
+	/* Grant ability in HeroInputMappingAbilities */
+	for(const FKerraPlayerAbilitySet& AbilitySet : HeroInputMappingAbilities)
 	{
 		if(!AbilitySet.IsValid())
 		{
@@ -22,6 +23,21 @@ void UHeroStartupDataAsset::GiveToAbilitySystemComponent(UKerraAbilitySystemComp
 		AbilitySpec.Level = InApplyLevel;
 		AbilitySpec.DynamicAbilityTags.AddTag(AbilitySet.InputTag);
 		
+		InASC->GiveAbility(AbilitySpec);
+	}
+
+	/* Grant ability in HeroUniqueAbilities */
+	for(const TSubclassOf<UKerraGameplayAbility>& HeroUniqueAbility: HeroUniqueAbilities)
+	{
+		if(!HeroUniqueAbility)
+		{
+			continue;
+		}
+		
+		FGameplayAbilitySpec AbilitySpec(HeroUniqueAbility);
+		AbilitySpec.SourceObject = InASC->GetAvatarActor();
+		AbilitySpec.Level = InApplyLevel;
+
 		InASC->GiveAbility(AbilitySpec);
 	}
 }

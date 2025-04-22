@@ -17,7 +17,11 @@ public:
 	virtual void GiveToAbilitySystemComponent(UKerraAbilitySystemComponent* InASC, int32 InApplyLevel = 1) override;
 
 private:
+	/* Input Tag와 연결되는 ability들 */
 	UPROPERTY(EditDefaultsOnly, Category="StartupData", meta=(TitleProperty="InputTag"))
-	TArray<FKerraPlayerAbilitySet> KerraPlayerStartupAbilitySets;
+	TArray<FKerraPlayerAbilitySet> HeroInputMappingAbilities;
+
+	UPROPERTY(EditDefaultsOnly, Category="StartupData")
+	TArray<TSubclassOf<UKerraGameplayAbility>> HeroUniqueAbilities;
 };
 

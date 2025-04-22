@@ -12,6 +12,7 @@ void UKerraInventoryWidget::ToggleShowingWindow()
 	{
 		SetVisibility(ESlateVisibility::Visible);
 		SetUIMode(true);
+		
 	}
 	else
 	{

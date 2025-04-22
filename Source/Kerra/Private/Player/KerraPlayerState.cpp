@@ -8,11 +8,11 @@
 
 AKerraPlayerState::AKerraPlayerState()
 {
-	AbilitySystemComponent = CreateDefaultSubobject<UKerraAbilitySystemComponent>("AbilitySystemComponent");
-	AttributeSet = CreateDefaultSubobject<UKerraAttributeSet>("AttributeSet");
+	KerraASC = CreateDefaultSubobject<UKerraAbilitySystemComponent>("KerraASC");
+	KerraAS = CreateDefaultSubobject<UKerraAttributeSet>("KerraAS");
 }
 
 UAbilitySystemComponent* AKerraPlayerState::GetAbilitySystemComponent() const
 {
-	return AbilitySystemComponent;
+	return KerraASC;
 }

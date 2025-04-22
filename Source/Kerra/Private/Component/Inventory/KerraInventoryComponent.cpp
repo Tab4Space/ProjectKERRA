@@ -30,6 +30,7 @@ bool UKerraInventoryComponent::AddItem(FGameplayTag ItemIDTag, int32 AddAmount)
 			OwningItemMaps[ItemIDTag].CurrentAmount += AddAmount;
 			if(OwningItemMaps[ItemIDTag].CurrentAmount <= 0)
 			{
+				OnChangeItemAmount.Broadcast(ItemIDTag, OwningItemMaps[ItemIDTag].CurrentAmount);
 				OwningItemTags.RemoveTag(ItemIDTag);
 				OwningItemMaps.Remove(ItemIDTag);
 				UE_LOG(LogTemp, Warning, TEXT("%s is deleted because less than 1EA"), *ItemIDTag.ToString());
@@ -41,9 +42,10 @@ bool UKerraInventoryComponent::AddItem(FGameplayTag ItemIDTag, int32 AddAmount)
 			UE_LOG(LogTemp, Warning, TEXT("%s is owned only 1EA"), *ItemIDTag.ToString());
 		}
 
+		/* just change amount*/
 		if(OwningItemMaps.Contains(ItemIDTag))
 		{
-			OnChangeItemAmount.Broadcast(ItemIDTag, OwningItemMaps[ItemIDTag].CurrentAmount);	
+			OnChangeItemAmount.Broadcast(ItemIDTag, OwningItemMaps[ItemIDTag].CurrentAmount);
 		}
 		return true;
 	}
@@ -54,13 +56,16 @@ bool UKerraInventoryComponent::AddItem(FGameplayTag ItemIDTag, int32 AddAmount)
 		OwningItemTags.AddTag(ItemIDTag);
 		OwningItemMaps.Add(ItemIDTag, *ItemToAdd);
 		OwningItemMaps[ItemIDTag].CurrentAmount += AddAmount;
+
+		OnChangeItemAmount.Broadcast(ItemIDTag, OwningItemMaps[ItemIDTag].CurrentAmount);
 		
 		// OnAddItem.Broadcast(ItemID); // current not used
-		if(!ItemToAdd->AppliedQuest.IsEmpty())
+		// check this item is applied quest or not.
+		/*if(!ItemToAdd->AppliedQuest.IsEmpty())
 		{
 			// Broadcast to WBP_TrackingQuest, WBP_TrackingQuestText, WBP_QuestWindow 
-			OnChangeItemAmount.Broadcast(ItemIDTag, OwningItemMaps[ItemIDTag].CurrentAmount);	
-		}
+			OnChangeItemAmount.Broadcast(ItemIDTag, OwningItemMaps[ItemIDTag].CurrentAmount);
+		}*/
 		return true;
 	}
 	return false;

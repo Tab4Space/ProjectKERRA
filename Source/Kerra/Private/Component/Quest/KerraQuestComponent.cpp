@@ -77,7 +77,8 @@ void UKerraQuestComponent::ClearQuest(FGameplayTag QuestTagToClear)
 		{
 			for(const auto Pair : CompletedQuestsMap[QuestTagToClear].RequireObjects)
 			{
-				TargetInventoryComp->AddItem(Pair.Key, -Pair.Value);	
+				TargetInventoryComp->AddItem(Pair.Key, -Pair.Value);
+				// TargetInventoryComp->OnChangeItemAmount.Broadcast(Pair.Key, -Pair.Value);
 			}
 		}
 

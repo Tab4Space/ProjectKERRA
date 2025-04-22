@@ -105,6 +105,8 @@ bool UKerraAbilitySystemComponent::TryActivateAbilityByTag(FGameplayTag AbilityT
 	check(AbilityTagToActivate.IsValid());
 
 	TArray<FGameplayAbilitySpec*> FoundAbilitySpecs;
+
+	// 해당 함수에서 어떤 ability가 결과로 나오려면 ASC에 부여(give)된 상태여야 한다.
 	GetActivatableGameplayAbilitySpecsByAllMatchingTags(AbilityTagToActivate.GetSingleTagContainer(), FoundAbilitySpecs);
 
 	if(!FoundAbilitySpecs.IsEmpty())
@@ -116,6 +118,7 @@ bool UKerraAbilitySystemComponent::TryActivateAbilityByTag(FGameplayTag AbilityT
 
 		if(!SpecToActivate->IsActive())
 		{
+			UE_LOG(LogTemp, Warning, TEXT("%s"), *SpecToActivate->Ability->AbilityTags.ToString())
 			return TryActivateAbility(SpecToActivate->Handle);
 		}
 	}

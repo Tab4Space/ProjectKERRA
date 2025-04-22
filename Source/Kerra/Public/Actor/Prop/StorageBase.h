@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "GameplayTagContainer.h"
 #include "GameFramework/Actor.h"
 #include "Interface/KerraInteractInterface.h"
 #include "StorageBase.generated.h"
@@ -14,7 +15,11 @@ class KERRA_API AStorageBase : public AActor, public IKerraInteractInterface
 	
 public:	
 	AStorageBase();
+
+	/* Interact Interface */
 	virtual void DoInteraction_Implementation(AActor* TargetActor) override;
+
+	virtual FGameplayTag GetInteractionTargetTag_Implementation() override;
 
 protected:
 	virtual void BeginPlay() override;
@@ -22,6 +27,7 @@ protected:
 protected:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
 	TObjectPtr<UStaticMeshComponent> Mesh;
-	
-	
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+	FGameplayTag TypeTag;
 };
