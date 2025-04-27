@@ -73,8 +73,9 @@ bool UKerraInventoryComponent::AddItem(FGameplayTag ItemIDTag, int32 AddAmount)
 
 void UKerraInventoryComponent::AddGold(int32 AddAmount)
 {
-	Golds = FMath::Clamp(Golds, 0, Golds+=AddAmount);
-	UE_LOG(LogTemp, Warning, TEXT("Current Gold: %d"), Golds);
+	CurrentGolds = FMath::Clamp(CurrentGolds, 0, CurrentGolds+=AddAmount);
+	OnChangeGold.Broadcast(CurrentGolds);
+	UE_LOG(LogTemp, Warning, TEXT("Current Gold: %d"), CurrentGolds);
 }
 
 FGameplayTagContainer UKerraInventoryComponent::GetOwningItemTags()
@@ -94,5 +95,5 @@ int32 UKerraInventoryComponent::GetCurrentItemCount(FGameplayTag ItemIDTag)
 
 int32 UKerraInventoryComponent::GetCurrentGold()
 {
-	return FMath::Clamp(Golds, 0, Golds);
+	return FMath::Clamp(CurrentGolds, 0, CurrentGolds);
 }

@@ -10,6 +10,7 @@
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FAddItemSignature, FGameplayTag, ItemTag);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FOnChangeItemAmountSignature, FGameplayTag, ItemTag, int32, CurrentCount);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnChangeGoldSignature, int32, CurrentGold);
 
 UCLASS()
 class KERRA_API UKerraInventoryComponent : public UKerraExtensionComponentBase
@@ -44,6 +45,9 @@ public:
 	UPROPERTY(BlueprintAssignable)
 	FOnChangeItemAmountSignature OnChangeItemAmount;
 
+	UPROPERTY(BlueprintAssignable)
+	FOnChangeGoldSignature OnChangeGold;
+
 private:
 	UPROPERTY(EditDefaultsOnly, Category="Inventory")
 	TObjectPtr<UDataTable> ItemDataTable;
@@ -55,7 +59,7 @@ private:
 	TMap<FGameplayTag, FKerraItemInfo> OwningItemMaps;
 
 	UPROPERTY(VisibleAnywhere, Category="Inventory|Gold", meta=(AllowPrivateAccess))
-	int32 Golds;
+	int32 CurrentGolds;
 
 	
 	
