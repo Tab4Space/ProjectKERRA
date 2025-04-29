@@ -7,11 +7,14 @@
 #include "Interface/KerraCombatInterface.h"
 #include "GenericTeamAgentInterface.h"
 #include "KerraGameplayTags.h"
+#include "Game/KerraGameInstance.h"
 #include "Interface/KerraInventoryInterface.h"
 #include "Interface/KerraQuestInterface.h"
 #include "Kismet/KismetMathLibrary.h"
 #include "Struct/KerraCountDownAction.h"
 #include "UI/HUD/KerraHUD.h"
+#include "Kismet/GameplayStatics.h"
+
 
 UKerraAbilitySystemComponent* UKerraFunctionLibrary::NativeGetKerraASCFromActor(AActor* InActor)
 {
@@ -219,4 +222,16 @@ AKerraHUD* UKerraFunctionLibrary::NativeGetKerraHUD(APlayerController* PC)
 AKerraHUD* UKerraFunctionLibrary::BP_GetKerraHUD(APlayerController* PC)
 {
 	return NativeGetKerraHUD(PC);
+}
+
+FKerraQuestInfo UKerraFunctionLibrary::GetQuestInfoByTagFromKerraGI(FGameplayTag InQuestTag, AActor* ObjectActor)
+{
+	UKerraGameInstance* KerraGI = Cast<UKerraGameInstance>(UGameplayStatics::GetGameInstance(ObjectActor->GetWorld()));
+	UDataTable* QuestDT = KerraGI->GetQuestDataTable();
+
+	if(FKerraQuestInfo* FoundQuestInfo = QuestDT->FindRow<FKerraQuestInfo>(InQuestTag.GetTagName(), ""))
+	{
+		return *FoundQuestInfo;
+	}
+	return FKerraQuestInfo();
 }

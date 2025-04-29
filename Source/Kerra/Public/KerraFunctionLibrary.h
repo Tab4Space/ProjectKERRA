@@ -7,6 +7,7 @@
 #include "Kismet/BlueprintFunctionLibrary.h"
 #include "GameplayTagContainer.h"
 #include "Struct/KerraEnumTypes.h"
+#include "Struct/KerraQuestInfo.h"
 #include "KerraFunctionLibrary.generated.h"
 
 
@@ -68,4 +69,8 @@ public:
 
 	UFUNCTION(BlueprintCallable)
 	static AKerraHUD* BP_GetKerraHUD(APlayerController* PC);
+
+	/* For Quest */
+	UFUNCTION(BlueprintCallable)
+	static FKerraQuestInfo GetQuestInfoByTagFromKerraGI(FGameplayTag InQuestTag, AActor* ObjectActor);
 };
