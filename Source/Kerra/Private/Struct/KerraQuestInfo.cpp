@@ -9,5 +9,5 @@ FKerraQuestInfo::FKerraQuestInfo()
 
 bool FKerraQuestInfo::IsValid() const
 {
-	return false;
+	return QuestID.IsValid();
 }

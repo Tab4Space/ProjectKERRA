@@ -14,6 +14,7 @@
 #include "Struct/KerraCountDownAction.h"
 #include "UI/HUD/KerraHUD.h"
 #include "Kismet/GameplayStatics.h"
+#include "Struct/KerraItemInfo.h"
 
 
 UKerraAbilitySystemComponent* UKerraFunctionLibrary::NativeGetKerraASCFromActor(AActor* InActor)
@@ -227,11 +228,29 @@ AKerraHUD* UKerraFunctionLibrary::BP_GetKerraHUD(APlayerController* PC)
 FKerraQuestInfo UKerraFunctionLibrary::GetQuestInfoByTagFromKerraGI(FGameplayTag InQuestTag, AActor* ObjectActor)
 {
 	UKerraGameInstance* KerraGI = Cast<UKerraGameInstance>(UGameplayStatics::GetGameInstance(ObjectActor->GetWorld()));
+	checkf(KerraGI, TEXT("Not valid Kerra Game Instance"));
+	
 	UDataTable* QuestDT = KerraGI->GetQuestDataTable();
+	checkf(QuestDT, TEXT("Check Quset Data Table in BP_KerraGI"));
 
 	if(FKerraQuestInfo* FoundQuestInfo = QuestDT->FindRow<FKerraQuestInfo>(InQuestTag.GetTagName(), ""))
 	{
 		return *FoundQuestInfo;
 	}
 	return FKerraQuestInfo();
+}
+
+FKerraItemInfo UKerraFunctionLibrary::GetItemInfoByTagFromKerraGI(FGameplayTag InItemTag, AActor* ObjectActor)
+{
+	UKerraGameInstance* KerraGI = Cast<UKerraGameInstance>(UGameplayStatics::GetGameInstance(ObjectActor->GetWorld()));
+	checkf(KerraGI, TEXT("Not valid Kerra Game Instance"));
+	
+	UDataTable* ItemDT = KerraGI->GetItemDataTable();
+	checkf(ItemDT, TEXT("Check Quset Data Table in BP_KerraGI"));
+
+	if(FKerraItemInfo* FoundItemInfo = ItemDT->FindRow<FKerraItemInfo>(InItemTag.GetTagName(), ""))
+	{
+		return *FoundItemInfo;
+	}
+	return FKerraItemInfo();
 }

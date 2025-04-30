@@ -73,4 +73,9 @@ public:
 	/* For Quest */
 	UFUNCTION(BlueprintCallable)
 	static FKerraQuestInfo GetQuestInfoByTagFromKerraGI(FGameplayTag InQuestTag, AActor* ObjectActor);
+
+	/* For Inventory and Item */
+	UFUNCTION(BlueprintCallable)
+	static FKerraItemInfo GetItemInfoByTagFromKerraGI(FGameplayTag InItemTag, AActor* ObjectActor);
+	
 };

@@ -47,4 +47,15 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta=(Categories="Quest.ID"))
 	FGameplayTagContainer AppliedQuest;
+
+	bool IsValid() const;
+
+	bool operator==(const FKerraItemInfo& Other) const
+	{
+		if(ItemIDTag != Other.ItemIDTag)
+		{
+			return false;
+		}
+		return true;
+	}
 };

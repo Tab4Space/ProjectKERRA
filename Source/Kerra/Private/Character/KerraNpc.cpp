@@ -9,6 +9,7 @@
 #include "Component/Quest/KerraQuestComponent.h"
 #include "Kismet/GameplayStatics.h"
 #include "Player/KerraPlayerController.h"
+#include "Struct/KerraItemInfo.h"
 #include "UI/HUD/KerraHUD.h"
 #include "UI/Widget/KerraDialogueWidget.h"
 #include "UI/Widget/KerraOverlayWidget.h"
@@ -27,20 +28,15 @@ void AKerraNpc::InitForQuest()
 		return;
 	}
 
-	if(const UDataTable* QuestDataTable = QuestComponent->GetQuestDataTable())
+	for(FGameplayTag QuestTag : OwnedQuestTags.GetGameplayTagArray())
 	{
-		for(FGameplayTag QuestTag : OwnedQuestTags.GetGameplayTagArray())
-		{
-			if(const FKerraQuestInfo* QuestInfoToAdd = QuestDataTable->FindRow<FKerraQuestInfo>(QuestTag.GetTagName(), ""))
-			{
-				OwnedQuests.Add(*QuestInfoToAdd);
-			}
-		}
+		FKerraQuestInfo QuestInfo = UKerraFunctionLibrary::GetQuestInfoByTagFromKerraGI(QuestTag, this);
+		OwnedQuests.AddUnique(QuestInfo);
+	}
 
-		if(!OwnedQuests.IsEmpty())
-		{
-			bHasQuest = true;
-		}
+	if(!OwnedQuests.IsEmpty())
+	{
+		bHasQuest = true;
 	}
 }
 
@@ -57,7 +53,7 @@ void AKerraNpc::DoInteraction_Implementation(AActor* TargetActor)
 		return;
 	}
 
-	FGameplayTag FoundQuestTag = FindQuestTagToGive(TargetActor);
+	const FGameplayTag FoundQuestTag = FindQuestTagToGive(TargetActor);
 	if(!FoundQuestTag.IsValid())
 	{
 		return;
@@ -65,12 +61,14 @@ void AKerraNpc::DoInteraction_Implementation(AActor* TargetActor)
 
 	AKerraHUD* KerraHUD = UKerraFunctionLibrary::NativeGetKerraHUD(Cast<AKerraHero>(TargetActor)->GetKerraPC());
 	KerraHUD->CreateDialogueWidget();
-	
-	if(const UDataTable* QuestTable = QuestComponent->GetQuestDataTable())
+
+	const FKerraQuestInfo QuestToGive = UKerraFunctionLibrary::GetQuestInfoByTagFromKerraGI(FoundQuestTag, this);
+	if(QuestToGive.IsValid())
 	{
-		const FKerraQuestInfo* GivingQuest = QuestTable->FindRow<FKerraQuestInfo>(FoundQuestTag.GetTagName(), "");
-		TalkDialogue(TargetActor, *GivingQuest);
+		UE_LOG(LogTemp, Warning, TEXT("%s"), *QuestToGive.QuestID.ToString());
+		TalkDialogue(TargetActor, QuestToGive);
 	}
+
 }
 
 
@@ -129,22 +127,31 @@ void AKerraNpc::GiveQuestToPlayer(AActor* TargetActor, FGameplayTag QuestTag)
 
 bool AKerraNpc::CanGivingQuest(FGameplayTag TagToGive, FGameplayTagContainer& TargetAcceptedQuests, FGameplayTagContainer& TargetCompletedQuest)
 {
-	// check already accept quest
+	// check player already accept quest or not
 	if(TargetAcceptedQuests.HasTagExact(TagToGive))
 	{
 		UE_LOG(LogTemp, Warning, TEXT("Player character already has %s quest."), *TagToGive.ToString());
 		return false;
 	}
 
-	// check already clear quest
+	// check player already clear quest or not
 	if(TargetCompletedQuest.HasTagExact(TagToGive))
 	{
 		UE_LOG(LogTemp, Warning, TEXT("Player character already complete %s quest"), *TagToGive.ToString());
 		return false;
 	}
 
+	// check player clear required quest or not
+	const FKerraQuestInfo FoundQuest = UKerraFunctionLibrary::GetQuestInfoByTagFromKerraGI(TagToGive, this);
+	if(FoundQuest.PreviousQuestID.IsValid() && !TargetCompletedQuest.HasTagExact(FoundQuest.PreviousQuestID))
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Player must be clear %s quest"), *FoundQuest.PreviousQuestID.ToString());
+		return false;
+	}
+	return true;
+
 	// check - clear previous quest or not
-	if(const UDataTable* QuestTable = QuestComponent->GetQuestDataTable())
+	/*if(const UDataTable* QuestTable = QuestComponent->GetQuestDataTable())
 	{
 		const FKerraQuestInfo* GivingQuest = QuestTable->FindRow<FKerraQuestInfo>(TagToGive.GetTagName(), "");
 		if(GivingQuest->PreviousQuestID.IsValid() && !TargetCompletedQuest.HasTagExact(GivingQuest->PreviousQuestID))
@@ -153,5 +160,5 @@ bool AKerraNpc::CanGivingQuest(FGameplayTag TagToGive, FGameplayTagContainer& Ta
 			return false;
 		}
 	}
-	return true;
+	return true;*/
 }
