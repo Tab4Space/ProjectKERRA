@@ -14,8 +14,6 @@ void AKerraStoneBase::Consume(UKerraAbilitySystemComponent* InASC, int32 ApplyLe
 	UGameplayEffect* EffectCDO = StoneGameplayEffectClass->GetDefaultObject<UGameplayEffect>();
 	InASC->ApplyGameplayEffectToSelf(EffectCDO, ApplyLevel, InASC->MakeEffectContext());
 
-	
-
 	BP_OnStoneConsumed();
 }
 
