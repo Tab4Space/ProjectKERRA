@@ -25,15 +25,21 @@ void AStorageBase::DoInteraction_Implementation(AActor* TargetActor)
 	KERRALOG(Warning, TEXT("Do interaction"));
 
 	AKerraHUD* KerraHUD = UKerraFunctionLibrary::NativeGetKerraHUD(Cast<AKerraHero>(TargetActor)->GetKerraPC());
-	if(!KerraHUD->GetInventoryWidget())
+	UKerraInventoryWidget* InventoryWidget = KerraHUD->GetInventoryWidget();
+	if(InventoryWidget)
+	{
+		InventoryWidget->ToggleShowingWindow();
+	}
+
+	/*if(!KerraHUD->GetInventoryWidget())
 	{
 		KerraHUD->CreateInventoryWidget();
-		KerraHUD->GetOverlayWidget()->AddInventoryWindow();
+		KerraHUD->GetPlayerOverlayWidget()->AddInventoryWindow();
 	}
 	else
 	{
-		KerraHUD->GetOverlayWidget()->AddInventoryWindow();
-	}
+		KerraHUD->GetPlayerOverlayWidget()->AddInventoryWindow();
+	}*/
 }
 
 FGameplayTag AStorageBase::GetInteractionTargetTag_Implementation()

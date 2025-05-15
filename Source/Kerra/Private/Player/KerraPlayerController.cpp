@@ -117,17 +117,24 @@ void AKerraPlayerController::Input_Quest(const FInputActionValue& InputActionVal
 {
 	AKerraHUD* KerraHUD = Cast<AKerraHUD>(GetHUD());
 	checkf(KerraHUD, TEXT("Not valid KerraHUD"));
+
+	UKerraQuestWidget* QuestWidget = KerraHUD->GetQuestWidget();
+	if(QuestWidget)
+	{
+		QuestWidget->ToggleShowingWindow();
+	}
 	
-	if(!KerraHUD->GetQuestWidget())
+	/*if(!KerraHUD->GetQuestWidget())
 	{
 		KerraHUD->CreateQuestWidget();
-		KerraHUD->GetOverlayWidget()->AddQuestWindow();
+		KerraHUD->GetPlayerOverlayWidget()->AddQuestWindow();
 	}
 	else
 	{
-		KerraHUD->GetOverlayWidget()->AddQuestWindow();
-	}
-	OnToggleQuestWidget.Broadcast();
+		KerraHUD->GetPlayerOverlayWidget()->AddQuestWindow();
+	}*/
+	//KerraHUD->GetQuestWidget()->ToggleShowingWindow();
+	// OnToggleQuestWidget.Broadcast();
 }
 
 void AKerraPlayerController::Input_Inventory(const FInputActionValue& InputActionValue)
@@ -135,16 +142,23 @@ void AKerraPlayerController::Input_Inventory(const FInputActionValue& InputActio
 	AKerraHUD* KerraHUD = Cast<AKerraHUD>(GetHUD());
 	checkf(KerraHUD, TEXT("Not valid KerraHUD"));
 
-	if(!KerraHUD->GetInventoryWidget())
+	UKerraInventoryWidget* InventoryWidget = KerraHUD->GetInventoryWidget();
+	if(InventoryWidget)
+	{
+		InventoryWidget->ToggleShowingWindow();
+	}
+
+	/*if(!KerraHUD->GetInventoryWidget())
 	{
 		KerraHUD->CreateInventoryWidget();
-		KerraHUD->GetOverlayWidget()->AddInventoryWindow();
+		KerraHUD->GetPlayerOverlayWidget()->AddInventoryWindow();
 	}
 	else
 	{
-		KerraHUD->GetOverlayWidget()->AddInventoryWindow();
-	}
-	OnToggleQuestWidget.Broadcast();
+		KerraHUD->GetPlayerOverlayWidget()->AddInventoryWindow();
+	}*/
+	//KerraHUD->GetInventoryWidget()->ToggleShowingWindow();
+	// OnToggleQuestWidget.Broadcast();
 }
 
 void AKerraPlayerController::AbilityInputPressed(FGameplayTag InInputTag)

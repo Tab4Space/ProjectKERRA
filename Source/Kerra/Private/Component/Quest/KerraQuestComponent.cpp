@@ -50,7 +50,7 @@ void UKerraQuestComponent::AddQuestNotification(EQuestNotification Notification,
 	AKerraHUD* KerraHUD = UKerraFunctionLibrary::NativeGetKerraHUD(KerraPC);
 	checkf(KerraHUD, TEXT("Invalid KerraHUD"));
 
-	KerraHUD->GetOverlayWidget()->AddQuestNotifyWindow(Notification);
+	KerraHUD->GetPlayerOverlayWidget()->AddQuestNotifyWindow(Notification);
 	OnAddQuest.Broadcast(QuestInfo);
 }
 

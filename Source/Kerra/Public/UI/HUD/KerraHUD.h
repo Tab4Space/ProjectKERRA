@@ -30,11 +30,17 @@ public:
 
 	UFUNCTION(BlueprintCallable)
 	void CreateInventoryWidget();
-	
+
+	/* Setter */
+	UFUNCTION(BlueprintCallable)
+	void SetPlayerOverlayWidget(UKerraOverlayWidget* InPlayerOverlayWidget);
 
 	/* Getter */
 	UFUNCTION(BlueprintCallable, BlueprintPure)
-	UKerraOverlayWidget* GetOverlayWidget() { return MainOverlayWidget; }
+	UKerraOverlayWidget* GetMainOverlayWidget() { return MainOverlayWidget; }
+
+	UFUNCTION(BlueprintCallable, BlueprintPure)
+	UKerraOverlayWidget* GetPlayerOverlayWidget() { return PlayerOverlayWidget; }
 
 	UFUNCTION(BlueprintCallable, BlueprintPure)
 	UKerraQuestWidget* GetQuestWidget() { return QuestWidget; }
@@ -48,26 +54,27 @@ public:
 private:
 	UPROPERTY()
 	TObjectPtr<UKerraOverlayWidget> MainOverlayWidget = nullptr;
-
-	UPROPERTY(EditAnywhere, Category="WidgetClass")
+	UPROPERTY(EditAnywhere, Category="WidgetClass|Overlay")
 	TSubclassOf<UKerraOverlayWidget> MainOverlayWidgetClass;
 
 	UPROPERTY()
-	TObjectPtr<UKerraQuestWidget> QuestWidget = nullptr;
+	TObjectPtr<UKerraOverlayWidget> PlayerOverlayWidget = nullptr;
+	UPROPERTY(EditAnywhere, Category="WidgetClass|Overlay")
+	TSubclassOf<UKerraOverlayWidget> PlayerOverlayWidgetClass;
 
-	UPROPERTY(EditAnywhere, Category="WidgetClass|Quest")
+	UPROPERTY()
+	TObjectPtr<UKerraQuestWidget> QuestWidget = nullptr;
+	UPROPERTY(EditAnywhere, Category="WidgetClass|Window")
 	TSubclassOf<UKerraQuestWidget> QuestWidgetClass;
 
 	UPROPERTY()
 	TObjectPtr<UKerraDialogueWidget> DialogueWidget = nullptr;
-
-	UPROPERTY(EditAnywhere, Category="WidgetClass|Dialogue")
+	UPROPERTY(EditAnywhere, Category="WidgetClass|Window")
 	TSubclassOf<UKerraDialogueWidget> DialogueWidgetClass;
 
 	UPROPERTY()
 	TObjectPtr<UKerraInventoryWidget> InventoryWidget = nullptr;
-	
-	UPROPERTY(EditAnywhere, Category="WidgetClass|Inventory")
+	UPROPERTY(EditAnywhere, Category="WidgetClass|Window")
 	TSubclassOf<UKerraInventoryWidget> InventoryWidgetClass;
 	
 };

@@ -85,7 +85,9 @@ void AKerraNpc::TalkDialogue(AActor* TargetActor, FKerraQuestInfo QuestInfo)
 		if(AKerraHUD* KerraHUD = Cast<AKerraHUD>(KerraPC->GetHUD()))
 		{
 			KerraHUD->GetDialogueWidget()->SetQuestInfo(this, TargetActor, QuestInfo);
-			KerraHUD->GetOverlayWidget()->AddDialogueWindow();
+			UKerraOverlayWidget* PlayerOverlay = KerraHUD->GetPlayerOverlayWidget();
+			PlayerOverlay->AddDialogueWindow();
+			// KerraHUD->GetPlayerOverlayWidget()->AddDialogueWindow();
 		}
 	}
 }

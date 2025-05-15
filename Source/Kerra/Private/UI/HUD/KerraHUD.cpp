@@ -25,11 +25,6 @@ void AKerraHUD::CreateQuestWidget()
 	checkf(QuestWidgetClass, TEXT("Quest Widget Class Uninitialized, please fill out BP_KerraHUD"));
 	UUserWidget* Widget = CreateWidget<UUserWidget>(UGameplayStatics::GetPlayerController(GetWorld(), 0), QuestWidgetClass);
 	QuestWidget = Cast<UKerraQuestWidget>(Widget);
-
-	// Widget->AddToViewport();
-	/*AKerraPlayerController* KerraPC = Cast<AKerraPlayerController>(GetOwningPlayerController());
-	KerraPC->SetShowMouseCursor(true);
-	KerraPC->SetInputMode(FInputModeGameAndUI());*/
 }
 
 void AKerraHUD::CreateDialogueWidget()
@@ -44,5 +39,10 @@ void AKerraHUD::CreateInventoryWidget()
 	checkf(InventoryWidgetClass, TEXT("Dialogue Widget Class Uninitialized, please fill out BP_KerraHUD"));
 	UUserWidget* Widget = CreateWidget<UUserWidget>(UGameplayStatics::GetPlayerController(GetWorld(), 0), InventoryWidgetClass);
 	InventoryWidget = Cast<UKerraInventoryWidget>(Widget);
+}
+
+void AKerraHUD::SetPlayerOverlayWidget(UKerraOverlayWidget* InPlayerOverlayWidget)
+{
+	PlayerOverlayWidget = InPlayerOverlayWidget;
 }
 
