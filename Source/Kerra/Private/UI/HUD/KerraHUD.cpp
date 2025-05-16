@@ -46,3 +46,23 @@ void AKerraHUD::SetPlayerOverlayWidget(UKerraOverlayWidget* InPlayerOverlayWidge
 	PlayerOverlayWidget = InPlayerOverlayWidget;
 }
 
+void AKerraHUD::SetInventoryOverlayWidget(UKerraOverlayWidget* InInventoryOverlayWidget)
+{
+	InventoryOverlayWidget = InInventoryOverlayWidget;	
+}
+
+void AKerraHUD::SetQuestOverlayWidget(UKerraOverlayWidget* InQuestOverlayWidget)
+{
+	QuestOverlayWidget = InQuestOverlayWidget;
+}
+
+void AKerraHUD::SetSkillOverlayWidget(UKerraOverlayWidget* InSkillOverlayWidget)
+{
+	SkillOverlayWidget = InSkillOverlayWidget;
+}
+
+void AKerraHUD::SetWorldMapOverlayWidget(UKerraOverlayWidget* InWorldMapOverlayWidget)
+{
+	WorldMapOverlayWidget = InWorldMapOverlayWidget;
+}
+

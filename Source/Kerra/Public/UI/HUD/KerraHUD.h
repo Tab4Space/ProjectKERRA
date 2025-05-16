@@ -35,12 +35,36 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void SetPlayerOverlayWidget(UKerraOverlayWidget* InPlayerOverlayWidget);
 
+	UFUNCTION(BlueprintCallable)
+	void SetInventoryOverlayWidget(UKerraOverlayWidget* InInventoryOverlayWidget);
+
+	UFUNCTION(BlueprintCallable)
+	void SetQuestOverlayWidget(UKerraOverlayWidget* InQuestOverlayWidget);
+
+	UFUNCTION(BlueprintCallable)
+	void SetSkillOverlayWidget(UKerraOverlayWidget* InSkillOverlayWidget);
+
+	UFUNCTION(BlueprintCallable)
+	void SetWorldMapOverlayWidget(UKerraOverlayWidget* InWorldMapOverlayWidget);
+
 	/* Getter */
 	UFUNCTION(BlueprintCallable, BlueprintPure)
 	UKerraOverlayWidget* GetMainOverlayWidget() { return MainOverlayWidget; }
 
 	UFUNCTION(BlueprintCallable, BlueprintPure)
 	UKerraOverlayWidget* GetPlayerOverlayWidget() { return PlayerOverlayWidget; }
+
+	UFUNCTION(BlueprintCallable, BlueprintPure)
+	UKerraOverlayWidget* GetInventoryOverlayWidget() { return InventoryOverlayWidget; }
+
+	UFUNCTION(BlueprintCallable, BlueprintPure)
+	UKerraOverlayWidget* GetQuestOverlayWidget() { return QuestOverlayWidget; }
+
+	UFUNCTION(BlueprintCallable, BlueprintPure)
+	UKerraOverlayWidget* GetSkillOverlayWidget() { return SkillOverlayWidget; }
+
+	UFUNCTION(BlueprintCallable, BlueprintPure)
+	UKerraOverlayWidget* GetWorldMapOverlayWidget() { return WorldMapOverlayWidget; }
 
 	UFUNCTION(BlueprintCallable, BlueprintPure)
 	UKerraQuestWidget* GetQuestWidget() { return QuestWidget; }
@@ -59,8 +83,19 @@ private:
 
 	UPROPERTY()
 	TObjectPtr<UKerraOverlayWidget> PlayerOverlayWidget = nullptr;
-	UPROPERTY(EditAnywhere, Category="WidgetClass|Overlay")
-	TSubclassOf<UKerraOverlayWidget> PlayerOverlayWidgetClass;
+
+	UPROPERTY()
+	TObjectPtr<UKerraOverlayWidget> InventoryOverlayWidget = nullptr;
+
+	UPROPERTY()
+	TObjectPtr<UKerraOverlayWidget> QuestOverlayWidget = nullptr;
+
+	UPROPERTY()
+	TObjectPtr<UKerraOverlayWidget> SkillOverlayWidget = nullptr;
+
+	UPROPERTY()
+	TObjectPtr<UKerraOverlayWidget> WorldMapOverlayWidget = nullptr;
+
 
 	UPROPERTY()
 	TObjectPtr<UKerraQuestWidget> QuestWidget = nullptr;
