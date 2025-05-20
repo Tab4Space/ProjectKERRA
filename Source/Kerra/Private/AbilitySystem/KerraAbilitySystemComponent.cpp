@@ -100,6 +100,15 @@ void UKerraAbilitySystemComponent::RemoveGrantedWeaponAbilities(TArray<FGameplay
 	InSpecHandlesToRemove.Empty();
 }
 
+void UKerraAbilitySystemComponent::GrantAbilityToHero(TSubclassOf<UKerraGameplayAbility> AbilityClass, int32 ApplyLevel)
+{
+	FGameplayAbilitySpec AbilitySpec(AbilityClass);
+	AbilitySpec.SourceObject = GetAvatarActor();
+	AbilitySpec.Level = ApplyLevel;
+	AbilitySpec.DynamicAbilityTags.AddTag(KerraGameplayTags::InputTag_Sample);
+	GiveAbility(AbilitySpec);
+}
+
 bool UKerraAbilitySystemComponent::TryActivateAbilityByTag(FGameplayTag AbilityTagToActivate)
 {
 	check(AbilityTagToActivate.IsValid());

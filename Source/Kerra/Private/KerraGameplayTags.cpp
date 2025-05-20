@@ -29,6 +29,8 @@ namespace KerraGameplayTags
 	UE_DEFINE_GAMEPLAY_TAG(InputTag_Toggleable_TargetLock, "InputTag.Toggleable.TargetLock");
 	UE_DEFINE_GAMEPLAY_TAG(InputTag_Toggleable_Rage, "InputTag.Toggleable.Rage");
 
+	UE_DEFINE_GAMEPLAY_TAG(InputTag_Sample, "InputTag.Sample");
+
 	/****** Player Tag ******/
 	/* Player Ability Tags */
 	UE_DEFINE_GAMEPLAY_TAG(Player_Ability_Equip_Sword, "Player.Ability.Equip.Sword");

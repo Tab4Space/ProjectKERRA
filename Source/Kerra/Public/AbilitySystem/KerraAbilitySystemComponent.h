@@ -8,6 +8,8 @@
 #include "KerraAbilitySystemComponent.generated.h"
 
 
+class UKerraGameplayAbility;
+
 UCLASS()
 class KERRA_API UKerraAbilitySystemComponent : public UAbilitySystemComponent
 {
@@ -22,6 +24,9 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category="Kerra|Ability")
 	void RemoveGrantedWeaponAbilities(UPARAM(ref) TArray<FGameplayAbilitySpecHandle>& InSpecHandlesToRemove);
+
+	UFUNCTION(BlueprintCallable, Category="Kerra|Ability", meta=(ApplyLevel="1"))
+	void GrantAbilityToHero(TSubclassOf<UKerraGameplayAbility> AbilityClass, int32 ApplyLevel);
 
 	UFUNCTION(BlueprintCallable, Category="Kerra|Ability")
 	bool TryActivateAbilityByTag(FGameplayTag AbilityTagToActivate);

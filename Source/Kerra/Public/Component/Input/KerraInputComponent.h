@@ -44,6 +44,7 @@ void UKerraInputComponent::BindAbilityInputAction(const UKerraInputDataAsset* In
 		{
 			continue;
 		}
+		UE_LOG(LogTemp, Warning, TEXT("%s"), *AbilityInputActionConfig.InputTag.ToString());
 		BindAction(AbilityInputActionConfig.InputAction, ETriggerEvent::Started, ContextObject, InputPressedFunc, AbilityInputActionConfig.InputTag);
 		BindAction(AbilityInputActionConfig.InputAction, ETriggerEvent::Completed, ContextObject, InputReleasedFunc, AbilityInputActionConfig.InputTag);
 	}

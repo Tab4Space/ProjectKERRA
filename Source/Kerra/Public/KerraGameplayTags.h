@@ -29,6 +29,8 @@ namespace KerraGameplayTags
 	KERRA_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(InputTag_Toggleable);
 	KERRA_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(InputTag_Toggleable_TargetLock);
 	KERRA_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(InputTag_Toggleable_Rage);
+
+	KERRA_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(InputTag_Sample);
 	
 
 	/****** Player Tag ******/

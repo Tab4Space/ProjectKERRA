@@ -31,6 +31,7 @@ void AStorageBase::DoInteraction_Implementation(AActor* TargetActor)
 		InventoryWidget->ToggleShowingWindow();
 	}
 
+	// Old method
 	/*if(!KerraHUD->GetInventoryWidget())
 	{
 		KerraHUD->CreateInventoryWidget();
