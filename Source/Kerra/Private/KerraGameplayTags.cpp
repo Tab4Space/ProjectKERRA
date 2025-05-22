@@ -31,6 +31,11 @@ namespace KerraGameplayTags
 
 	UE_DEFINE_GAMEPLAY_TAG(InputTag_Sample, "InputTag.Sample");
 
+	UE_DEFINE_GAMEPLAY_TAG(InputTag_QuickSlot1, "InputTag.QuickSlot1");
+	UE_DEFINE_GAMEPLAY_TAG(InputTag_QuickSlot2, "InputTag.QuickSlot2");
+	UE_DEFINE_GAMEPLAY_TAG(InputTag_QuickSlot3, "InputTag.QuickSlot3");
+	UE_DEFINE_GAMEPLAY_TAG(InputTag_QuickSlot4, "InputTag.QuickSlot4");
+
 	/****** Player Tag ******/
 	/* Player Ability Tags */
 	UE_DEFINE_GAMEPLAY_TAG(Player_Ability_Equip_Sword, "Player.Ability.Equip.Sword");

@@ -14,6 +14,7 @@
 #include "UI/HUD/KerraHUD.h"
 #include "UI/Widget/KerraOverlayWidget.h"
 #include "UI/Widget/KerraQuestWidget.h"
+#include "Kerra/Kerra.h"
 
 
 AKerraPlayerController::AKerraPlayerController()
@@ -163,7 +164,7 @@ void AKerraPlayerController::Input_Inventory(const FInputActionValue& InputActio
 
 void AKerraPlayerController::AbilityInputPressed(FGameplayTag InInputTag)
 {
-	UE_LOG(LogTemp, Warning, TEXT("%s"), *InInputTag.ToString());
+	KERRALOG(Warning, TEXT("%s"), *InInputTag.ToString())
 	GetASC()->OnAbilityInputPressed(InInputTag);
 }
 

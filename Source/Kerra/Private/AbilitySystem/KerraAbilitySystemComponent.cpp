@@ -4,6 +4,7 @@
 #include "AbilitySystem/KerraAbilitySystemComponent.h"
 #include "AbilitySystem/Abilities/KerraHeroAbility.h"
 #include "KerraGameplayTags.h"
+#include "Kerra/Kerra.h"
 
 void UKerraAbilitySystemComponent::OnAbilityInputPressed(const FGameplayTag& InInputTag)
 {
@@ -100,13 +101,28 @@ void UKerraAbilitySystemComponent::RemoveGrantedWeaponAbilities(TArray<FGameplay
 	InSpecHandlesToRemove.Empty();
 }
 
-void UKerraAbilitySystemComponent::GrantAbilityToHero(TSubclassOf<UKerraGameplayAbility> AbilityClass, int32 ApplyLevel)
+void UKerraAbilitySystemComponent::GrantAbilityWithTags(TSubclassOf<UKerraGameplayAbility> AbilityClass, int32 ApplyLevel, FGameplayTagContainer AddedTags)
 {
 	FGameplayAbilitySpec AbilitySpec(AbilityClass);
 	AbilitySpec.SourceObject = GetAvatarActor();
 	AbilitySpec.Level = ApplyLevel;
-	AbilitySpec.DynamicAbilityTags.AddTag(KerraGameplayTags::InputTag_Sample);
+
+	for(const FGameplayTag Tag : AddedTags)
+	{
+		AbilitySpec.DynamicAbilityTags.AddTag(Tag);
+	}
 	GiveAbility(AbilitySpec);
+	/*AbilitySpec.DynamicAbilityTags.AddTag(KerraGameplayTags::InputTag_Sample);
+	AbilitySpec.Ability->AbilityTags.AddTag(KerraGameplayTags::Item_ID_1Apple);
+	AbilitySpec.Ability->AbilityTags.AddTag(KerraGameplayTags::Item_ID_2Banana);
+	AbilitySpec.Ability->AbilityTags.AddTag(KerraGameplayTags::Item_ID_3Orange);
+
+	for(auto a : AbilitySpec.Ability->AbilityTags)
+	{
+		KERRALOG(Warning, TEXT("%s"), *a.ToString());
+	}
+	
+	GiveAbility(AbilitySpec);*/
 }
 
 bool UKerraAbilitySystemComponent::TryActivateAbilityByTag(FGameplayTag AbilityTagToActivate)
@@ -127,7 +143,7 @@ bool UKerraAbilitySystemComponent::TryActivateAbilityByTag(FGameplayTag AbilityT
 
 		if(!SpecToActivate->IsActive())
 		{
-			UE_LOG(LogTemp, Warning, TEXT("%s"), *SpecToActivate->Ability->AbilityTags.ToString())
+			KERRALOG(Warning, TEXT("%s"), *SpecToActivate->Ability->AbilityTags.ToString())
 			return TryActivateAbility(SpecToActivate->Handle);
 		}
 	}

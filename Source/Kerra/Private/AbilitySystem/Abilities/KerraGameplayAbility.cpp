@@ -21,6 +21,9 @@ void UKerraGameplayAbility::OnGiveAbility(const FGameplayAbilityActorInfo* Actor
 			ActorInfo->AbilitySystemComponent->TryActivateAbility(Spec.Handle);
 		}
 	}
+
+	AbilityTags;
+	CancelAbilitiesWithTag;
 }
 
 void UKerraGameplayAbility::EndAbility(const FGameplayAbilitySpecHandle Handle, const FGameplayAbilityActorInfo* ActorInfo, const FGameplayAbilityActivationInfo ActivationInfo,
