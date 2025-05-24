@@ -101,28 +101,49 @@ void UKerraAbilitySystemComponent::RemoveGrantedWeaponAbilities(TArray<FGameplay
 	InSpecHandlesToRemove.Empty();
 }
 
-void UKerraAbilitySystemComponent::GrantAbilityWithTags(TSubclassOf<UKerraGameplayAbility> AbilityClass, int32 ApplyLevel, FGameplayTagContainer AddedTags)
+FGameplayAbilitySpec UKerraAbilitySystemComponent::GrantAbilityWithTags(TSubclassOf<UKerraGameplayAbility> AbilityClass, int32 ApplyLevel, FGameplayTagContainer AddedTags)
 {
+	// Check that ability is already granted ability or not
+	TArray<FGameplayAbilitySpec*> FoundAbilitySpecs;
+	GetActivatableGameplayAbilitySpecsByAllMatchingTags(AddedTags, FoundAbilitySpecs);
+	if(!FoundAbilitySpecs.IsEmpty())
+	{
+		KERRALOG(Warning, TEXT("%s is already granted"), *AbilityClass->GetDisplayNameText().ToString());
+		return FGameplayAbilitySpec();
+	}
+	
 	FGameplayAbilitySpec AbilitySpec(AbilityClass);
 	AbilitySpec.SourceObject = GetAvatarActor();
 	AbilitySpec.Level = ApplyLevel;
+	FGameplayTag AbilityTag = AbilitySpec.Ability->AbilityTags.First();
+	KERRALOG(Warning, TEXT("Granted AbilityTag: %s"), *AbilityTag.ToString());
 
 	for(const FGameplayTag Tag : AddedTags)
 	{
 		AbilitySpec.DynamicAbilityTags.AddTag(Tag);
 	}
 	GiveAbility(AbilitySpec);
-	/*AbilitySpec.DynamicAbilityTags.AddTag(KerraGameplayTags::InputTag_Sample);
-	AbilitySpec.Ability->AbilityTags.AddTag(KerraGameplayTags::Item_ID_1Apple);
-	AbilitySpec.Ability->AbilityTags.AddTag(KerraGameplayTags::Item_ID_2Banana);
-	AbilitySpec.Ability->AbilityTags.AddTag(KerraGameplayTags::Item_ID_3Orange);
-
+	return AbilitySpec;
+	
+	/*
 	for(auto a : AbilitySpec.Ability->AbilityTags)
 	{
 		KERRALOG(Warning, TEXT("%s"), *a.ToString());
 	}
-	
 	GiveAbility(AbilitySpec);*/
+}
+
+void UKerraAbilitySystemComponent::RemoveAbilityByTag(FGameplayTag InTagToRemove)
+{
+	for(const FGameplayAbilitySpec& AbilitySpec : GetActivatableAbilities())
+	{
+		
+		if(AbilitySpec.DynamicAbilityTags.HasTagExact(InTagToRemove))
+		{
+			//KERRALOG(Warning, TEXT("%s"), AbilitySpec.Ability->)
+			ClearAbility(AbilitySpec.Handle);
+		}
+	}
 }
 
 bool UKerraAbilitySystemComponent::TryActivateAbilityByTag(FGameplayTag AbilityTagToActivate)
