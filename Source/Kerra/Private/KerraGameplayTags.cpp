@@ -29,8 +29,6 @@ namespace KerraGameplayTags
 	UE_DEFINE_GAMEPLAY_TAG(InputTag_Toggleable_TargetLock, "InputTag.Toggleable.TargetLock");
 	UE_DEFINE_GAMEPLAY_TAG(InputTag_Toggleable_Rage, "InputTag.Toggleable.Rage");
 
-	UE_DEFINE_GAMEPLAY_TAG(InputTag_Sample, "InputTag.Sample");
-
 	UE_DEFINE_GAMEPLAY_TAG(InputTag_QuickSlot1, "InputTag.QuickSlot1");
 	UE_DEFINE_GAMEPLAY_TAG(InputTag_QuickSlot2, "InputTag.QuickSlot2");
 	UE_DEFINE_GAMEPLAY_TAG(InputTag_QuickSlot3, "InputTag.QuickSlot3");
@@ -40,17 +38,27 @@ namespace KerraGameplayTags
 	/* Player Ability Tags */
 	UE_DEFINE_GAMEPLAY_TAG(Player_Ability_Equip_Sword, "Player.Ability.Equip.Sword");
 	UE_DEFINE_GAMEPLAY_TAG(Player_Ability_Unequip_Sword, "Player.Ability.Unequip.Sword");
+	
 	UE_DEFINE_GAMEPLAY_TAG(Player_Ability_Attack_Light_Sword, "Player.Ability.Attack.Light.Sword");
 	UE_DEFINE_GAMEPLAY_TAG(Player_Ability_Attack_Heavy_Sword, "Player.Ability.Attack.Heavy.Sword");
+	
 	UE_DEFINE_GAMEPLAY_TAG(Player_Ability_HitPause, "Player.Ability.HitPause");
+	
 	UE_DEFINE_GAMEPLAY_TAG(Player_Ability_Roll, "Player.Ability.Roll");
 	UE_DEFINE_GAMEPLAY_TAG(Player_Ability_Parkour, "Player.Ability.Parkour");
 	UE_DEFINE_GAMEPLAY_TAG(Player_Ability_Block, "Player.Ability.Block");
 	UE_DEFINE_GAMEPLAY_TAG(Player_Ability_TargetLock, "Player.Ability.TargetLock");
 	UE_DEFINE_GAMEPLAY_TAG(Player_Ability_Rage, "Player.Ability.Rage");
+	
 	UE_DEFINE_GAMEPLAY_TAG(Player_Ability_SpecialWeaponAbility_Light, "Player.Ability.SpecialWeaponAbility.Light");
 	UE_DEFINE_GAMEPLAY_TAG(Player_Ability_SpecialWeaponAbility_Heavy, "Player.Ability.SpecialWeaponAbility.Heavy");
+	
 	UE_DEFINE_GAMEPLAY_TAG(Player_Ability_PickUp_Stones, "Player.Ability.PickUp.Stones");
+
+	UE_DEFINE_GAMEPLAY_TAG(Player_Ability_Skill_Skill1, "Player.Ability.Skill.Skill1");
+	UE_DEFINE_GAMEPLAY_TAG(Player_Ability_Skill_Skill2, "Player.Ability.Skill.Skill2");
+	UE_DEFINE_GAMEPLAY_TAG(Player_Ability_Skill_Skill3, "Player.Ability.Skill.Skill3");
+	UE_DEFINE_GAMEPLAY_TAG(Player_Ability_Skill_Skill4, "Player.Ability.Skill.Skill4");
 
 	/* Player Cooldown Tags */
 	UE_DEFINE_GAMEPLAY_TAG(Player_Cooldown_SpecialWeaponAbility_Light, "Player.Cooldown.SpecialWeaponAbility.Light");

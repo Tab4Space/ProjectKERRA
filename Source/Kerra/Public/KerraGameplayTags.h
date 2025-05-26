@@ -42,18 +42,28 @@ namespace KerraGameplayTags
 	/* Player Ability Tags */
 	KERRA_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Player_Ability_Equip_Sword);
 	KERRA_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Player_Ability_Unequip_Sword);
+	
 	KERRA_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Player_Ability_Attack_Light_Sword);
 	KERRA_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Player_Ability_Attack_Heavy_Sword);
+	
 	KERRA_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Player_Ability_HitPause);
+	
 	KERRA_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Player_Ability_Roll);
 	KERRA_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Player_Ability_Parkour);
 	KERRA_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Player_Ability_Block);
 	KERRA_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Player_Ability_TargetLock);
 	KERRA_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Player_Ability_Rage);
+	
 	KERRA_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Player_Ability_SpecialWeaponAbility_Light);
 	KERRA_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Player_Ability_SpecialWeaponAbility_Heavy);
+	
 	KERRA_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Player_Ability_PickUp_Stones);
 
+	KERRA_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Player_Ability_Skill_Skill1);
+	KERRA_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Player_Ability_Skill_Skill2);
+	KERRA_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Player_Ability_Skill_Skill3);
+	KERRA_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Player_Ability_Skill_Skill4);
+	
 	/* Player Cooldown Tags */
 	KERRA_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Player_Cooldown_SpecialWeaponAbility_Light);
 	KERRA_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Player_Cooldown_SpecialWeaponAbility_Heavy);

@@ -25,10 +25,12 @@ public:
 	UFUNCTION(BlueprintCallable, Category="Kerra|Ability")
 	void RemoveGrantedWeaponAbilities(UPARAM(ref) TArray<FGameplayAbilitySpecHandle>& InSpecHandlesToRemove);
 
-	UFUNCTION(BlueprintCallable, Category="Kerra|Ability", meta=(ApplyLevel="1"))
-	FGameplayAbilitySpec GrantAbilityWithTags(TSubclassOf<UKerraGameplayAbility> AbilityClass, int32 ApplyLevel, FGameplayTagContainer AddedTags);
+	/* Grant ability and return ability unique tag */
+	UFUNCTION(BlueprintCallable, Category="Kerra|Ability", meta=(ApplyLevel="1", Categoies="InputTag"))
+	FGameplayTag GrantAbilityWithInputTag(TSubclassOf<UKerraGameplayAbility> AbilityClass, int32 ApplyLevel, FGameplayTag InInputTag);
 
-	UFUNCTION(BlueprintCallable, Category="Kerra|Ability", meta=(Categories="InputTag"))
+	/* remove ability by ability unique tag */
+	UFUNCTION(BlueprintCallable, Category="Kerra|Ability", meta=(Categories="Player.Ability.Skill"))
 	void RemoveAbilityByTag(FGameplayTag InTagToRemove);
 
 	UFUNCTION(BlueprintCallable, Category="Kerra|Ability")

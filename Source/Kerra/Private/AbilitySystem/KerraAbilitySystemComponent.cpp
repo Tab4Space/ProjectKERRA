@@ -101,49 +101,38 @@ void UKerraAbilitySystemComponent::RemoveGrantedWeaponAbilities(TArray<FGameplay
 	InSpecHandlesToRemove.Empty();
 }
 
-FGameplayAbilitySpec UKerraAbilitySystemComponent::GrantAbilityWithTags(TSubclassOf<UKerraGameplayAbility> AbilityClass, int32 ApplyLevel, FGameplayTagContainer AddedTags)
+FGameplayTag UKerraAbilitySystemComponent::GrantAbilityWithInputTag(TSubclassOf<UKerraGameplayAbility> AbilityClass, int32 ApplyLevel, FGameplayTag InInputTag)
 {
 	// Check that ability is already granted ability or not
+	FGameplayAbilitySpec AbilitySpec(AbilityClass);
+	FGameplayTag AbilityTag = AbilitySpec.Ability->AbilityTags.First();
+	
 	TArray<FGameplayAbilitySpec*> FoundAbilitySpecs;
-	GetActivatableGameplayAbilitySpecsByAllMatchingTags(AddedTags, FoundAbilitySpecs);
+	GetActivatableGameplayAbilitySpecsByAllMatchingTags(AbilityTag.GetSingleTagContainer(), FoundAbilitySpecs);
 	if(!FoundAbilitySpecs.IsEmpty())
 	{
 		KERRALOG(Warning, TEXT("%s is already granted"), *AbilityClass->GetDisplayNameText().ToString());
-		return FGameplayAbilitySpec();
+		return FGameplayTag();
 	}
 	
-	FGameplayAbilitySpec AbilitySpec(AbilityClass);
 	AbilitySpec.SourceObject = GetAvatarActor();
 	AbilitySpec.Level = ApplyLevel;
-	FGameplayTag AbilityTag = AbilitySpec.Ability->AbilityTags.First();
-	KERRALOG(Warning, TEXT("Granted AbilityTag: %s"), *AbilityTag.ToString());
-
-	for(const FGameplayTag Tag : AddedTags)
-	{
-		AbilitySpec.DynamicAbilityTags.AddTag(Tag);
-	}
+	AbilitySpec.DynamicAbilityTags.AddTag(InInputTag);
 	GiveAbility(AbilitySpec);
-	return AbilitySpec;
-	
-	/*
-	for(auto a : AbilitySpec.Ability->AbilityTags)
-	{
-		KERRALOG(Warning, TEXT("%s"), *a.ToString());
-	}
-	GiveAbility(AbilitySpec);*/
+	return AbilitySpec.Ability->AbilityTags.First();
 }
 
 void UKerraAbilitySystemComponent::RemoveAbilityByTag(FGameplayTag InTagToRemove)
 {
-	for(const FGameplayAbilitySpec& AbilitySpec : GetActivatableAbilities())
+	TArray<FGameplayAbilitySpec*> FoundAbilitySpecs;
+	GetActivatableGameplayAbilitySpecsByAllMatchingTags(InTagToRemove.GetSingleTagContainer(), FoundAbilitySpecs);
+	if(FoundAbilitySpecs.IsEmpty())
 	{
-		
-		if(AbilitySpec.DynamicAbilityTags.HasTagExact(InTagToRemove))
-		{
-			//KERRALOG(Warning, TEXT("%s"), AbilitySpec.Ability->)
-			ClearAbility(AbilitySpec.Handle);
-		}
+		KERRALOG(Warning, TEXT("Not valid ability %s"), *InTagToRemove.ToString())
+		return;
 	}
+
+	ClearAbility(FoundAbilitySpecs[0]->Handle);
 }
 
 bool UKerraAbilitySystemComponent::TryActivateAbilityByTag(FGameplayTag AbilityTagToActivate)
