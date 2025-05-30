@@ -9,7 +9,7 @@
 #include "Component/Quest/KerraQuestComponent.h"
 #include "Kismet/GameplayStatics.h"
 #include "Player/KerraPlayerController.h"
-#include "Struct/KerraItemInfo.h"
+#include "Struct/KerraItemData.h"
 #include "UI/HUD/KerraHUD.h"
 #include "UI/Widget/KerraDialogueWidget.h"
 #include "UI/Widget/KerraOverlayWidget.h"
@@ -30,7 +30,7 @@ void AKerraNpc::InitForQuest()
 
 	for(FGameplayTag QuestTag : OwnedQuestTags.GetGameplayTagArray())
 	{
-		FKerraQuestInfo QuestInfo = UKerraFunctionLibrary::GetQuestInfoByTagFromKerraGI(QuestTag, this);
+		FKerraQuestData QuestInfo = UKerraFunctionLibrary::GetQuestDataByTagFromKerraGI(QuestTag, this);
 		OwnedQuests.AddUnique(QuestInfo);
 	}
 
@@ -62,7 +62,7 @@ void AKerraNpc::DoInteraction_Implementation(AActor* TargetActor)
 	AKerraHUD* KerraHUD = UKerraFunctionLibrary::NativeGetKerraHUD(Cast<AKerraHero>(TargetActor)->GetKerraPC());
 	KerraHUD->CreateDialogueWidget();
 
-	const FKerraQuestInfo QuestToGive = UKerraFunctionLibrary::GetQuestInfoByTagFromKerraGI(FoundQuestTag, this);
+	const FKerraQuestData QuestToGive = UKerraFunctionLibrary::GetQuestDataByTagFromKerraGI(FoundQuestTag, this);
 	if(QuestToGive.IsValid())
 	{
 		UE_LOG(LogTemp, Warning, TEXT("%s"), *QuestToGive.QuestID.ToString());
@@ -78,7 +78,7 @@ void AKerraNpc::BeginPlay()
 	InitForQuest();
 }
 
-void AKerraNpc::TalkDialogue(AActor* TargetActor, FKerraQuestInfo QuestInfo)
+void AKerraNpc::TalkDialogue(AActor* TargetActor, FKerraQuestData QuestInfo)
 {
 	if(AKerraPlayerController* KerraPC = Cast<AKerraPlayerController>(UGameplayStatics::GetPlayerController(TargetActor, 0)))
 	{
@@ -144,7 +144,7 @@ bool AKerraNpc::CanGivingQuest(FGameplayTag TagToGive, FGameplayTagContainer& Ta
 	}
 
 	// check player clear required quest or not
-	const FKerraQuestInfo FoundQuest = UKerraFunctionLibrary::GetQuestInfoByTagFromKerraGI(TagToGive, this);
+	const FKerraQuestData FoundQuest = UKerraFunctionLibrary::GetQuestDataByTagFromKerraGI(TagToGive, this);
 	if(FoundQuest.PreviousQuestID.IsValid() && !TargetCompletedQuest.HasTagExact(FoundQuest.PreviousQuestID))
 	{
 		UE_LOG(LogTemp, Warning, TEXT("Player must be clear %s quest"), *FoundQuest.PreviousQuestID.ToString());

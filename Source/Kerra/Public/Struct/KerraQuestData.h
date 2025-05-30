@@ -4,7 +4,7 @@
 
 #include "Engine/DataTable.h"
 #include "GameplayTagContainer.h"
-#include "KerraQuestInfo.generated.h"
+#include "KerraQuestData.generated.h"
 
 UENUM()
 enum class EQuestCategory : uint8
@@ -57,12 +57,12 @@ struct FQuestReward
 
 
 USTRUCT(BlueprintType)
-struct FKerraQuestInfo : public FTableRowBase
+struct FKerraQuestData : public FTableRowBase
 {
 	GENERATED_USTRUCT_BODY()
 	
 public:
-	FKerraQuestInfo();
+	FKerraQuestData();
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta=(Categories="Quest.ID"))
 	FGameplayTag QuestID;
@@ -107,7 +107,7 @@ public:
 	
 	bool IsValid() const;
 
-	bool operator==(const FKerraQuestInfo& Other) const
+	bool operator==(const FKerraQuestData& Other) const
 	{
 		if(QuestID != Other.QuestID)
 		{

@@ -9,6 +9,7 @@
 #include "Component/Inventory/KerraInventoryComponent.h"
 #include "KerraFunctionLibrary.h"
 #include "Interface/KerraInventoryInterface.h"
+#include "Kerra/Kerra.h"
 #include "Kismet/GameplayStatics.h"
 #include "UI/HUD/KerraHUD.h"
 #include "UI/Widget/KerraOverlayWidget.h"
@@ -32,19 +33,22 @@ bool UKerraQuestComponent::AddQuest(FGameplayTag QuestIDTagToAdd)
 	 * 1. check quest is possible accepted (already accepted, completed, repeatable)?
 	 * 2. Add to quest tracking widget
 	 */
-
-	if(FKerraQuestInfo* QuestInfoToAdd = QuestDataTable->FindRow<FKerraQuestInfo>(QuestIDTagToAdd.GetTagName(), ""))
+	FKerraQuestData FoundQuestData = UKerraFunctionLibrary::GetQuestDataByTagFromKerraGI(QuestIDTagToAdd, GetOwner());
+	if(!FoundQuestData.QuestID.IsValid())
 	{
-		AcceptedQuests.AddTag(QuestIDTagToAdd);
-		AcceptedQuestsMap.Add(QuestIDTagToAdd, *QuestInfoToAdd);
-		ActiveQuest = *QuestInfoToAdd;
-		AddQuestNotification(EQuestNotification::NewQuest, *QuestInfoToAdd);
-		return true;
+		KERRALOG(Warning, TEXT("Not valid quest %s"), *FoundQuestData.QuestID.ToString())
+		return false;
 	}
-	return false;
+
+	AcceptedQuests.AddTag(FoundQuestData.QuestID);
+	AcceptedQuestsMap.Add(QuestIDTagToAdd, FoundQuestData);
+	ActiveQuest = FoundQuestData;
+	AddQuestNotification(EQuestNotification::NewQuest, FoundQuestData);
+	return true;
+
 }
 
-void UKerraQuestComponent::AddQuestNotification(EQuestNotification Notification, FKerraQuestInfo& QuestInfo)
+void UKerraQuestComponent::AddQuestNotification(EQuestNotification Notification, FKerraQuestData& QuestInfo)
 {
 	/* if add quest, notify to widget using delegate broadcast */
 	AKerraHUD* KerraHUD = UKerraFunctionLibrary::NativeGetKerraHUD(KerraPC);
@@ -99,7 +103,7 @@ bool UKerraQuestComponent::CheckClearCondition(FGameplayTag TagToCheck)
 		return false;
 	}
 	
-	FKerraQuestInfo TargetQuest = AcceptedQuestsMap[TagToCheck];
+	FKerraQuestData TargetQuest = AcceptedQuestsMap[TagToCheck];
 	for(const auto Pair : TargetQuest.RequireObjects)
 	{
 		if(InventoryComp->GetCurrentItemCount(Pair.Key) < Pair.Value)
@@ -142,7 +146,7 @@ float UKerraQuestComponent::CheckQuestProgress(FGameplayTag QuestTagToCheck, FGa
 
 bool UKerraQuestComponent::GiveRewards(FGameplayTag QuestTag)
 {
-	if(FKerraQuestInfo* QuestInfo = QuestDataTable->FindRow<FKerraQuestInfo>(QuestTag.GetTagName(), ""))
+	if(FKerraQuestData* QuestInfo = QuestDataTable->FindRow<FKerraQuestData>(QuestTag.GetTagName(), ""))
 	{
 		UKerraInventoryComponent* InventoryComponent = UKerraFunctionLibrary::NativeGetKerraInventoryComponentFromActor(GetOwner());
 		checkf(InventoryComponent, TEXT("Not Value Inventory Component"));

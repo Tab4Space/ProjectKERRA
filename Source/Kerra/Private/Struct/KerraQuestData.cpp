@@ -1,13 +1,13 @@
 ﻿// Fill out your copyright notice in the Description page of Project Settings.
 
 
-#include "Struct/KerraQuestInfo.h"
+#include "Struct/KerraQuestData.h"
 
-FKerraQuestInfo::FKerraQuestInfo()
+FKerraQuestData::FKerraQuestData()
 {
 }
 
-bool FKerraQuestInfo::IsValid() const
+bool FKerraQuestData::IsValid() const
 {
 	return QuestID.IsValid();
 }

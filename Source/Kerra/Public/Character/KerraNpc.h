@@ -4,7 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "Character/KerraCharacterBase.h"
-#include "Struct/KerraQuestInfo.h"
+#include "Struct/KerraQuestData.h"
 #include "KerraNpc.generated.h"
 
 class UKerraQuestComponent;
@@ -26,7 +26,7 @@ protected:
 	virtual void BeginPlay() override;
 
 	UFUNCTION(BlueprintCallable)
-	void TalkDialogue(AActor* TargetActor, FKerraQuestInfo QuestInfo);
+	void TalkDialogue(AActor* TargetActor, FKerraQuestData QuestInfo);
 
 	UFUNCTION(BlueprintCallable)
 	FGameplayTag FindQuestTagToGive(AActor* TargetActor);
@@ -48,7 +48,7 @@ private:
 	FGameplayTagContainer OwnedQuestTags;
 
 	UPROPERTY(VisibleAnywhere, Category="Quest")
-	TArray<FKerraQuestInfo> OwnedQuests;
+	TArray<FKerraQuestData> OwnedQuests;
 
 	UPROPERTY(EditAnywhere, meta=(Cateroies="NPC.ID"))
 	FGameplayTag NpcIDTag;

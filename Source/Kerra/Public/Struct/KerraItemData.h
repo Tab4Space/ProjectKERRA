@@ -2,7 +2,7 @@
 
 #include "Engine/DataTable.h"
 #include "GameplayTagContainer.h"
-#include "KerraItemInfo.generated.h"
+#include "KerraItemData.generated.h"
 
 
 UENUM(BlueprintType, Blueprintable)
@@ -14,12 +14,12 @@ enum class EItemType : uint8
 };
 
 USTRUCT(BlueprintType)
-struct FKerraItemInfo : public FTableRowBase
+struct FKerraItemData : public FTableRowBase
 {
 	GENERATED_USTRUCT_BODY()
 
 public:
-	FKerraItemInfo();
+	FKerraItemData();
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta=(Categories="Item.ID"))
 	FGameplayTag ItemIDTag;
@@ -50,7 +50,7 @@ public:
 
 	bool IsValid() const;
 
-	bool operator==(const FKerraItemInfo& Other) const
+	bool operator==(const FKerraItemData& Other) const
 	{
 		if(ItemIDTag != Other.ItemIDTag)
 		{

@@ -59,10 +59,10 @@ namespace KerraGameplayTags
 	
 	KERRA_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Player_Ability_PickUp_Stones);
 
-	KERRA_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Player_Ability_Skill_Skill1);
-	KERRA_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Player_Ability_Skill_Skill2);
-	KERRA_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Player_Ability_Skill_Skill3);
-	KERRA_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Player_Ability_Skill_Skill4);
+	KERRA_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Player_Ability_Skill_1Skill);
+	KERRA_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Player_Ability_Skill_2Skill);
+	KERRA_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Player_Ability_Skill_3Skill);
+	KERRA_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Player_Ability_Skill_4Skill);
 	
 	/* Player Cooldown Tags */
 	KERRA_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Player_Cooldown_SpecialWeaponAbility_Light);

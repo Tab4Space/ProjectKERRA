@@ -5,7 +5,7 @@
 #include "CoreMinimal.h"
 #include "Actor/Item/Pickup/KerraPickUpBase.h"
 #include "Interface/KerraInteractInterface.h"
-#include "Struct/KerraQuestInfo.h"
+#include "Struct/KerraQuestData.h"
 #include "KerraCollectableBase.generated.h"
 
 /**

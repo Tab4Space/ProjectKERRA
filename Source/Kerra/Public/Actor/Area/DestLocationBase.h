@@ -5,7 +5,7 @@
 #include "CoreMinimal.h"
 #include "Actor/Area/KerraAreaBase.h"
 #include "Interface/KerraInteractInterface.h"
-#include "Struct/KerraQuestInfo.h"
+#include "Struct/KerraQuestData.h"
 #include "DestLocationBase.generated.h"
 
 

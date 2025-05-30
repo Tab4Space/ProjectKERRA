@@ -4,7 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "Component/KerraExtensionComponentBase.h"
-#include "Struct/KerraItemInfo.h"
+#include "Struct/KerraItemData.h"
 #include "KerraInventoryComponent.generated.h"
 
 
@@ -49,18 +49,15 @@ public:
 	FOnChangeGoldSignature OnChangeGold;
 
 private:
-	UPROPERTY(EditDefaultsOnly, Category="Inventory")
-	TObjectPtr<UDataTable> ItemDataTable;
+
 	
 	UPROPERTY(VisibleAnywhere, Category="Inventory|Item", meta=(Categories="Item.ID"))
 	FGameplayTagContainer OwningItemTags;
 
 	UPROPERTY(VisibleAnywhere, Category="Inventory|Item", meta=(Categories="Item.ID"))
-	TMap<FGameplayTag, FKerraItemInfo> OwningItemMaps;
+	TMap<FGameplayTag, FKerraItemData> OwningItemMaps;
 
 	UPROPERTY(VisibleAnywhere, Category="Inventory|Gold", meta=(AllowPrivateAccess))
 	int32 CurrentGolds;
-
-	
 	
 };

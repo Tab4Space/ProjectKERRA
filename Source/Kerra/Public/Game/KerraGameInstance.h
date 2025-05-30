@@ -21,10 +21,16 @@ public:
 	UFUNCTION()
 	UDataTable* GetItemDataTable() { return ItemDataTable; };
 
+	UFUNCTION()
+	UDataTable* GetSkillDataTable() { return SkillDataTable; };
+
 private:
-	UPROPERTY(EditDefaultsOnly, Category="Quest")
+	UPROPERTY(EditDefaultsOnly, Category="DataTables")
 	TObjectPtr<UDataTable> QuestDataTable;
 
-	UPROPERTY(EditDefaultsOnly, Category="Item")
+	UPROPERTY(EditDefaultsOnly, Category="DataTables")
 	TObjectPtr<UDataTable> ItemDataTable;
+
+	UPROPERTY(EditDefaultsOnly, Category="DataTables")
+	TObjectPtr<UDataTable> SkillDataTable;
 };

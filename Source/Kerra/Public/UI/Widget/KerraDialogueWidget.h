@@ -4,7 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "UI/Widget/KerraWidgetBase.h"
-#include "Struct/KerraQuestInfo.h"
+#include "Struct/KerraQuestData.h"
 #include "KerraDialogueWidget.generated.h"
 
 class AKerraHero;
@@ -17,7 +17,7 @@ class KERRA_API UKerraDialogueWidget : public UKerraWidgetBase
 
 public:
 	UFUNCTION(BlueprintCallable)
-	void SetQuestInfo(AActor* InNpcActor, AActor* InPlayerActor, FKerraQuestInfo InQuestInfo);
+	void SetQuestInfo(AActor* InNpcActor, AActor* InPlayerActor, FKerraQuestData InQuestInfo);
 
 protected:
 	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable)
@@ -31,5 +31,5 @@ protected:
 	AKerraHero* PlayerActor;
 
 	UPROPERTY(BlueprintReadOnly, Category="QuestInfo")
-	FKerraQuestInfo QuestInfo;
+	FKerraQuestData QuestInfo;
 };

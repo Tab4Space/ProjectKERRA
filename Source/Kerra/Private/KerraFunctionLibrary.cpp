@@ -14,7 +14,7 @@
 #include "Struct/KerraCountDownAction.h"
 #include "UI/HUD/KerraHUD.h"
 #include "Kismet/GameplayStatics.h"
-#include "Struct/KerraItemInfo.h"
+
 
 
 UKerraAbilitySystemComponent* UKerraFunctionLibrary::NativeGetKerraASCFromActor(AActor* InActor)
@@ -225,32 +225,52 @@ AKerraHUD* UKerraFunctionLibrary::BP_GetKerraHUD(APlayerController* PC)
 	return NativeGetKerraHUD(PC);
 }
 
-FKerraQuestInfo UKerraFunctionLibrary::GetQuestInfoByTagFromKerraGI(FGameplayTag InQuestTag, AActor* ObjectActor)
+FKerraQuestData UKerraFunctionLibrary::GetQuestDataByTagFromKerraGI(FGameplayTag InQuestTag, AActor* ObjectActor)
 {
-	UKerraGameInstance* KerraGI = Cast<UKerraGameInstance>(UGameplayStatics::GetGameInstance(ObjectActor->GetWorld()));
+	UKerraGameInstance* KerraGI = Cast<UKerraGameInstance>(UGameplayStatics::GetGameInstance(ObjectActor));
 	checkf(KerraGI, TEXT("Not valid Kerra Game Instance"));
 	
 	UDataTable* QuestDT = KerraGI->GetQuestDataTable();
 	checkf(QuestDT, TEXT("Check Quset Data Table in BP_KerraGI"));
 
-	if(FKerraQuestInfo* FoundQuestInfo = QuestDT->FindRow<FKerraQuestInfo>(InQuestTag.GetTagName(), ""))
+	if(FKerraQuestData* FoundQuestInfo = QuestDT->FindRow<FKerraQuestData>(InQuestTag.GetTagName(), ""))
 	{
 		return *FoundQuestInfo;
 	}
-	return FKerraQuestInfo();
+	return FKerraQuestData();
 }
 
-FKerraItemInfo UKerraFunctionLibrary::GetItemInfoByTagFromKerraGI(FGameplayTag InItemTag, AActor* ObjectActor)
+FKerraItemData UKerraFunctionLibrary::GetItemDataByTagFromKerraGI(FGameplayTag InItemTag, AActor* ObjectActor)
 {
-	UKerraGameInstance* KerraGI = Cast<UKerraGameInstance>(UGameplayStatics::GetGameInstance(ObjectActor->GetWorld()));
+	UKerraGameInstance* KerraGI = Cast<UKerraGameInstance>(UGameplayStatics::GetGameInstance(ObjectActor));
 	checkf(KerraGI, TEXT("Not valid Kerra Game Instance"));
 	
 	UDataTable* ItemDT = KerraGI->GetItemDataTable();
 	checkf(ItemDT, TEXT("Check Quset Data Table in BP_KerraGI"));
 
-	if(FKerraItemInfo* FoundItemInfo = ItemDT->FindRow<FKerraItemInfo>(InItemTag.GetTagName(), ""))
+	if(FKerraItemData* FoundItemInfo = ItemDT->FindRow<FKerraItemData>(InItemTag.GetTagName(), ""))
 	{
 		return *FoundItemInfo;
 	}
-	return FKerraItemInfo();
+	return FKerraItemData();
 }
+
+FKerraSkillData UKerraFunctionLibrary::GetSkillDataByTagFromKerraGI(FGameplayTag InSkillTag, AActor* ObjectActor)
+{
+	UKerraGameInstance* KerraGI = Cast<UKerraGameInstance>(UGameplayStatics::GetGameInstance(ObjectActor));
+	checkf(KerraGI, TEXT("Not valid Kerra Game Instance"));
+
+	UDataTable* SkillDT = KerraGI->GetSkillDataTable();
+	checkf(SkillDT, TEXT("Check Skill Data Table in BP_KerraGI"));
+
+	if(FKerraSkillData* FoundSkillInfo = SkillDT->FindRow<FKerraSkillData>(InSkillTag.GetTagName(), ""))
+	{
+		return *FoundSkillInfo;
+	}
+	
+	return FKerraSkillData();
+}
+
+
+
+

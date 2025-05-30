@@ -4,11 +4,14 @@
 #include "Component/Inventory/KerraInventoryComponent.h"
 
 #include "KerraGameplayTags.h"
+#include "KerraFunctionLibrary.h"
+#include "Game/KerraGameInstance.h"
+#include "Kismet/GameplayStatics.h"
 
 UKerraInventoryComponent::UKerraInventoryComponent()
 {
 	/*OwningItemTags.AddTag(KerraGameplayTags::Item_ID_1Apple);
-	OwningItemMaps.Add(KerraGameplayTags::Item_ID_1Apple, FKerraItemInfo());
+	OwningItemMaps.Add(KerraGameplayTags::Item_ID_1Apple, FKerraItemData());
 	OwningItemMaps[KerraGameplayTags::Item_ID_1Apple].CurrentAmount = 100;*/
 }
 
@@ -20,8 +23,6 @@ void UKerraInventoryComponent::BeginPlay()
 
 bool UKerraInventoryComponent::AddItem(FGameplayTag ItemIDTag, int32 AddAmount)
 {
-	checkf(ItemDataTable, TEXT("Not valid Item Data Table in inventory"));
-	
 	if(OwningItemTags.HasTagExact(ItemIDTag))
 	{
 		/* already has item in inventory */
@@ -51,10 +52,12 @@ bool UKerraInventoryComponent::AddItem(FGameplayTag ItemIDTag, int32 AddAmount)
 	}
 
 	/* add new item in inventory */
-	if (FKerraItemInfo* ItemToAdd = ItemDataTable->FindRow<FKerraItemInfo>(ItemIDTag.GetTagName(), ""))
+	FKerraItemData ItemDataToAdd = UKerraFunctionLibrary::GetItemDataByTagFromKerraGI(ItemIDTag, GetOwner());
+	//if (FKerraItemData* ItemToAdd = ItemDataTable->FindRow<FKerraItemData>(ItemIDTag.GetTagName(), ""))
+	if (ItemDataToAdd.IsValid())
 	{
 		OwningItemTags.AddTag(ItemIDTag);
-		OwningItemMaps.Add(ItemIDTag, *ItemToAdd);
+		OwningItemMaps.Add(ItemIDTag, ItemDataToAdd);
 		OwningItemMaps[ItemIDTag].CurrentAmount += AddAmount;
 
 		OnChangeItemAmount.Broadcast(ItemIDTag, OwningItemMaps[ItemIDTag].CurrentAmount);

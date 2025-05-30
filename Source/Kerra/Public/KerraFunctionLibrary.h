@@ -7,16 +7,18 @@
 #include "Kismet/BlueprintFunctionLibrary.h"
 #include "GameplayTagContainer.h"
 #include "Struct/KerraEnumTypes.h"
-#include "Struct/KerraQuestInfo.h"
+#include "Struct/KerraItemData.h"
+#include "Struct/KerraQuestData.h"
+#include "Struct/KerraSkillData.h"
 #include "KerraFunctionLibrary.generated.h"
 
 
 class AKerraHUD;
 class UKerraInventoryComponent;
 class UKerraQuestComponent;
-struct FScalableFloat;
 class UKerraAbilitySystemComponent;
 class UKerraCombatComponent;
+struct FScalableFloat;
 
 UCLASS()
 class KERRA_API UKerraFunctionLibrary : public UBlueprintFunctionLibrary
@@ -71,11 +73,14 @@ public:
 	static AKerraHUD* BP_GetKerraHUD(APlayerController* PC);
 
 	/* For Quest */
-	UFUNCTION(BlueprintCallable)
-	static FKerraQuestInfo GetQuestInfoByTagFromKerraGI(FGameplayTag InQuestTag, AActor* ObjectActor);
+	UFUNCTION(BlueprintCallable, Category="Kerra|FunctinLibrary|GetDataFromDataTable")
+	static FKerraQuestData GetQuestDataByTagFromKerraGI(FGameplayTag InQuestTag, AActor* ObjectActor);
 
 	/* For Inventory and Item */
-	UFUNCTION(BlueprintCallable)
-	static FKerraItemInfo GetItemInfoByTagFromKerraGI(FGameplayTag InItemTag, AActor* ObjectActor);
-	
+	UFUNCTION(BlueprintCallable, Category="Kerra|FunctinLibrary|GetDataFromDataTable")
+	static FKerraItemData GetItemDataByTagFromKerraGI(FGameplayTag InItemTag, AActor* ObjectActor);
+
+	/* For Inventory and Item */
+	UFUNCTION(BlueprintCallable, Category="Kerra|FunctinLibrary|GetDataFromDataTable")
+	static FKerraSkillData GetSkillDataByTagFromKerraGI(FGameplayTag InItemTag, AActor* ObjectActor);
 };

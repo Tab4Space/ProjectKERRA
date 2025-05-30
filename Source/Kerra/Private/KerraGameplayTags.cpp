@@ -55,10 +55,10 @@ namespace KerraGameplayTags
 	
 	UE_DEFINE_GAMEPLAY_TAG(Player_Ability_PickUp_Stones, "Player.Ability.PickUp.Stones");
 
-	UE_DEFINE_GAMEPLAY_TAG(Player_Ability_Skill_Skill1, "Player.Ability.Skill.Skill1");
-	UE_DEFINE_GAMEPLAY_TAG(Player_Ability_Skill_Skill2, "Player.Ability.Skill.Skill2");
-	UE_DEFINE_GAMEPLAY_TAG(Player_Ability_Skill_Skill3, "Player.Ability.Skill.Skill3");
-	UE_DEFINE_GAMEPLAY_TAG(Player_Ability_Skill_Skill4, "Player.Ability.Skill.Skill4");
+	UE_DEFINE_GAMEPLAY_TAG(Player_Ability_Skill_1Skill, "Player.Ability.Skill.1_Skill");
+	UE_DEFINE_GAMEPLAY_TAG(Player_Ability_Skill_2Skill, "Player.Ability.Skill.2_Skill");
+	UE_DEFINE_GAMEPLAY_TAG(Player_Ability_Skill_3Skill, "Player.Ability.Skill.3_Skill");
+	UE_DEFINE_GAMEPLAY_TAG(Player_Ability_Skill_4Skill, "Player.Ability.Skill.4_skill");
 
 	/* Player Cooldown Tags */
 	UE_DEFINE_GAMEPLAY_TAG(Player_Cooldown_SpecialWeaponAbility_Light, "Player.Cooldown.SpecialWeaponAbility.Light");

@@ -60,4 +60,3 @@ struct FKerraPlayerWeaponData
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
 	TSoftObjectPtr<UTexture2D> SoftWeaponIconTexture;
 };
-

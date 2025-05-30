@@ -4,11 +4,11 @@
 
 #include "CoreMinimal.h"
 #include "Component/KerraExtensionComponentBase.h"
-#include "Struct/KerraQuestInfo.h"
+#include "Struct/KerraQuestData.h"
 #include "KerraQuestComponent.generated.h"
 
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnAddQuestSignature, FKerraQuestInfo, AddedQuestInfo);
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnCompleteQuestSignature, FKerraQuestInfo, CompletedQuest);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnAddQuestSignature, FKerraQuestData, AddedQuestInfo);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnCompleteQuestSignature, FKerraQuestData, CompletedQuest);
 
 class UKerraWidgetBase;
 class AKerraPlayerController;
@@ -26,7 +26,7 @@ public:
 	bool AddQuest(FGameplayTag QuestIDTagToAdd);
 
 	UFUNCTION(BlueprintCallable, Category="Quest|Player")
-	void AddQuestNotification(EQuestNotification Notification, FKerraQuestInfo& QuestInfo);
+	void AddQuestNotification(EQuestNotification Notification, FKerraQuestData& QuestInfo);
 
 	UFUNCTION(BlueprintCallable, Category="Quest|Player")
 	void ClearQuest(FGameplayTag QuestTagToClear);
@@ -75,17 +75,17 @@ private:
 	FGameplayTagContainer AcceptedQuests;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Quest|List", meta=(AllowPrivateAccess="true"))
-	TMap<FGameplayTag, FKerraQuestInfo> AcceptedQuestsMap;
+	TMap<FGameplayTag, FKerraQuestData> AcceptedQuestsMap;
 
 	// Already completed quests
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Quest|List", meta=(AllowPrivateAccess="true"))
 	FGameplayTagContainer CompletedQuests;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Quest|List", meta=(AllowPrivateAccess="true"))
-	TMap<FGameplayTag, FKerraQuestInfo> CompletedQuestsMap;
+	TMap<FGameplayTag, FKerraQuestData> CompletedQuestsMap;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="Quest", meta=(AllowPrivateAccess="true"))
-	FKerraQuestInfo ActiveQuest;
+	FKerraQuestData ActiveQuest;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="Quest", meta=(AllowPrivateAccess="true"))
 	TArray<FName> FailedQuest;
