@@ -5,6 +5,7 @@
 #include "Interface/KerraInventoryInterface.h"
 #include "Interface/KerraQuestInterface.h"
 #include "Interface/KerraWidgetInterface.h"
+#include "Kerra/Kerra.h"
 #include "UI/HUD/KerraHUD.h"
 
 
@@ -31,6 +32,7 @@ AKerraHUD* UKerraWidgetBase::GetKerraHUD()
 void UKerraWidgetBase::NativeOnInitialized()
 {
 	Super::NativeOnInitialized();
+	// KERRALOG(Warning, TEXT("%s"), *this->GetDisplayLabel());
 
 	if(IKerraWidgetInterface* UIInterface = Cast<IKerraWidgetInterface>(GetOwningPlayerPawn()))
 	{

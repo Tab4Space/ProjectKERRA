@@ -28,4 +28,9 @@ protected:
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="AbilitySystem")
 	TObjectPtr<UAttributeSet> KerraAS;
+
+private:
+	UPROPERTY(VisibleAnywhere)
+	int32 SkillPoints = 0;
+	
 };
