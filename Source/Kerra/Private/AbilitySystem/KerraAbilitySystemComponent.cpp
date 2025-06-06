@@ -13,7 +13,8 @@ void UKerraAbilitySystemComponent::OnAbilityInputPressed(const FGameplayTag& InI
 		return;
 	}
 
-	// 활성 가능한 모든 ability를 체크하고
+	// FScopedAbilityLock으로 mutable 방지, 활성 가능한 모든 ability를 체크하고
+	FScopedAbilityListLock ActiveScopeLock(*this);
 	for(const FGameplayAbilitySpec& AbilitySpec : GetActivatableAbilities())
 	{
 		if(!AbilitySpec.DynamicAbilityTags.HasTagExact(InInputTag))
@@ -39,6 +40,7 @@ void UKerraAbilitySystemComponent::OnAbilityInputReleased(const FGameplayTag& In
 		return;
 	}
 
+	FScopedAbilityListLock ActiveScopeLock(*this);
 	for(const FGameplayAbilitySpec& AbilitySpec : GetActivatableAbilities())
 	{
 		if(AbilitySpec.DynamicAbilityTags.HasTagExact(InInputTag) && AbilitySpec.IsActive())
@@ -106,7 +108,8 @@ FGameplayTag UKerraAbilitySystemComponent::GrantAbilityWithInputTag(TSubclassOf<
 	// Check that ability is already granted ability or not
 	FGameplayAbilitySpec AbilitySpec(AbilityClass);
 	FGameplayTag AbilityTag = AbilitySpec.Ability->AbilityTags.First();
-	
+
+	FScopedAbilityListLock ActiveScopeLock(*this);
 	TArray<FGameplayAbilitySpec*> FoundAbilitySpecs;
 	GetActivatableGameplayAbilitySpecsByAllMatchingTags(AbilityTag.GetSingleTagContainer(), FoundAbilitySpecs);
 	if(!FoundAbilitySpecs.IsEmpty())
@@ -124,6 +127,7 @@ FGameplayTag UKerraAbilitySystemComponent::GrantAbilityWithInputTag(TSubclassOf<
 
 void UKerraAbilitySystemComponent::RemoveAbilityByTag(FGameplayTag InTagToRemove)
 {
+	FScopedAbilityListLock ActiveScopeLock(*this);
 	TArray<FGameplayAbilitySpec*> FoundAbilitySpecs;
 	GetActivatableGameplayAbilitySpecsByAllMatchingTags(InTagToRemove.GetSingleTagContainer(), FoundAbilitySpecs);
 	if(FoundAbilitySpecs.IsEmpty())
@@ -139,9 +143,9 @@ bool UKerraAbilitySystemComponent::TryActivateAbilityByTag(FGameplayTag AbilityT
 {
 	check(AbilityTagToActivate.IsValid());
 
-	TArray<FGameplayAbilitySpec*> FoundAbilitySpecs;
-
 	// 해당 함수에서 어떤 ability가 결과로 나오려면 ASC에 부여(give)된 상태여야 한다.
+	FScopedAbilityListLock ActiveScopeLock(*this);
+	TArray<FGameplayAbilitySpec*> FoundAbilitySpecs;
 	GetActivatableGameplayAbilitySpecsByAllMatchingTags(AbilityTagToActivate.GetSingleTagContainer(), FoundAbilitySpecs);
 
 	if(!FoundAbilitySpecs.IsEmpty())
