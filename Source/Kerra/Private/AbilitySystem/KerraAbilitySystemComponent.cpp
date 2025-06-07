@@ -163,3 +163,21 @@ bool UKerraAbilitySystemComponent::TryActivateAbilityByTag(FGameplayTag AbilityT
 	}
 	return false;
 }
+
+bool UKerraAbilitySystemComponent::GetAbilitySpecFromTag(const FGameplayTag InAbilityTag, FGameplayAbilitySpec& OutSpec)
+{
+	FScopedAbilityListLock ActivateScopeLock(*this);
+	for(FGameplayAbilitySpec& AbilitySpec : GetActivatableAbilities())
+	{
+		// AbilitySpec.Ability.Get()->AbilityTags.First();
+		for(FGameplayTag Tag : AbilitySpec.Ability.Get()->AbilityTags)
+		{
+			if(Tag.MatchesTag(InAbilityTag))
+			{
+				OutSpec = AbilitySpec;
+				return true;
+			}
+		}
+	}
+	return false;
+}

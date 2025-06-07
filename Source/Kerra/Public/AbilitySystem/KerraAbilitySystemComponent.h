@@ -35,4 +35,10 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category="Kerra|Ability")
 	bool TryActivateAbilityByTag(FGameplayTag AbilityTagToActivate);
+
+	/* Get */
+	UFUNCTION(BlueprintCallable)
+	bool GetAbilitySpecFromTag(const FGameplayTag InAbilityTag, FGameplayAbilitySpec& OutSpec);
+	
+	
 };
