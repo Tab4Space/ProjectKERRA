@@ -37,7 +37,8 @@ public:
 	bool TryActivateAbilityByTag(FGameplayTag AbilityTagToActivate);
 
 	/* Get */
-	UFUNCTION(BlueprintCallable)
+	// Get ability spec from first skill tag. 
+	UFUNCTION(BlueprintCallable, Category="Kerra|Ability")
 	bool GetAbilitySpecFromTag(const FGameplayTag InAbilityTag, FGameplayAbilitySpec& OutSpec);
 	
 	
