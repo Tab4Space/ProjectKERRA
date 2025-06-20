@@ -8,6 +8,8 @@
 #include "KerraPlayerState.generated.h"
 
 
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnPlayerStateChanged, int32, InValue);
+
 class UAbilitySystemComponent;
 class UAttributeSet;
 
@@ -22,12 +24,24 @@ public:
 	virtual UAbilitySystemComponent* GetAbilitySystemComponent() const override;
 	UAttributeSet* GetAttributeSet() const { return KerraAS; }
 
+	void AddSkillPoints(int32 InSkillPoints);
+
+	/* Getter */
+	FORCEINLINE int32 GetSkillPoints() const { return SkillPoints; }
+
+	/* Setter */
+	void SetSkillPoints(int32 InSkillPoints);
+	
 protected:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="AbilitySystem")
 	TObjectPtr<UAbilitySystemComponent> KerraASC;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="AbilitySystem")
 	TObjectPtr<UAttributeSet> KerraAS;
+
+public:
+	UPROPERTY(BlueprintAssignable)
+	FOnPlayerStateChanged OnSkillPointsChanged;
 
 private:
 	UPROPERTY(VisibleAnywhere)

@@ -16,3 +16,15 @@ UAbilitySystemComponent* AKerraPlayerState::GetAbilitySystemComponent() const
 {
 	return KerraASC;
 }
+
+void AKerraPlayerState::AddSkillPoints(int32 InSkillPoints)
+{
+	SkillPoints += InSkillPoints;
+	OnSkillPointsChanged.Broadcast(SkillPoints);
+}
+
+void AKerraPlayerState::SetSkillPoints(int32 InSkillPoints)
+{
+	SkillPoints = InSkillPoints;
+	OnSkillPointsChanged.Broadcast(SkillPoints);
+}

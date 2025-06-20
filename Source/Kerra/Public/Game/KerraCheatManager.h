@@ -22,4 +22,7 @@ class KERRA_API UKerraCheatManager : public UCheatManager
 
 	UFUNCTION(Exec)
 	void Console_AddGold(int32 AddAmount);
+
+	UFUNCTION(Exec)
+	void Console_ChangeSkillPoints(int32 InSkillPoints);
 };

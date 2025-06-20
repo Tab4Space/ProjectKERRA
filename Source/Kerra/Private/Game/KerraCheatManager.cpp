@@ -9,6 +9,7 @@
 #include "Interface/KerraInventoryInterface.h"
 #include "Kerra/Kerra.h"
 #include "Player/KerraPlayerController.h"
+#include "Player/KerraPlayerState.h"
 
 void UKerraCheatManager::Console_ClearQuest(FString QuestTag)
 {
@@ -46,5 +47,15 @@ void UKerraCheatManager::Console_AddGold(int32 AddAmount)
 
 		TargetInventoryComp->AddGold(AddAmount);
 		KERRALOG(Warning, TEXT("Execute Command, Add Gold %d"), AddAmount);
+	}
+}
+
+void UKerraCheatManager::Console_ChangeSkillPoints(int32 InSkillPoints)
+{
+	if(AKerraPlayerController* KerraPC = Cast<AKerraPlayerController>(GetPlayerController()))
+	{
+		AKerraPlayerState* KerraPS = KerraPC->GetPlayerState<AKerraPlayerState>();
+		KerraPS->SetSkillPoints(InSkillPoints);
+		KERRALOG(Warning, TEXT("Execute Command, Change skill points to %d"), InSkillPoints);
 	}
 }
