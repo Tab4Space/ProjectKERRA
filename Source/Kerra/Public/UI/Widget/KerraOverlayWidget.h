@@ -7,6 +7,10 @@
 #include "UI/Widget/KerraWidgetBase.h"
 #include "KerraOverlayWidget.generated.h"
 
+class UKerraAttributeSet;
+class UKerraAbilitySystemComponent;
+class AKerraPlayerState;
+class AKerraPlayerController;
 class AKerraHero;
 class AKerraNpc;
 
@@ -35,4 +39,18 @@ public:
 	/* Inventory */
 	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable)
 	void AddInventoryWindow();
+
+private:
+	UPROPERTY()
+	TObjectPtr<AKerraPlayerController> KerraPC;
+
+	UPROPERTY()
+	TObjectPtr<AKerraPlayerState> KerraPS;
+
+	UPROPERTY()
+	TObjectPtr<UKerraAbilitySystemComponent> KerraASC;
+
+	UPROPERTY()
+	TObjectPtr<UKerraAttributeSet> KerraAS;
+	
 };
