@@ -12,11 +12,12 @@
 #include "UI/Widget/KerraInventoryWidget.h"
 
 
-void AKerraHUD::InitMainOverlayWidget()
+void AKerraHUD::InitMainOverlayWidget(AKerraPlayerController* PC, AKerraPlayerState* PS, UKerraAbilitySystemComponent* ASC, UKerraAttributeSet* AS)
 {
 	checkf(MainOverlayWidgetClass, TEXT("Main Overlay Widget Class Uninitialized, please fill out BP_KerraHUD"));
 	UUserWidget* Widget = CreateWidget<UUserWidget>(UGameplayStatics::GetPlayerController(GetWorld(), 0), MainOverlayWidgetClass);
 	MainOverlayWidget = Cast<UKerraOverlayWidget>(Widget);
+	MainOverlayWidget->SetParams(PC, PS, ASC, AS);
 	Widget->AddToViewport();
 }
 

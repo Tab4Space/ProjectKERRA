@@ -3,6 +3,9 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "AbilitySystem/KerraAbilitySystemComponent.h"
+#include "AbilitySystem/KerraAttributeSet.h"
+#include "Player/KerraPlayerState.h"
 #include "Struct/KerraQuestData.h"
 #include "UI/Widget/KerraWidgetBase.h"
 #include "KerraOverlayWidget.generated.h"
@@ -39,6 +42,8 @@ public:
 	/* Inventory */
 	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable)
 	void AddInventoryWindow();
+
+	void SetParams(AKerraPlayerController* PC, AKerraPlayerState* PS, UKerraAbilitySystemComponent* ASC, UKerraAttributeSet* AS);
 
 private:
 	UPROPERTY()

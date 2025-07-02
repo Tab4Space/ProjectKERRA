@@ -8,6 +8,10 @@
 #include "UI/Widget/KerraInventoryWidget.h"
 #include "KerraHUD.generated.h"
 
+class UKerraAttributeSet;
+class UKerraAbilitySystemComponent;
+class AKerraPlayerState;
+class AKerraPlayerController;
 class UKerraDialogueWidget;
 class UKerraOverlayWidget;
 class UKerraQuestWidget;
@@ -20,7 +24,7 @@ class KERRA_API AKerraHUD : public AHUD
 
 public:
 	UFUNCTION(BlueprintCallable)
-	void InitMainOverlayWidget();
+	void InitMainOverlayWidget(AKerraPlayerController* PC, AKerraPlayerState* PS, UKerraAbilitySystemComponent* ASC ,UKerraAttributeSet* AS);
 
 	UFUNCTION(BlueprintCallable)
 	void CreateQuestWidget();

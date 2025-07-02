@@ -6,6 +6,8 @@
 #include "Player/KerraPlayerController.h"
 #include "AbilitySystem/KerraAbilitySystemComponent.h"
 #include "KerraGameplayTags.h"
+#include "AbilitySystem/KerraAttributeSet.h"
+#include "Player/KerraPlayerState.h"
 
 AKerraHero* UKerraHeroAbility::GetKerraPlayerFromActorInfo()
 {
@@ -18,11 +20,41 @@ AKerraHero* UKerraHeroAbility::GetKerraPlayerFromActorInfo()
 
 AKerraPlayerController* UKerraHeroAbility::GetKerraPlayerControllerFromActorInfo()
 {
-	if(!CachedKerraPlayerController.IsValid())
+	if(!CachedKerraPC.IsValid())
 	{
-		CachedKerraPlayerController = Cast<AKerraPlayerController>(CurrentActorInfo->PlayerController);
+		CachedKerraPC = Cast<AKerraPlayerController>(CurrentActorInfo->PlayerController);
 	}
-	return CachedKerraPlayerController.IsValid() ? CachedKerraPlayerController.Get() : nullptr;
+	return CachedKerraPC.IsValid() ? CachedKerraPC.Get() : nullptr;
+}
+
+AKerraPlayerState* UKerraHeroAbility::GetKerraPlayerState()
+{
+	if(!CachedKerraPS.IsValid())
+	{
+		if(AKerraPlayerController* KerraPC = GetKerraPlayerControllerFromActorInfo())
+		{
+			CachedKerraPS = KerraPC->GetPlayerState<AKerraPlayerState>();
+		}
+	}
+	return CachedKerraPS.IsValid() ? CachedKerraPS.Get() : nullptr;
+}
+
+UKerraAbilitySystemComponent* UKerraHeroAbility::GetKerraAbilitySystemComponent()
+{
+	if(!CachedKerraASC.IsValid())
+	{
+		CachedKerraASC = Cast<UKerraAbilitySystemComponent>(GetAbilitySystemComponentFromActorInfo());
+	}
+	return CachedKerraASC.IsValid() ? CachedKerraASC.Get() : nullptr;
+}
+
+UKerraAttributeSet* UKerraHeroAbility::GetKerraAttributeSet()
+{
+	if(!CachedKerraAS.IsValid())
+	{
+		CachedKerraAS = Cast<UKerraAttributeSet>(GetKerraPlayerState()->GetAttributeSet());
+	}
+	return CachedKerraAS.IsValid() ? CachedKerraAS.Get() : nullptr;
 }
 
 UHeroCombatComponent* UKerraHeroAbility::GetKerraPlayerCombatComponentFromActorInfo()
