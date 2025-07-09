@@ -11,12 +11,12 @@ void UKerraOverlayWidget::SetParams(AKerraPlayerController* PC, AKerraPlayerStat
 	KerraPS = PS;
 	KerraASC = ASC;
 	KerraAS = AS;
+}
 
-	for(auto a : KerraASC->GetActivatableAbilities())
-	{
-		//UE_LOG(LogTemp, Warning, TEXT("%s"));
-	}
-	
-	
+void UKerraOverlayWidget::SetParamsInSubOverlayWidget(UKerraOverlayWidget* TargetOverlayWidget)
+{
+	TargetOverlayWidget->SetParams(KerraPC, KerraPS, KerraASC, KerraAS);
 	
 }
+
+

@@ -46,6 +46,7 @@ UKerraAbilitySystemComponent* UKerraHeroAbility::GetKerraAbilitySystemComponent(
 		CachedKerraASC = Cast<UKerraAbilitySystemComponent>(GetAbilitySystemComponentFromActorInfo());
 	}
 	return CachedKerraASC.IsValid() ? CachedKerraASC.Get() : nullptr;
+	//return Cast<UKerraAbilitySystemComponent>(CurrentActorInfo->AbilitySystemComponent);
 }
 
 UKerraAttributeSet* UKerraHeroAbility::GetKerraAttributeSet()

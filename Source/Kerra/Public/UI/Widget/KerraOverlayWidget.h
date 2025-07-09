@@ -43,8 +43,13 @@ public:
 	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable)
 	void AddInventoryWindow();
 
+	/* Set parameters */
 	void SetParams(AKerraPlayerController* PC, AKerraPlayerState* PS, UKerraAbilitySystemComponent* ASC, UKerraAttributeSet* AS);
 
+	/* Get parameters */
+	UFUNCTION(BlueprintCallable)
+	void SetParamsInSubOverlayWidget(UKerraOverlayWidget* TargetOverlayWidget);
+	
 private:
 	UPROPERTY()
 	TObjectPtr<AKerraPlayerController> KerraPC;
