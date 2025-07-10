@@ -6,7 +6,7 @@
 #include "Blueprint/UserWidget.h"
 #include "Kismet/GameplayStatics.h"
 #include "Player/KerraPlayerController.h"
-#include "UI/Widget/KerraOverlayWidget.h"
+#include "UI/Widget/Overlay/KerraOverlayWidget.h"
 #include "UI/Widget/KerraQuestWidget.h"
 #include "UI/Widget/KerraDialogueWidget.h"
 #include "UI/Widget/KerraInventoryWidget.h"
@@ -17,6 +17,12 @@ void AKerraHUD::InitMainOverlayWidget(AKerraPlayerController* PC, AKerraPlayerSt
 	checkf(MainOverlayWidgetClass, TEXT("Main Overlay Widget Class Uninitialized, please fill out BP_KerraHUD"));
 	UUserWidget* Widget = CreateWidget<UUserWidget>(UGameplayStatics::GetPlayerController(GetWorld(), 0), MainOverlayWidgetClass);
 	MainOverlayWidget = Cast<UKerraOverlayWidget>(Widget);
+	
+	KerraPC = PC;
+	KerraPS = PS;
+	KerraASC = ASC;
+	KerraAS = AS;
+	
 	MainOverlayWidget->SetParams(PC, PS, ASC, AS);
 	Widget->AddToViewport();
 }
@@ -45,11 +51,12 @@ void AKerraHUD::CreateInventoryWidget()
 void AKerraHUD::SetPlayerOverlayWidget(UKerraOverlayWidget* InPlayerOverlayWidget)
 {
 	PlayerOverlayWidget = InPlayerOverlayWidget;
+	
 }
 
 void AKerraHUD::SetInventoryOverlayWidget(UKerraOverlayWidget* InInventoryOverlayWidget)
 {
-	InventoryOverlayWidget = InInventoryOverlayWidget;	
+	InventoryOverlayWidget = InInventoryOverlayWidget;
 }
 
 void AKerraHUD::SetQuestOverlayWidget(UKerraOverlayWidget* InQuestOverlayWidget)

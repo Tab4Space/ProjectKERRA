@@ -5,7 +5,6 @@
 #include "Interface/KerraInventoryInterface.h"
 #include "Interface/KerraQuestInterface.h"
 #include "Interface/KerraWidgetInterface.h"
-#include "Kerra/Kerra.h"
 #include "UI/HUD/KerraHUD.h"
 
 

@@ -8,7 +8,7 @@
 #include "Kerra/Kerra.h"
 #include "Player/KerraPlayerController.h"
 #include "UI/HUD/KerraHUD.h"
-#include "UI/Widget/KerraOverlayWidget.h"
+#include "UI/Widget/Overlay/KerraOverlayWidget.h"
 
 
 AStorageBase::AStorageBase()

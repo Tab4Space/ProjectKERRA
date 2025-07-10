@@ -12,7 +12,7 @@
 #include "Kerra/Kerra.h"
 #include "Kismet/GameplayStatics.h"
 #include "UI/HUD/KerraHUD.h"
-#include "UI/Widget/KerraOverlayWidget.h"
+#include "UI/Widget/Overlay/KerraOverlayWidget.h"
 
 void UKerraQuestComponent::BeginPlay()
 {

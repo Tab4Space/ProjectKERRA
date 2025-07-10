@@ -79,6 +79,11 @@ public:
 	UFUNCTION(BlueprintCallable, BlueprintPure)
 	UKerraInventoryWidget* GetInventoryWidget() { return InventoryWidget; }
 
+	AKerraPlayerController* GetKerraPlayerController() { return KerraPC; }
+	AKerraPlayerState* GetKerraPlayerState() { return KerraPS; }
+	UKerraAbilitySystemComponent* GetKerraAbilitySystemComponent() { return KerraASC; }
+	UKerraAttributeSet* GetKerraAttributeSet() { return KerraAS; }
+
 private:
 	UPROPERTY()
 	TObjectPtr<UKerraOverlayWidget> MainOverlayWidget = nullptr;
@@ -115,5 +120,17 @@ private:
 	TObjectPtr<UKerraInventoryWidget> InventoryWidget = nullptr;
 	UPROPERTY(EditAnywhere, Category="WidgetClass|Window")
 	TSubclassOf<UKerraInventoryWidget> InventoryWidgetClass;
+
+	UPROPERTY()
+	TObjectPtr<AKerraPlayerController> KerraPC = nullptr;
+
+	UPROPERTY()
+	TObjectPtr<AKerraPlayerState> KerraPS = nullptr;
+
+	UPROPERTY()
+	TObjectPtr<UKerraAbilitySystemComponent> KerraASC = nullptr;
+
+	UPROPERTY()
+	TObjectPtr<UKerraAttributeSet> KerraAS = nullptr;
 	
 };

@@ -12,7 +12,7 @@
 #include "Character/KerraHero.h"
 #include "Component/Quest/KerraQuestComponent.h"
 #include "UI/HUD/KerraHUD.h"
-#include "UI/Widget/KerraOverlayWidget.h"
+#include "UI/Widget/Overlay/KerraOverlayWidget.h"
 #include "UI/Widget/KerraQuestWidget.h"
 #include "Kerra/Kerra.h"
 

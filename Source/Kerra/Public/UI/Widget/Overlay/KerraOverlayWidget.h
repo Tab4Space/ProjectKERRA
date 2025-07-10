@@ -46,21 +46,37 @@ public:
 	/* Set parameters */
 	void SetParams(AKerraPlayerController* PC, AKerraPlayerState* PS, UKerraAbilitySystemComponent* ASC, UKerraAttributeSet* AS);
 
-	/* Get parameters */
-	UFUNCTION(BlueprintCallable)
-	void SetParamsInSubOverlayWidget(UKerraOverlayWidget* TargetOverlayWidget);
+	/* Getter */
+	UFUNCTION(BlueprintPure)
+	AKerraPlayerController* GetKerraPC() { return KerraPC; }
+	
+	UFUNCTION(BlueprintPure)
+	AKerraPlayerState* GetKerraPS() { return KerraPS; }
+
+	UFUNCTION(BlueprintPure)
+	UKerraAbilitySystemComponent* GetKerraASC() { return KerraASC; }
+
+	UFUNCTION(BlueprintPure)
+	UKerraAttributeSet* GetKerraAS() { return KerraAS; }
+
+	/* Bind events */
+	virtual void BindEvents();
+
+protected:
+	UPROPERTY(VisibleAnywhere)
+	TObjectPtr<UKerraOverlayWidget> ParentOverlayWidget = nullptr;
 	
 private:
 	UPROPERTY()
-	TObjectPtr<AKerraPlayerController> KerraPC;
+	TObjectPtr<AKerraPlayerController> KerraPC = nullptr;
 
 	UPROPERTY()
-	TObjectPtr<AKerraPlayerState> KerraPS;
+	TObjectPtr<AKerraPlayerState> KerraPS = nullptr;
 
 	UPROPERTY()
-	TObjectPtr<UKerraAbilitySystemComponent> KerraASC;
+	TObjectPtr<UKerraAbilitySystemComponent> KerraASC = nullptr;
 
 	UPROPERTY()
-	TObjectPtr<UKerraAttributeSet> KerraAS;
+	TObjectPtr<UKerraAttributeSet> KerraAS = nullptr;
 	
 };

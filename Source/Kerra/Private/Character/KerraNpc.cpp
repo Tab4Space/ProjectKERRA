@@ -12,7 +12,7 @@
 #include "Struct/KerraItemData.h"
 #include "UI/HUD/KerraHUD.h"
 #include "UI/Widget/KerraDialogueWidget.h"
-#include "UI/Widget/KerraOverlayWidget.h"
+#include "UI/Widget/Overlay/KerraOverlayWidget.h"
 
 
 AKerraNpc::AKerraNpc()
