@@ -20,6 +20,10 @@ public:
 
 	virtual void BindEvents() override;
 
-	UFUNCTION()
-	void ChangeSkillPoints(int32 InPoints);
+	UFUNCTION(BlueprintNativeEvent)
+	void OnChangeSkillPoints(int32 InPoints);
+	virtual void OnChangeSkillPoints_Implementation(int32 InPoints);
+
+protected:
+	virtual void NativeOnInitialized() override;
 };

@@ -22,11 +22,21 @@ void USkillOverlayWidget::InitSkillOverlay(UKerraOverlayWidget* InParentWidget)
 void USkillOverlayWidget::BindEvents()
 {
 	/* skill 쪽에 관련있을 법한 것들 바인딩 */
-	GetKerraPS()->OnSkillPointsChanged.AddDynamic(this, &USkillOverlayWidget::ChangeSkillPoints);
+	GetKerraPS()->OnSkillPointsChanged.AddDynamic(this, &USkillOverlayWidget::OnChangeSkillPoints);
 	
 }
 
-void USkillOverlayWidget::ChangeSkillPoints(int32 InPoints)
+void USkillOverlayWidget::OnChangeSkillPoints_Implementation(int32 InPoints)
 {
+	/* parent implementation function */
+	
 	KERRALOG(Warning, TEXT("%d"), InPoints);
+	//OnChangeSkillPoints(InPoints);
+}
+
+
+void USkillOverlayWidget::NativeOnInitialized()
+{
+	// Super::NativeOnInitialized();
+	
 }
