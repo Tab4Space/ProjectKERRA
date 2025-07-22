@@ -5,6 +5,7 @@
 #include "Interface/KerraInventoryInterface.h"
 #include "Interface/KerraQuestInterface.h"
 #include "Interface/KerraWidgetInterface.h"
+#include "Kerra/Kerra.h"
 #include "UI/HUD/KerraHUD.h"
 
 
@@ -55,8 +56,8 @@ void UKerraWidgetBase::NativeOnInitialized()
 		{
 			BP_OnOwningInventoryComponentInitialized(InventoryComponent);
 		}
-		
 	}
+	KERRALOG(Warning, TEXT("Init"));
 }
 
 void UKerraWidgetBase::SetUIMode(bool IsShowing)

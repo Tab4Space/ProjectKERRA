@@ -37,6 +37,6 @@ void USkillOverlayWidget::OnChangeSkillPoints_Implementation(int32 InPoints)
 
 void USkillOverlayWidget::NativeOnInitialized()
 {
-	// Super::NativeOnInitialized();
-	
+	Super::NativeOnInitialized();
+	KERRALOG(Warning, TEXT("Skill Overlay"))
 }
