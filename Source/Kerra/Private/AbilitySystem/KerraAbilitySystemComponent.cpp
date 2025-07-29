@@ -4,6 +4,7 @@
 #include "AbilitySystem/KerraAbilitySystemComponent.h"
 #include "AbilitySystem/Abilities/KerraHeroAbility.h"
 #include "KerraGameplayTags.h"
+#include "AbilitySystem/KerraAttributeSet.h"
 #include "Kerra/Kerra.h"
 
 void UKerraAbilitySystemComponent::OnAbilityInputPressed(const FGameplayTag& InInputTag)
@@ -30,6 +31,9 @@ void UKerraAbilitySystemComponent::OnAbilityInputPressed(const FGameplayTag& InI
 		{
 			TryActivateAbility(AbilitySpec.Handle);
 		}
+		
+		//const UKerraAttributeSet* KerraAS = Cast<UKerraAttributeSet>(GetAttributeSet(UKerraAttributeSet::StaticClass()));
+		//GetGameplayAttributeValueChangeDelegate(KerraAS->GetCurrentHealthAttribute()).AddUObject()
 	}
 }
 

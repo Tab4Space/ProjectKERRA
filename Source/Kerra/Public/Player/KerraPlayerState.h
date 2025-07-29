@@ -21,12 +21,12 @@ class KERRA_API AKerraPlayerState : public APlayerState, public IAbilitySystemIn
 public:
 	AKerraPlayerState();
 	
+	virtual void PostInitializeComponents() override;
+	void AddSkillPoints(int32 InSkillPoints);
+	
+	/* Getter */
 	virtual UAbilitySystemComponent* GetAbilitySystemComponent() const override;
 	UAttributeSet* GetAttributeSet() const { return KerraAS; }
-
-	void AddSkillPoints(int32 InSkillPoints);
-
-	/* Getter */
 	FORCEINLINE int32 GetSkillPoints() const { return SkillPoints; }
 
 	/* Setter */
