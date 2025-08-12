@@ -37,7 +37,10 @@ protected:
 	TObjectPtr<UAbilitySystemComponent> KerraASC;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="AbilitySystem")
-	TObjectPtr<UAttributeSet> KerraAS;
+	TObjectPtr<UAttributeSet> KerraAS = nullptr;
+
+	/*UFUNCTION()
+	void adskfjakl(const FOnAttributeChangeData& Data);*/
 
 public:
 	UPROPERTY(BlueprintAssignable)
