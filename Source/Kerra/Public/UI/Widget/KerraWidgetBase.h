@@ -32,7 +32,7 @@ public:
 protected:
 	// 위젯이 생성된 후 한 번만 호출되는 함수
 	virtual void NativeOnInitialized() override;
-	virtual void NativeConstruct() override;
+	// virtual void NativeConstruct() override;
 
 	// Get player's ui component
 	UFUNCTION(BlueprintImplementableEvent, meta=(DisplayName="OnOwningPlayerUIComponentInitialized"))
